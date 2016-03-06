@@ -1,16 +1,19 @@
-const Deck = require('./lib/deck.js');
-const Players = require('./lib/players.js');
+'use strict';
 
-const deckCount = 4;
-const playerCount = 3;
+const Deck = require('./lib/Deck.js');
+const Hand = require('./lib/Hand.js');
+const Players = require('./lib/Players.js');
+
+const deckCount = 1;
 const handCount = 1;
+const playerCount = 3;
 
-const shoe = Deck.generateShoe(deckCount);
 const players = Players.generate(playerCount);
+const shoe = Deck.generateShoe(deckCount);
 
 for (var i = 0; i < handCount; i++) {
+    Hand.deal(players, shoe);
     players.forEach(player => {
-        player.cards[0] = shoe.pop();
-        player.cards[1] = shoe.pop();
+        Hand.play(player, players, shoe);
     });
 };
