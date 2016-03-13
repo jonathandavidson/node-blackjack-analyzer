@@ -6,10 +6,14 @@ const Players = require('./lib/Players.js');
 const config = require('./lib/config.js');
 
 const players = Players.generate();
+const dealer = Players.generateDealer();
 const shoe = Deck.generateShoe();
 
 for (var i = 0; i < config.handCount; i++) {
     Hand.deal(players, shoe);
+
+    // Place bets for each player except dealer
+    // Check for dealer blackjack and end play of hand here if needed
 
     players.forEach((player, index, players) => Hand.play(player, index, players, shoe));
 };
