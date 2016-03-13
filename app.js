@@ -10,8 +10,6 @@ const shoe = Deck.generateShoe();
 
 for (var i = 0; i < config.handCount; i++) {
     Hand.deal(players, shoe);
-    players.forEach(player => {
-        Hand.play(player, players, shoe);
-    });
-    console.log(players);
+
+    players.forEach((player, index, players) => Hand.play(player, index, players, shoe));
 };
