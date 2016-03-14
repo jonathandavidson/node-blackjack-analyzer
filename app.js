@@ -10,10 +10,14 @@ const dealer = Players.generateDealer();
 const shoe = Deck.generateShoe();
 
 for (var i = 0; i < config.handCount; i++) {
-    Hand.deal(players, shoe);
+    players.forEach(player => {
+        player.hand.bet = 1;
+    });
 
-    // Place bets for each player except dealer
+    Hand.deal(players, dealer, shoe);
+
     // Check for dealer blackjack and end play of hand here if needed
 
-    players.forEach((player, index, players) => Hand.play(player, index, players, shoe));
+    players.forEach((player) => Hand.play(player, shoe));
+    Hand.play(dealer, shoe);
 };
