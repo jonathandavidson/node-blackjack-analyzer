@@ -12,12 +12,18 @@ const shoe = Deck.generateShoe();
 for (var i = 0; i < config.handCount; i++) {
     players.forEach(player => {
         player.hand.bet = 1;
+        player.bankroll--;
     });
 
     Hand.deal(players, dealer, shoe);
 
-    // Check for dealer blackjack and end play of hand here if needed
-
-    players.forEach((player) => Hand.play(player, shoe));
-    Hand.play(dealer, shoe);
+    if (Hand.isBlackjack(dealer.hand)) {
+        players.forEach(player => {
+            dealer.bankroll += player.hand.bet;
+            player.hand.bet = 0;
+        });
+    } else {
+        players.forEach((player) => Hand.play(player, shoe));
+        Hand.play(dealer, shoe);
+    }
 };
