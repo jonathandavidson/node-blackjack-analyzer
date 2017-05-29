@@ -16,6 +16,7 @@ describe('lib/Hand', function() {
         let players;
         let dealer;
         let shoe;
+        let shouldShuffle = false;
 
         const Deck = require('../../lib/Deck.js');
         Deck.generateCards = sinon.spy();
@@ -32,15 +33,17 @@ describe('lib/Hand', function() {
                 cards: [
                     'foo',
                     'bar',
+                    'shuffle marker',
                     'baz',
                     'qux',
                     'quux',
                     'corge',
                     'uier'
-                ]
+                ],
+                shouldShuffle: false
             };
 
-            Hand.deal(players, dealer, shoe);
+            Hand.deal(players, dealer, shoe, shouldShuffle);
         });
 
         afterEach(function() {
@@ -75,28 +78,9 @@ describe('lib/Hand', function() {
             it('shoe has remaining card(s)', function() {
                 assert.deepEqual(shoe.cards, ['uier']);
             });
-        });
 
-        describe('The shuffle marker is not dealt to a player', function() {
-            before(function() {
-                shoe.cards = [
-                    'foo',
-                    'shuffle marker',
-                    'bar',
-                    'baz',
-                    'qux',
-                    'quux',
-                    'corge',
-                    'uier'
-                ]
-            });
-
-            it('player 1 gets first card', function() {
-                assert.equal(players[0].hand.cards[0], 'foo');
-            });
-
-            it('player 2 gets second card', function() {
-                assert.equal(players[1].hand.cards[0], 'bar');
+            it('shoe indicates a shuffle is necessary', function() {
+                assert.equal(shoe.shouldShuffle, true);
             });
         });
     });
