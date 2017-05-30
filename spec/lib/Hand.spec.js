@@ -161,5 +161,52 @@ describe('lib/Hand', () => {
         });
     });
 
-    /** @todo Add tests for play() */
+    describe('play()', () => {
+        let shoe;
+        let player;
+
+        beforeEach(() => {
+            shoe = {
+                cards: [two, two, ten, ten]
+            };
+
+            player = Players.generatePlayer();
+            player.hand.cards = [two, two];
+        });
+
+        describe('when the player\'s strategy says to stand', () => {
+            beforeEach(() => {
+                player.strategy = () => 'stand';
+            });
+
+            it('deals no cards to the player', () => {
+                Hand.play(player, shoe);
+                expect(player.hand.cards.length).toBe(2);
+            });
+        });
+
+        describe('when the player\'s strategy continues to say to hit', () => {
+            beforeEach(() => {
+                player.strategy = jasmine.createSpy().and.returnValues('hit', 'hit', 'hit', 'hit', 'hit');
+            });
+
+            it('deals until the player busts', () => {
+                Hand.play(player, shoe);
+                expect(player.hand.cards.length).toBe(6);
+                expect(player.strategy).toHaveBeenCalledTimes(4);
+            });
+        });
+
+        describe('when the player\'s strategy says to hit then stand', () => {
+            beforeEach(() => {
+                player.strategy = jasmine.createSpy().and.returnValues('hit', 'hit', 'stand');
+            });
+
+            it('deals until the player stands', () => {
+                Hand.play(player, shoe);
+                expect(player.hand.cards.length).toBe(4);
+                expect(player.strategy).toHaveBeenCalledTimes(3);
+            });
+        });
+    });
 });
