@@ -5,7 +5,7 @@ const Hand = require('./lib/Hand.js');
 const Players = require('./lib/Players.js');
 const config = require('./lib/config.js');
 
-const players = Players.generate();
+const players = Players.generate(config.playerCount);
 const dealer = Players.generateDealer();
 let shoe = Deck.generateShoe();
 
@@ -18,6 +18,7 @@ for (var i = 0; i < config.handCount; i++) {
     if (true === shoe.shouldShuffle) {
         shoe = Deck.generateShoe(); 
     }
+
     Hand.deal(players, dealer, shoe);
 
     if (Hand.isBlackjack(dealer.hand)) {
