@@ -1,10 +1,12 @@
 const Players = require('../../lib/Players');
+const Strategy = require('../../lib/Strategy');
 
 describe('lib/Players', () => {
     describe('generate()', () => {
         let players;
 
-        beforeEach(function () {
+        beforeEach(() => {
+            spyOn(Players, 'generatePlayer').and.callThrough();
             players = Players.generate(3);
         });
 
@@ -16,19 +18,40 @@ describe('lib/Players', () => {
             expect(players.length).toBe(3);
         });
 
-        it('calls the generatePlayer() method once for each player');
+        it('calls the generatePlayer() method once for each player', () => {
+            expect(Players.generatePlayer).toHaveBeenCalledTimes(3);
+        });
 
-        it('sets the strategy for each player to basic stragegy');
+        it('sets the strategy for each player to basic stragegy', () => {
+            expect(players[0].strategy).toEqual(Strategy.basic);
+            expect(players[1].strategy).toEqual(Strategy.basic);
+        });
 
-        it('correctly names the players');
+        it('correctly names the players', () => {
+            expect(players[0].name).toBe('player 1');
+            expect(players[1].name).toBe('player 2');
+        });
     });
 
     describe('generateDealer()', () => {
-        it('returns an object');
+        let dealer;
 
-        it('calls the generatePlayer() method');
+        beforeEach(() => {
+            spyOn(Players, 'generatePlayer').and.callThrough();
+            dealer = Players.generateDealer();
+        });
 
-        it('sets the strategy property to dealer strategy');
+        it('returns an object', () => {
+            expect(typeof dealer).toBe('object');
+        });
+
+        it('calls the generatePlayer() method', () => {
+            expect(Players.generatePlayer).toHaveBeenCalledTimes(1);
+        });
+
+        it('sets the strategy property to dealer strategy', () => {
+            expect(dealer.strategy).toEqual(Strategy.dealer);
+        });
     });
 
     describe('generatePlayer()', () => {

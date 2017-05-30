@@ -4,15 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jasmine",
+    "test": "jasmine spec/lib/Players.spec.js",
     "start": "node app.js"
   },
   "author": "",
   "license": "ISC",
-  "dependencies": {
-    "mocha": "^2.4.5",
-    "sinon": "^1.17.3"
-  },
   "devDependencies": {
     "jasmine": "^2.6.0"
   }
