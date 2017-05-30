@@ -55,14 +55,30 @@ describe('lib/Players', () => {
     });
 
     describe('generatePlayer()', () => {
-        it('returns an object');
+        const testName = 'test name';
+        const testStrategy = {};
+        const player = Players.generatePlayer(testName, testStrategy);
 
-        it('has a bankroll of zero');
+        it('returns an object', () => {
+            expect(typeof player).toBe('object');
+        });
 
-        it('has a hand object with a bet of zero and empty array of cards');
+        it('has a bankroll of zero', () => {
+            expect(player.bankroll).toBe(0);
+        });
 
-        it('has a name equal to the name parameter');
+        it('has a hand object with a bet of zero and empty array of cards', () => {
+            expect(player.hand.bet).toBe(0);
+            expect(Array.isArray(player.hand.cards)).toBe(true);
+            expect(player.hand.cards.length).toBe(0);
+        });
 
-        it('has a strategy equal to the strategy parameter');
+        it('has a name equal to the name parameter', () => {
+            expect(player.name).toEqual(testName);
+        });
+
+        it('has a strategy equal to the strategy parameter', () => {
+            expect(player.strategy).toEqual(testStrategy);
+        });
     });
 });
