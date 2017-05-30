@@ -1,21 +1,19 @@
-const assert = require('assert');
-const sinon = require('sinon');
 const Players = require('../../lib/Players');
 
-describe('lib/Players', function () {
-    describe('generate()', function () {
+describe('lib/Players', () => {
+    describe('generate()', () => {
         let players;
 
         beforeEach(function () {
             players = Players.generate(3);
         });
 
-        it('returns an array', function () {
-            assert.equal(Array.isArray(players), true);
+        it('returns an array', () => {
+            expect(Array.isArray(players)).toBe(true);
         });
 
-        it('length of array returned is equal to the number of players', function () {
-            assert.equal(players.length, 3);
+        it('length of array returned is equal to the number of players', () => {
+            expect(players.length).toBe(3);
         });
 
         it('calls the generatePlayer() method once for each player');

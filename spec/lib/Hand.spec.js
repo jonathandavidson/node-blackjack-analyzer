@@ -1,0 +1,165 @@
+'use strict';
+
+const Hand = require('../../lib/Hand.js');
+const Card = require('../../lib/Card.js');
+const Players = require('../../lib/Players.js');
+
+const ace = Card.values[0];
+const two = Card.values[1];
+const ten = Card.values[9];
+
+describe('lib/Hand', () => {
+    describe('deal()', () => {
+        let players;
+        let dealer;
+        let shoe;
+        let shouldShuffle = false;
+
+        const Deck = require('../../lib/Deck.js');
+
+        beforeEach(() => {
+            players = [
+                Players.generatePlayer(),
+                Players.generatePlayer()
+            ];
+
+            dealer = Players.generateDealer();
+
+            shoe = {
+                cards: [
+                    'foo',
+                    'bar',
+                    'shuffle marker',
+                    'baz',
+                    'qux',
+                    'quux',
+                    'corge',
+                    'uier'
+                ],
+                shouldShuffle: false
+            };
+
+            Hand.deal(players, dealer, shoe, shouldShuffle);
+        });
+
+        describe('players get the correct cards', () => {
+            it('player 1 gets first card', () => {
+                expect(players[0].hand.cards[0]).toBe('foo');
+            });
+
+            it('player 2 gets second card', () => {
+                expect(players[1].hand.cards[0]).toBe('bar');
+            });
+
+            it('dealer gets third card', () => {
+                expect(dealer.hand.cards[0]).toBe('baz');
+            });
+
+            it('player 1 gets fourth card', () => {
+                expect(players[0].hand.cards[1]).toBe('qux');
+            });
+
+            it('player 2 gets fifth card', () => {
+                expect(players[1].hand.cards[1]).toBe('quux');
+            });
+
+            it('dealer gets sixth card', () => {
+                expect(dealer.hand.cards[1]).toBe('corge');
+            });
+
+            it('shoe has remaining card(s)', () => {
+                expect(shoe.cards).toEqual(['uier']);
+            });
+
+            it('shoe indicates a shuffle is necessary', () => {
+                expect(shoe.shouldShuffle).toBe(true);
+            });
+        });
+    });
+
+    describe('isBlackjack()', function() {
+        it('identifies blackjack with ace and ten', () => {
+            const hand = {
+                cards: [ace, ten]
+            };
+
+            expect(Hand.isBlackjack(hand)).toBe(true);
+        });
+
+        it('identifies blackjack with ten and ace', () => {
+            const hand = {
+                cards: [ten, ace]
+            };
+
+            expect(Hand.isBlackjack(hand)).toBe(true);
+        });
+
+        it('identifies non-blackjack with ace and off-card', () => {
+            const hand = {
+                cards: [ace, two]
+            };
+
+            expect(Hand.isBlackjack(hand)).toBe(false);
+        });
+
+        it('identifies non-blackjack with off-card and ace', () => {
+            const hand = {
+                cards: [two, ace]
+            };
+
+            expect(Hand.isBlackjack(hand)).toBe(false);
+        });
+
+        it('identifies non-blackjack with ten and off-card', () => {
+            const hand = {
+                cards: [ten, two]
+            };
+
+            expect(Hand.isBlackjack(hand)).toBe(false);
+        });
+
+        it('identifies non-blackjack with off-card and ten', () => {
+            const hand = {
+                cards: [two, ten]
+            };
+
+            expect(Hand.isBlackjack(hand)).toBe(false);
+        });
+
+        it('identifies non-blackjack with two off-cards', () => {
+            const hand = {
+                cards: [two, two]
+            };
+
+            expect(Hand.isBlackjack(hand)).toBe(false);
+        });
+    });
+
+    describe('isBusted()', () => {
+        it('identifies bust with no ace', () => {
+            const hand = {
+                cards: [ten, ten, two]
+            };
+
+            expect(Hand.isBusted(hand)).toBe(true);
+        });
+
+        it('identifies non-bust without an ace', () => {
+            const hand = {
+                cards: [ten, two]
+            };
+
+            expect(Hand.isBusted(hand)).toBe(false);
+        });
+
+        it('identifies non-bust with an ace', () => {
+            const hand = {
+                cards: [ace, ten, two]
+            };
+
+            expect(Hand.isBusted(hand)).toBe(false);
+        });
+    });
+
+    /** @todo Add tests for play() */
+});
