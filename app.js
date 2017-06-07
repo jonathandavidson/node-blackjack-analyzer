@@ -7,7 +7,7 @@ const config = require('./lib/config.js');
 
 const players = Players.generate(config.playerCount);
 const dealer = Players.generateDealer();
-let shoe = Deck.generateShoe();
+let shoe = Deck.generateShoe(config.deckCount, config.deckPenetration);
 
 for (var i = 0; i < config.handCount; i++) {
     players.forEach(player => {
@@ -16,7 +16,7 @@ for (var i = 0; i < config.handCount; i++) {
     });
 
     if (true === shoe.shouldShuffle) {
-        shoe = Deck.generateShoe(); 
+        shoe = Deck.generateShoe(config.deckCount, config.deckPenetration); 
     }
 
     Hand.deal(players, dealer, shoe);

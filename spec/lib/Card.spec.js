@@ -8,6 +8,39 @@ const queen = Card.values[11];
 const king = Card.values[12];
 
 describe('lib/Card', () => {
+    describe('getAll()', () => {
+        const cards = Card.getAll();
+
+        it('returns an array of 52 objects', () => {
+            expect(Array.isArray(cards)).toBe(true);
+            expect(cards.length).toBe(52);
+        });
+
+        it('array contains 4 aces', () => {
+            expect(cards.filter(item => {
+                return item.values.length === 2 && item.values.includes(1) && item.values.includes(11);
+            }).length).toBe(4);
+        });
+
+        it('array contains 4 cards of each value 2 through 9', () => {
+            for(let i=2; i<=9; i++) {
+                expect(cards.filter(item => {
+                    return item.values.length === 1 && item.values.includes(i);
+                }).length).toBe(4);
+            }
+        });
+
+        it('array contains 16 cards of value 10', () => {
+            expect(cards.filter(item => {
+                return item.values.length === 1 && item.values.includes(10);
+            }).length).toBe(16);
+        });
+
+        it('every item in the array has a displayName property', () => {
+            expect(cards.every(item => item.hasOwnProperty('displayName'))).toBe(true);
+        });
+    });
+
     describe('isAce()', () => {
         it('identifies ace', () => {
             expect(Card.isAce(ace)).toBe(true);
