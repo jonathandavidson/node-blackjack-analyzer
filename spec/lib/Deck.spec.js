@@ -1,5 +1,5 @@
 const Deck = require('../../lib/Deck.js');
-
+const Card = require('../../lib/Card.js');
 
 describe('lib/Deck', () => {
     describe('generateCards()', () => {
@@ -20,7 +20,7 @@ describe('lib/Deck', () => {
         });
 
         it('inserts a shuffle marker in the correct location', () => {
-            expect(cards[78]).toBe('shuffle marker');
+            expect(Card.isShuffleMarker(cards[78])).toBe(true);
         });
     });
 

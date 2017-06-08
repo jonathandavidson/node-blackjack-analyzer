@@ -29,7 +29,7 @@ describe('lib/Hand', () => {
                 cards: [
                     'foo',
                     'bar',
-                    'shuffle marker',
+                    Card.generateShuffleMarker(),
                     'baz',
                     'qux',
                     'quux',
