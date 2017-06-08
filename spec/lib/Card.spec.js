@@ -8,6 +8,24 @@ const queen = Card.values[11];
 const king = Card.values[12];
 
 describe('lib/Card', () => {
+    describe('generateShuffleMarker', () => {
+        const shuffleMarker = Card.generateShuffleMarker();
+
+        it('returns an object', () => {
+            expect(typeof shuffleMarker).toBe('object');
+        });
+
+        it('has a displayName property', () => {
+            expect(shuffleMarker.hasOwnProperty('displayName')).toBe(true);
+            expect(shuffleMarker.displayName).toEqual('shuffle marker');
+        });
+
+        it('has an isShuffleMarker property set to true', () => {
+            expect(shuffleMarker.hasOwnProperty('isShuffleMarker')).toBe(true);
+            expect(shuffleMarker.isShuffleMarker).toEqual(true);
+        });
+    });
+
     describe('getAll()', () => {
         const cards = Card.getAll();
 
@@ -48,6 +66,19 @@ describe('lib/Card', () => {
 
         it('identifies non-ace', () => {
             expect(Card.isAce(two)).toBe(false);
+        });
+    });
+
+    describe('isShuffleMarker', () => {
+        const shuffleMarker = Card.generateShuffleMarker();
+        const otherCard = {};
+
+        it('returns true when passed a shuffle marker', () => {
+            expect(Card.isShuffleMarker(shuffleMarker)).toEqual(true);
+        });
+
+        it('returns false when not passed a shuffle marker', () => {
+            expect(Card.isShuffleMarker(otherCard)).toEqual(false);
         });
     });
 
