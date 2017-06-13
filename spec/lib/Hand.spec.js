@@ -1,8 +1,9 @@
 'use strict';
 
-const Hand = require('../../lib/Hand.js');
-const Card = require('../../lib/Card.js');
-const Players = require('../../lib/Players.js');
+const Hand = require('../../lib/Hand');
+const Card = require('../../lib/Card');
+const Players = require('../../lib/Players');
+const actions = require('../../lib/Strategy').actions;
 
 const ace = Card.values[0];
 const two = Card.values[1];
@@ -174,7 +175,7 @@ describe('lib/Hand', () => {
 
     describe('when the player\'s strategy says to stand', () => {
       beforeEach(() => {
-        player.strategy = () => 'stand';
+        player.strategy = () => actions.stand;
       });
 
       it('deals no cards to the player', () => {
@@ -185,7 +186,7 @@ describe('lib/Hand', () => {
 
     describe('when the player\'s strategy continues to say to hit', () => {
       beforeEach(() => {
-        player.strategy = jasmine.createSpy().and.returnValues('hit', 'hit', 'hit', 'hit', 'hit');
+        player.strategy = jasmine.createSpy().and.returnValues(actions.hit, actions.hit, actions.hit, actions.hit, actions.stand);
       });
 
       it('deals until the player busts', () => {
@@ -197,7 +198,7 @@ describe('lib/Hand', () => {
 
     describe('when the player\'s strategy says to hit then stand', () => {
       beforeEach(() => {
-        player.strategy = jasmine.createSpy().and.returnValues('hit', 'hit', 'stand');
+        player.strategy = jasmine.createSpy().and.returnValues(actions.hit, actions.hit, actions.stand);
       });
 
       it('deals until the player stands', () => {
