@@ -171,6 +171,7 @@ describe('lib/Hand', () => {
 
       player = Players.generatePlayer();
       player.hand.cards = [two, two];
+      player.hand.bet = 1;
     });
 
     describe('when the player\'s strategy says to stand', () => {
@@ -205,6 +206,18 @@ describe('lib/Hand', () => {
         Hand.play(player, shoe);
         expect(player.hand.cards.length).toBe(4);
         expect(player.strategy).toHaveBeenCalledTimes(3);
+      });
+    });
+
+    describe('when the player\'s strategy says to double down', () => {
+      beforeEach(() => {
+        player.strategy = jasmine.createSpy().and.returnValues(actions.doubleDown);
+      });
+
+      it('deals the player one card and doubles the bet', () => {
+        Hand.play(player, shoe);
+        expect(player.hand.cards.length).toBe(3);
+        expect(player.hand.bet).toEqual(2);
       });
     });
   });
