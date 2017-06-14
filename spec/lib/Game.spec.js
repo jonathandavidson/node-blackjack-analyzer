@@ -59,19 +59,38 @@ describe('Game', () => {
       spyOn(Game, 'play').and.callThrough();
     });
 
-    it('increments the hand count', () => {
-      const game = {
-        config: {
-          handCount: 2
-        },
-        handCount: 0
+    it('plays the correct number of hands', () => {
+      const config = {
+        handCount: 2,
+        playerCount: 2
       };
 
+      const game = Game.create(config);
       Game.play(game);
 
       expect(Game.play).toHaveBeenCalledTimes(3);
       expect(Game.play.calls.argsFor(1)[0].handCount).toBe(1);
       expect(Game.play.calls.argsFor(2)[0].handCount).toBe(2);
+    });
+
+    describe('when bets have not been placed', () => {
+      it('places a bet for each player', () => {
+        const config = {
+          handCount: 1,
+          playerCount: 2
+        };
+
+        const game = Game.create(config);
+        game.betsPlaced = false;
+        Game.play(game);
+
+        const result = Game.play.calls.argsFor(1)[0];
+        const player1 = result.players[0];
+        const player2 = result.players[1];
+
+        expect(player1.hands[0].bet).toEqual(1);
+        expect(player2.hands[0].bet).toEqual(1);
+      });
     });
   });
 });
