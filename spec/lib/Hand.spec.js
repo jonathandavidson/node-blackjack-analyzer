@@ -10,69 +10,88 @@ const two = Card.values[1];
 const ten = Card.values[9];
 
 describe('lib/Hand', () => {
-  describe('deal()', () => {
-    let players;
-    let dealer;
-    let shoe;
-    let shouldShuffle = false;
+  // describe('deal()', () => {
+  //   let players;
+  //   let dealer;
+  //   let shoe;
+  //   let shouldShuffle = false;
 
-    beforeEach(() => {
-      players = [
-        Players.generatePlayer(),
-        Players.generatePlayer()
-      ];
+  //   beforeEach(() => {
+  //     players = [
+  //       Players.generatePlayer(),
+  //       Players.generatePlayer()
+  //     ];
 
-      dealer = Players.generateDealer();
+  //     dealer = Players.generateDealer();
 
-      shoe = {
-        cards: [
-          'foo',
-          'bar',
-          Card.generateShuffleMarker(),
-          'baz',
-          'qux',
-          'quux',
-          'corge',
-          'uier'
-        ],
-        shouldShuffle: false
-      };
+  //     shoe = {
+  //       cards: [
+  //         'foo',
+  //         'bar',
+  //         Card.generateShuffleMarker(),
+  //         'baz',
+  //         'qux',
+  //         'quux',
+  //         'corge',
+  //         'uier'
+  //       ],
+  //       shouldShuffle: false
+  //     };
 
-      Hand.deal(players, dealer, shoe, shouldShuffle);
+  //     Hand.deal(players, dealer, shoe, shouldShuffle);
+  //   });
+
+  //   describe('players get the correct cards', () => {
+  //     it('player 1 gets first card', () => {
+  //       expect(players[0].hand.cards[0]).toBe('foo');
+  //     });
+
+  //     it('player 2 gets second card', () => {
+  //       expect(players[1].hand.cards[0]).toBe('bar');
+  //     });
+
+  //     it('dealer gets third card', () => {
+  //       expect(dealer.hand.cards[0]).toBe('baz');
+  //     });
+
+  //     it('player 1 gets fourth card', () => {
+  //       expect(players[0].hand.cards[1]).toBe('qux');
+  //     });
+
+  //     it('player 2 gets fifth card', () => {
+  //       expect(players[1].hand.cards[1]).toBe('quux');
+  //     });
+
+  //     it('dealer gets sixth card', () => {
+  //       expect(dealer.hand.cards[1]).toBe('corge');
+  //     });
+
+  //     it('shoe has remaining card(s)', () => {
+  //       expect(shoe.cards).toEqual(['uier']);
+  //     });
+
+  //     it('shoe indicates a shuffle is necessary', () => {
+  //       expect(shoe.shouldShuffle).toBe(true);
+  //     });
+  //   });
+  // });
+
+  describe('create()', () => {
+    const hand = Hand.create();
+
+    it('returns and object', () => {
+      expect(typeof hand).toBe('object');
     });
 
-    describe('players get the correct cards', () => {
-      it('player 1 gets first card', () => {
-        expect(players[0].hand.cards[0]).toBe('foo');
-      });
+    it('has a bet property with a zero value', () => {
+      expect(hand.hasOwnProperty('bet')).toBe(true);
+      expect(hand.bet).toEqual(0);
+    });
 
-      it('player 2 gets second card', () => {
-        expect(players[1].hand.cards[0]).toBe('bar');
-      });
-
-      it('dealer gets third card', () => {
-        expect(dealer.hand.cards[0]).toBe('baz');
-      });
-
-      it('player 1 gets fourth card', () => {
-        expect(players[0].hand.cards[1]).toBe('qux');
-      });
-
-      it('player 2 gets fifth card', () => {
-        expect(players[1].hand.cards[1]).toBe('quux');
-      });
-
-      it('dealer gets sixth card', () => {
-        expect(dealer.hand.cards[1]).toBe('corge');
-      });
-
-      it('shoe has remaining card(s)', () => {
-        expect(shoe.cards).toEqual(['uier']);
-      });
-
-      it('shoe indicates a shuffle is necessary', () => {
-        expect(shoe.shouldShuffle).toBe(true);
-      });
+    it('has a cards property which is an empty array', () => {
+      expect(hand.hasOwnProperty('cards')).toBe(true);
+      expect(Array.isArray(hand.cards)).toBe(true);
+      expect(hand.cards.length).toEqual(0);
     });
   });
 
@@ -160,65 +179,65 @@ describe('lib/Hand', () => {
     });
   });
 
-  describe('play()', () => {
-    let shoe;
-    let player;
+  // describe('play()', () => {
+  //   let shoe;
+  //   let player;
 
-    beforeEach(() => {
-      shoe = {
-        cards: [two, two, ten, ten]
-      };
+  //   beforeEach(() => {
+  //     shoe = {
+  //       cards: [two, two, ten, ten]
+  //     };
 
-      player = Players.generatePlayer();
-      player.hand.cards = [two, two];
-      player.hand.bet = 1;
-    });
+  //     player = Players.generatePlayer();
+  //     player.hand.cards = [two, two];
+  //     player.hand.bet = 1;
+  //   });
 
-    describe('when the player\'s strategy says to stand', () => {
-      beforeEach(() => {
-        player.strategy = () => actions.stand;
-      });
+  //   describe('when the player\'s strategy says to stand', () => {
+  //     beforeEach(() => {
+  //       player.strategy = () => actions.stand;
+  //     });
 
-      it('deals no cards to the player', () => {
-        Hand.play(player, shoe);
-        expect(player.hand.cards.length).toBe(2);
-      });
-    });
+  //     it('deals no cards to the player', () => {
+  //       Hand.play(player, shoe);
+  //       expect(player.hand.cards.length).toBe(2);
+  //     });
+  //   });
 
-    describe('when the player\'s strategy continues to say to hit', () => {
-      beforeEach(() => {
-        player.strategy = jasmine.createSpy().and.returnValues(actions.hit, actions.hit, actions.hit, actions.hit, actions.stand);
-      });
+  //   describe('when the player\'s strategy continues to say to hit', () => {
+  //     beforeEach(() => {
+  //       player.strategy = jasmine.createSpy().and.returnValues(actions.hit, actions.hit, actions.hit, actions.hit, actions.stand);
+  //     });
 
-      it('deals until the player busts', () => {
-        Hand.play(player, shoe);
-        expect(player.hand.cards.length).toBe(6);
-        expect(player.strategy).toHaveBeenCalledTimes(4);
-      });
-    });
+  //     it('deals until the player busts', () => {
+  //       Hand.play(player, shoe);
+  //       expect(player.hand.cards.length).toBe(6);
+  //       expect(player.strategy).toHaveBeenCalledTimes(4);
+  //     });
+  //   });
 
-    describe('when the player\'s strategy says to hit then stand', () => {
-      beforeEach(() => {
-        player.strategy = jasmine.createSpy().and.returnValues(actions.hit, actions.hit, actions.stand);
-      });
+  //   describe('when the player\'s strategy says to hit then stand', () => {
+  //     beforeEach(() => {
+  //       player.strategy = jasmine.createSpy().and.returnValues(actions.hit, actions.hit, actions.stand);
+  //     });
 
-      it('deals until the player stands', () => {
-        Hand.play(player, shoe);
-        expect(player.hand.cards.length).toBe(4);
-        expect(player.strategy).toHaveBeenCalledTimes(3);
-      });
-    });
+  //     it('deals until the player stands', () => {
+  //       Hand.play(player, shoe);
+  //       expect(player.hand.cards.length).toBe(4);
+  //       expect(player.strategy).toHaveBeenCalledTimes(3);
+  //     });
+  //   });
 
-    describe('when the player\'s strategy says to double down', () => {
-      beforeEach(() => {
-        player.strategy = jasmine.createSpy().and.returnValues(actions.doubleDown);
-      });
+  //   describe('when the player\'s strategy says to double down', () => {
+  //     beforeEach(() => {
+  //       player.strategy = jasmine.createSpy().and.returnValues(actions.doubleDown);
+  //     });
 
-      it('deals the player one card and doubles the bet', () => {
-        Hand.play(player, shoe);
-        expect(player.hand.cards.length).toBe(3);
-        expect(player.hand.bet).toEqual(2);
-      });
-    });
-  });
+  //     it('deals the player one card and doubles the bet', () => {
+  //       Hand.play(player, shoe);
+  //       expect(player.hand.cards.length).toBe(3);
+  //       expect(player.hand.bet).toEqual(2);
+  //     });
+  //   });
+  // });
 });

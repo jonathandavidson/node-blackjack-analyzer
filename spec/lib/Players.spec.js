@@ -1,3 +1,4 @@
+const Hand = require('../../lib/Hand');
 const Players = require('../../lib/Players');
 const Strategy = require('../../lib/Strategy');
 
@@ -57,7 +58,14 @@ describe('lib/Players', () => {
   describe('generatePlayer()', () => {
     const testName = 'test name';
     const testStrategy = {};
-    const player = Players.generatePlayer(testName, testStrategy);
+    const hand = { test: 'hand' };
+
+    let player;
+
+    beforeEach(() => {
+      spyOn(Hand, 'create').and.returnValue(hand);
+      player = Players.generatePlayer(testName, testStrategy);
+    });
 
     it('returns an object', () => {
       expect(typeof player).toBe('object');
@@ -67,10 +75,10 @@ describe('lib/Players', () => {
       expect(player.bankroll).toBe(0);
     });
 
-    it('has a hand object with a bet of zero and empty array of cards', () => {
-      expect(player.hand.bet).toBe(0);
-      expect(Array.isArray(player.hand.cards)).toBe(true);
-      expect(player.hand.cards.length).toBe(0);
+    it('has a hands property of type array containing one hand', () => {
+      expect(Array.isArray(player.hands)).toBe(true);
+      expect(player.hands.length).toEqual(1);
+      expect(player.hands[0]).toEqual(hand);
     });
 
     it('has a name equal to the name parameter', () => {
