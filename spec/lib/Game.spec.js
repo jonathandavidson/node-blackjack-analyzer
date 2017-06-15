@@ -5,10 +5,6 @@ const Players = require('../../lib/Players');
 
 describe('Game', () => {
   describe('create()', () => {
-    const dealerMock = {
-      isDealer: true
-    };
-
     const playersMock = [ 'player1', 'player2' ];
 
     const shoeMock = {
@@ -24,7 +20,6 @@ describe('Game', () => {
     let game;
 
     beforeEach(() => {
-      spyOn(Players, 'generateDealer').and.returnValue(dealerMock);
       spyOn(Players, 'generate').and.returnValue(playersMock);
       spyOn(Deck, 'generateShoe').and.returnValue(shoeMock);
       game = Game.create(config);
@@ -37,11 +32,6 @@ describe('Game', () => {
     it('has a config property with the correct value', () => {
       expect(game.hasOwnProperty('config')).toBe(true);
       expect(game.config).toEqual(config);
-    });
-
-    it('has a dealer property with the correct value', () => {
-      expect(game.hasOwnProperty('dealer')).toBe(true);
-      expect(game.dealer).toEqual(dealerMock);
     });
 
     it('has a players property with the correct value', () => {
@@ -135,6 +125,33 @@ describe('Game', () => {
             'quux'
           ]);
         });
+      });
+    });
+
+    describe('after everyone has played', () => {
+      const game = Game.create({
+        deckCount: 4,
+        handCount: 2,
+        playerCount: 2,
+        deckPenetration: 0.75
+      });
+
+      const result = Game.play(game);
+
+      console.log(result.players[0].hands);
+
+      it('resets everyone\'s hands/bets', () => {
+        expect(result.players[0].hands.length).toEqual(1);
+        expect(result.players[1].hands.length).toEqual(1);
+        expect(result.players[2].hands.length).toEqual(1);
+
+        expect(result.players[0].hands[0].cards.length).toEqual(0);
+        expect(result.players[1].hands[0].cards.length).toEqual(0);
+        expect(result.players[2].hands[0].cards.length).toEqual(0);
+
+        expect(result.players[0].hands[0].bet).toEqual(0);
+        expect(result.players[1].hands[0].bet).toEqual(0);
+        expect(result.players[2].hands[0].bet).toEqual(0);
       });
     });
   });
