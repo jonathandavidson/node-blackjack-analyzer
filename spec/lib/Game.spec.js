@@ -1,3 +1,4 @@
+const Card = require('../../lib/Card');
 const Deck = require('../../lib/Deck');
 const Game = require('../../lib/Game');
 const Players = require('../../lib/Players');
@@ -66,14 +67,28 @@ describe('Game', () => {
       };
 
       const game = Game.create(config);
-      Game.play(game);
 
-      expect(Game.play).toHaveBeenCalledTimes(3);
-      expect(Game.play.calls.argsFor(1)[0].handCount).toBe(1);
-      expect(Game.play.calls.argsFor(2)[0].handCount).toBe(2);
+      game.shoe.cards = [
+        'foo',
+        'bar',
+        Card.generateShuffleMarker(),
+        'baz',
+        'qux',
+        'quux',
+        'corge',
+        'uier'
+      ];
+
+      const result = Game.play(game);
+
+      expect(result.handCount).toEqual(2);
     });
 
     describe('when bets have not been placed', () => {
+      describe('and the shoe needs shuffled', () => {
+        it('shuffles the shoe');
+      });
+
       it('places a bet for each player', () => {
         const config = {
           handCount: 1,
@@ -81,7 +96,19 @@ describe('Game', () => {
         };
 
         const game = Game.create(config);
-        game.betsPlaced = false;
+
+        game.shoe.cards = [
+          'foo',
+          'bar',
+          Card.generateShuffleMarker(),
+          'baz',
+          'qux',
+          'quux',
+          'corge',
+          'uier'
+        ];
+
+        game.handStarted = false;
         Game.play(game);
 
         const result = Game.play.calls.argsFor(1)[0];
@@ -89,7 +116,13 @@ describe('Game', () => {
         const player2 = result.players[1];
 
         expect(player1.hands[0].bet).toEqual(1);
+        expect(player1.bankroll).toEqual(-1);
         expect(player2.hands[0].bet).toEqual(1);
+        expect(player1.bankroll).toEqual(-1);
+      });
+
+      it('deals each player the correct cards', () => {
+
       });
     });
   });
