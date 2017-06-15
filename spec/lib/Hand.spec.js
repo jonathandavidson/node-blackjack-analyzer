@@ -2,8 +2,6 @@
 
 const Hand = require('../../lib/Hand');
 const Card = require('../../lib/Card');
-const Players = require('../../lib/Players');
-const actions = require('../../lib/Strategy').actions;
 
 const ace = Card.values[0];
 const two = Card.values[1];

@@ -66,7 +66,25 @@ describe('Game', () => {
 
     describe('when bets have not been placed', () => {
       describe('and the shoe needs shuffled', () => {
-        it('shuffles the shoe');
+        beforeEach(() => {
+          spyOn(Deck, 'generateShoe').and.callThrough();
+        });
+
+        const config = {
+          deckCount: 1,
+          handCount: 1,
+          playerCount: 1,
+          deckPenetration: 0.75
+        };
+
+        const game = Game.create(config);
+        game.shoe.shouldShuffle = true;
+
+        it('shuffles the shoe', () => {
+          const result = Game.play(game);
+          expect(Deck.generateShoe.calls.count()).toEqual(1);
+          expect(result.shoe.cards.length).toEqual(49);
+        });
       });
 
       describe('and the shoe does not need shuffled', () => {
@@ -74,8 +92,10 @@ describe('Game', () => {
 
         beforeEach(() => {
           const config = {
+            deckCount: 1,
             handCount: 1,
-            playerCount: 2
+            playerCount: 2,
+            deckPenetration: 0.75
           };
 
           const game = Game.create(config);
@@ -137,8 +157,6 @@ describe('Game', () => {
       });
 
       const result = Game.play(game);
-
-      console.log(result.players[0].hands);
 
       it('resets everyone\'s hands/bets', () => {
         expect(result.players[0].hands.length).toEqual(1);
