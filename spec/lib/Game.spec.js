@@ -62,23 +62,13 @@ describe('Game', () => {
 
     it('plays the correct number of hands', () => {
       const config = {
+        deckCount: 1,
         handCount: 2,
-        playerCount: 2
+        playerCount: 2,
+        deckPenetration: 0.75
       };
 
       const game = Game.create(config);
-
-      game.shoe.cards = [
-        'foo',
-        'bar',
-        Card.generateShuffleMarker(),
-        'baz',
-        'qux',
-        'quux',
-        'corge',
-        'uier'
-      ];
-
       const result = Game.play(game);
 
       expect(result.handCount).toEqual(2);
@@ -89,40 +79,62 @@ describe('Game', () => {
         it('shuffles the shoe');
       });
 
-      it('places a bet for each player', () => {
-        const config = {
-          handCount: 1,
-          playerCount: 2
-        };
+      describe('and the shoe does not need shuffled', () => {
+        let result;
 
-        const game = Game.create(config);
+        beforeEach(() => {
+          const config = {
+            handCount: 1,
+            playerCount: 2
+          };
 
-        game.shoe.cards = [
-          'foo',
-          'bar',
-          Card.generateShuffleMarker(),
-          'baz',
-          'qux',
-          'quux',
-          'corge',
-          'uier'
-        ];
+          const game = Game.create(config);
 
-        game.handStarted = false;
-        Game.play(game);
+          game.shoe.cards = [
+            'foo',
+            'bar',
+            Card.generateShuffleMarker(),
+            'baz',
+            'qux',
+            'quux',
+            'corge',
+            'uier'
+          ];
 
-        const result = Game.play.calls.argsFor(1)[0];
-        const player1 = result.players[0];
-        const player2 = result.players[1];
+          game.handStarted = false;
+          Game.play(game);
 
-        expect(player1.hands[0].bet).toEqual(1);
-        expect(player1.bankroll).toEqual(-1);
-        expect(player2.hands[0].bet).toEqual(1);
-        expect(player1.bankroll).toEqual(-1);
-      });
+          result = Game.play.calls.argsFor(1)[0];
+        });
 
-      it('deals each player the correct cards', () => {
+        it('places a bet for each player', () => {
+          const player1 = result.players[0];
+          const player2 = result.players[1];
 
+          expect(player1.hands[0].bet).toEqual(1);
+          expect(player1.bankroll).toEqual(-1);
+          expect(player2.hands[0].bet).toEqual(1);
+          expect(player1.bankroll).toEqual(-1);
+        });
+
+        it('does not place a bet for the dealer', () => {
+          const dealer = result.players[2];
+          expect(dealer.bankroll).toEqual(0);
+        });
+
+        it('deals each player the correct cards', () => {
+          const player1 = result.players[0];
+          const player2 = result.players[1];
+
+          expect(player1.hands[0].cards).toEqual([
+            'foo',
+            'qux'
+          ]);
+          expect(player2.hands[0].cards).toEqual([
+            'bar',
+            'quux'
+          ]);
+        });
       });
     });
   });

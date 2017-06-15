@@ -8,29 +8,31 @@ describe('lib/Players', () => {
 
     beforeEach(() => {
       spyOn(Players, 'generatePlayer').and.callThrough();
-      players = Players.generate(3);
+      players = Players.generate(2);
     });
 
     it('returns an array', () => {
       expect(Array.isArray(players)).toBe(true);
     });
 
-    it('length of array returned is equal to the number of players', () => {
+    it('length of array returned is equal to the number of players plus the dealer', () => {
       expect(players.length).toBe(3);
     });
 
-    it('calls the generatePlayer() method once for each player', () => {
+    it('calls the generatePlayer() method once for each player plush the dealer', () => {
       expect(Players.generatePlayer).toHaveBeenCalledTimes(3);
     });
 
     it('sets the strategy for each player to basic stragegy', () => {
       expect(players[0].strategy).toEqual(Strategy.basic);
       expect(players[1].strategy).toEqual(Strategy.basic);
+      expect(players[2].strategy).toEqual(Strategy.dealer);
     });
 
     it('correctly names the players', () => {
       expect(players[0].name).toBe('player 1');
       expect(players[1].name).toBe('player 2');
+      expect(players[2].name).toBe('dealer');
     });
   });
 
@@ -87,6 +89,24 @@ describe('lib/Players', () => {
 
     it('has a strategy equal to the strategy parameter', () => {
       expect(player.strategy).toEqual(testStrategy);
+    });
+  });
+
+  describe('isDealer()', () => {
+    describe('when player is the dealer', () => {
+      const isDealer = Players.isDealer(Players.generateDealer());
+
+      it('returns true', () => {
+        expect(isDealer).toBe(true);
+      });
+    });
+
+    describe('when player is not the dealer', () => {
+      const isDealer = Players.isDealer(Players.generatePlayer());
+
+      it('returns false', () => {
+        expect(isDealer).toBe(false);
+      });
     });
   });
 });
