@@ -80,6 +80,9 @@ describe('Game', () => {
 
         const game = Game.create(config);
         game.shoe.shouldShuffle = true;
+        game.handStarted = false;
+        game.players[0].strategy = () => actions.stand;
+        game.players[1].strategy = () => actions.stand;
 
         it('shuffles the shoe', () => {
           const result = Game.play(game);
@@ -113,6 +116,10 @@ describe('Game', () => {
           ];
 
           game.handStarted = false;
+          game.players[0].strategy = () => actions.stand;
+          game.players[1].strategy = () => actions.stand;
+          game.players[2].strategy = () => actions.stand;
+
           Game.play(game);
 
           result = Game.play.calls.argsFor(1)[0];
@@ -170,7 +177,8 @@ describe('Game', () => {
       };
 
       game = Game.create(config);
-      game.shoe.cards = [two, two, ten, ten];
+      game.shoe.cards = [two, two, two, two, two, ten, ten, ten];
+      game.players[1].strategy = () => actions.stand;
     });
 
     describe('when the player\'s strategy says to stand', () => {
@@ -183,29 +191,31 @@ describe('Game', () => {
       });
     });
 
-  //   describe('when the player\'s strategy continues to say to hit', () => {
-  //     beforeEach(() => {
-  //       player.strategy = jasmine.createSpy().and.returnValues(actions.hit, actions.hit, actions.hit, actions.hit, actions.stand);
-  //     });
+    describe('when the player\'s strategy continues to say to hit', () => {
+      it('deals until the player busts', () => {
+          game.players[0].strategy = jasmine.createSpy().and.returnValues(
+            actions.hit, actions.hit, actions.hit, actions.hit);
 
-  //     it('deals until the player busts', () => {
-  //       Hand.play(player, shoe);
-  //       expect(player.hand.cards.length).toBe(6);
-  //       expect(player.strategy).toHaveBeenCalledTimes(4);
-  //     });
-  //   });
+          Game.play(game);
+          const result = Game.play.calls.argsFor(1)[0];
 
-  //   describe('when the player\'s strategy says to hit then stand', () => {
-  //     beforeEach(() => {
-  //       player.strategy = jasmine.createSpy().and.returnValues(actions.hit, actions.hit, actions.stand);
-  //     });
+          expect(result.players[0].hands[0].cards.length).toBe(5);
+          expect(game.players[0].strategy).toHaveBeenCalledTimes(3);
+      });
+    });
 
-  //     it('deals until the player stands', () => {
-  //       Hand.play(player, shoe);
-  //       expect(player.hand.cards.length).toBe(4);
-  //       expect(player.strategy).toHaveBeenCalledTimes(3);
-  //     });
-  //   });
+    describe('when the player\'s strategy says to hit then stand', () => {
+      it('deals until the player stands', () => {
+        game.players[0].strategy = jasmine.createSpy().and.returnValues(
+          actions.hit, actions.hit, actions.stand);
+
+        Game.play(game);
+        const result = Game.play.calls.argsFor(1)[0];
+
+        expect(result.players[0].hands[0].cards.length).toBe(4);
+        expect(game.players[0].strategy).toHaveBeenCalledTimes(3);
+      });
+    });
 
   //   describe('when the player\'s strategy says to double down', () => {
   //     beforeEach(() => {
