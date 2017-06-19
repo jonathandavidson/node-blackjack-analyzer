@@ -2,6 +2,7 @@ const Card = require('../../lib/Card');
 const Deck = require('../../lib/Deck');
 const Game = require('../../lib/Game');
 const Players = require('../../lib/Players');
+const actions = require('../../lib/Strategy').actions;
 
 describe('Game', () => {
   describe('create()', () => {
@@ -135,18 +136,89 @@ describe('Game', () => {
         it('deals each player the correct cards', () => {
           const player1 = result.players[0];
           const player2 = result.players[1];
+          const dealer = result.players[2];
 
           expect(player1.hands[0].cards).toEqual([
             'foo',
             'qux'
           ]);
+
           expect(player2.hands[0].cards).toEqual([
             'bar',
             'quux'
           ]);
+
+          expect(dealer.hands[0].cards).toEqual([
+            'baz',
+            'corge'
+          ]);
         });
       });
     });
+
+  describe('handles player actions properly', () => {
+    let game;
+    const two = Card.values[1];
+    const ten = Card.values[9];
+
+    beforeEach(() => {
+      const config = {
+        deckCount: 1,
+        handCount: 1,
+        playerCount: 1,
+        deckPenetration: 0.75
+      };
+
+      game = Game.create(config);
+      game.shoe.cards = [two, two, ten, ten];
+    });
+
+    describe('when the player\'s strategy says to stand', () => {
+      it('deals no cards to the player', () => {
+        game.players[0].strategy = () => actions.stand;
+        Game.play(game);
+        const result = Game.play.calls.argsFor(1)[0];
+
+        expect(result.players[0].hands[0].cards.length).toBe(2);
+      });
+    });
+
+  //   describe('when the player\'s strategy continues to say to hit', () => {
+  //     beforeEach(() => {
+  //       player.strategy = jasmine.createSpy().and.returnValues(actions.hit, actions.hit, actions.hit, actions.hit, actions.stand);
+  //     });
+
+  //     it('deals until the player busts', () => {
+  //       Hand.play(player, shoe);
+  //       expect(player.hand.cards.length).toBe(6);
+  //       expect(player.strategy).toHaveBeenCalledTimes(4);
+  //     });
+  //   });
+
+  //   describe('when the player\'s strategy says to hit then stand', () => {
+  //     beforeEach(() => {
+  //       player.strategy = jasmine.createSpy().and.returnValues(actions.hit, actions.hit, actions.stand);
+  //     });
+
+  //     it('deals until the player stands', () => {
+  //       Hand.play(player, shoe);
+  //       expect(player.hand.cards.length).toBe(4);
+  //       expect(player.strategy).toHaveBeenCalledTimes(3);
+  //     });
+  //   });
+
+  //   describe('when the player\'s strategy says to double down', () => {
+  //     beforeEach(() => {
+  //       player.strategy = jasmine.createSpy().and.returnValues(actions.doubleDown);
+  //     });
+
+  //     it('deals the player one card and doubles the bet', () => {
+  //       Hand.play(player, shoe);
+  //       expect(player.hand.cards.length).toBe(3);
+  //       expect(player.hand.bet).toEqual(2);
+  //     });
+  //   });
+  });
 
     describe('after everyone has played', () => {
       const game = Game.create({
