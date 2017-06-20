@@ -163,36 +163,36 @@ describe('Game', () => {
       });
     });
 
-  describe('handles player actions properly', () => {
-    let game;
-    const two = Card.values[1];
-    const ten = Card.values[9];
+    describe('handles player actions properly', () => {
+      let game;
+      const two = Card.values[1];
+      const ten = Card.values[9];
 
-    beforeEach(() => {
-      const config = {
-        deckCount: 1,
-        handCount: 1,
-        playerCount: 1,
-        deckPenetration: 0.75
-      };
+      beforeEach(() => {
+        const config = {
+          deckCount: 1,
+          handCount: 1,
+          playerCount: 1,
+          deckPenetration: 0.75
+        };
 
-      game = Game.create(config);
-      game.shoe.cards = [two, two, two, two, two, ten, ten, ten];
-      game.players[1].strategy = () => actions.stand;
-    });
-
-    describe('when the player\'s strategy says to stand', () => {
-      it('deals no cards to the player', () => {
-        game.players[0].strategy = () => actions.stand;
-        Game.play(game);
-        const result = Game.play.calls.argsFor(1)[0];
-
-        expect(result.players[0].hands[0].cards.length).toBe(2);
+        game = Game.create(config);
+        game.shoe.cards = [two, two, two, two, two, ten, ten, ten];
+        game.players[1].strategy = () => actions.stand;
       });
-    });
 
-    describe('when the player\'s strategy continues to say to hit', () => {
-      it('deals until the player busts', () => {
+      describe('when the player\'s strategy says to stand', () => {
+        it('deals no cards to the player', () => {
+          game.players[0].strategy = () => actions.stand;
+          Game.play(game);
+          const result = Game.play.calls.argsFor(1)[0];
+
+          expect(result.players[0].hands[0].cards.length).toBe(2);
+        });
+      });
+
+      describe('when the player\'s strategy continues to say to hit', () => {
+        it('deals until the player busts', () => {
           game.players[0].strategy = jasmine.createSpy().and.returnValues(
             actions.hit, actions.hit, actions.hit, actions.hit);
 
@@ -201,33 +201,33 @@ describe('Game', () => {
 
           expect(result.players[0].hands[0].cards.length).toBe(5);
           expect(game.players[0].strategy).toHaveBeenCalledTimes(3);
+        });
+      });
+
+      describe('when the player\'s strategy says to hit then stand', () => {
+        it('deals until the player stands', () => {
+          game.players[0].strategy = jasmine.createSpy().and.returnValues(
+            actions.hit, actions.hit, actions.stand);
+
+          Game.play(game);
+          const result = Game.play.calls.argsFor(1)[0];
+
+          expect(result.players[0].hands[0].cards.length).toBe(4);
+          expect(game.players[0].strategy).toHaveBeenCalledTimes(3);
+        });
+      });
+
+      describe('when the player\'s strategy says to double down', () => {
+        it('deals the player one card and doubles the bet', () => {
+          game.players[0].strategy = () => actions.doubleDown;
+          Game.play(game);
+          const result = Game.play.calls.argsFor(1)[0];
+
+          expect(result.players[0].hands[0].cards.length).toBe(3);
+          expect(result.players[0].bankroll).toEqual(-2);
+        });
       });
     });
-
-    describe('when the player\'s strategy says to hit then stand', () => {
-      it('deals until the player stands', () => {
-        game.players[0].strategy = jasmine.createSpy().and.returnValues(
-          actions.hit, actions.hit, actions.stand);
-
-        Game.play(game);
-        const result = Game.play.calls.argsFor(1)[0];
-
-        expect(result.players[0].hands[0].cards.length).toBe(4);
-        expect(game.players[0].strategy).toHaveBeenCalledTimes(3);
-      });
-    });
-
-    describe('when the player\'s strategy says to double down', () => {
-      it('deals the player one card and doubles the bet', () => {
-        game.players[0].strategy = () => actions.doubleDown;
-        Game.play(game);
-        const result = Game.play.calls.argsFor(1)[0];
-
-        expect(result.players[0].hands[0].cards.length).toBe(3);
-        expect(result.players[0].bankroll).toEqual(-2);
-      });
-    });
-  });
 
     describe('after everyone has played', () => {
       const game = Game.create({
