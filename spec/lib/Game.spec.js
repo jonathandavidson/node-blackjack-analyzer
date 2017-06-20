@@ -217,17 +217,16 @@ describe('Game', () => {
       });
     });
 
-  //   describe('when the player\'s strategy says to double down', () => {
-  //     beforeEach(() => {
-  //       player.strategy = jasmine.createSpy().and.returnValues(actions.doubleDown);
-  //     });
+    describe('when the player\'s strategy says to double down', () => {
+      it('deals the player one card and doubles the bet', () => {
+        game.players[0].strategy = () => actions.doubleDown;
+        Game.play(game);
+        const result = Game.play.calls.argsFor(1)[0];
 
-  //     it('deals the player one card and doubles the bet', () => {
-  //       Hand.play(player, shoe);
-  //       expect(player.hand.cards.length).toBe(3);
-  //       expect(player.hand.bet).toEqual(2);
-  //     });
-  //   });
+        expect(result.players[0].hands[0].cards.length).toBe(3);
+        expect(result.players[0].bankroll).toEqual(-2);
+      });
+    });
   });
 
     describe('after everyone has played', () => {
