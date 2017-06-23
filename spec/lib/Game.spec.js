@@ -166,6 +166,7 @@ describe('Game', () => {
     describe('handles player actions properly', () => {
       let game;
       const two = Card.values[1];
+      const three = Card.values[2];
       const ten = Card.values[9];
 
       beforeEach(() => {
@@ -225,6 +226,46 @@ describe('Game', () => {
 
           expect(result.players[0].hands[0].cards.length).toBe(3);
           expect(result.players[0].bankroll).toEqual(-2);
+        });
+      });
+
+      describe('when the player\'s strategy says to split', () => {
+        it('creates a second hand', () => {
+          game.players[0].strategy = jasmine.createSpy().and.returnValues(
+            actions.split, actions.stand, actions.stand);
+
+          game.shoe.cards = [two, two, two, two, three, three, ten];
+
+          Game.play(game);
+          const result = Game.play.calls.argsFor(1)[0];
+
+          expect(result.players[0].hands.length).toBe(2);
+          expect(result.players[0].hands[0].cards).toEqual([two, three]);
+          expect(result.players[0].hands[1].cards).toEqual([two, three]);
+        });
+
+        it('places a bet for the second hand', () => {
+          game.players[0].strategy = jasmine.createSpy().and.returnValues(
+            actions.split, actions.stand, actions.stand);
+
+          game.shoe.cards = [two, two, two, two, three, three, ten];
+
+          Game.play(game);
+          const result = Game.play.calls.argsFor(1)[0];
+
+          expect(result.players[0].hands[1].bet).toEqual(1);
+        });
+
+        it('plays both hands', () => {
+          game.players[0].strategy = jasmine.createSpy().and.returnValues(
+            actions.split, actions.hit, actions.stand, actions.hit, actions.stand);
+
+          game.shoe.cards = [two, two, two, two, three, three, ten, ten];
+
+          Game.play(game);
+          const result = Game.play.calls.argsFor(1)[0];
+          expect(result.players[0].hands[0].cards).toEqual([two, three, ten]);
+          expect(result.players[0].hands[1].cards).toEqual([two, three, ten]);
         });
       });
     });
