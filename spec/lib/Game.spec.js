@@ -165,6 +165,7 @@ describe('Game', () => {
 
     describe('handles player actions properly', () => {
       let game;
+      const ace = Card.values[0];
       const two = Card.values[1];
       const three = Card.values[2];
       const ten = Card.values[9];
@@ -266,6 +267,39 @@ describe('Game', () => {
           const result = Game.play.calls.argsFor(1)[0];
           expect(result.players[0].hands[0].cards).toEqual([two, three, ten]);
           expect(result.players[0].hands[1].cards).toEqual([two, three, ten]);
+        });
+
+        it('does not allow split of unequal value cards', () => {
+          game.shoe.cards = [two, two, three, two, two, ten, ten, ten];
+          game.players[0].strategy = jasmine.createSpy().and.returnValues(
+            actions.split, actions.hit, actions.stand, actions.hit, actions.stand);
+
+          expect(() => Game.play(game)).toThrow(new Error('Splitting of unequal cards is not allowed.'));
+        });
+
+        it('allows resplits', () => {
+          game.shoe.cards = [two, two, two, two, two, two, three, three, three, three];
+          game.players[0].strategy = jasmine.createSpy().and.returnValues(
+            actions.split, actions.split, actions.stand, actions.stand, actions.split, actions.stand, actions.stand);
+
+          Game.play(game);
+          const result = Game.play.calls.argsFor(1)[0];
+
+          expect(result.players[0].hands[0].cards).toEqual([two, three]);
+          expect(result.players[0].hands[1].cards).toEqual([two, three]);
+          expect(result.players[0].hands[2].cards).toEqual([two, three]);
+          expect(result.players[0].hands[3].cards).toEqual([two, three]);
+        });
+
+        it('does not allow resplit of aces', () => {
+          game.shoe.cards = [ace, ace, ace, ace, ace, ace, two, two, two, two];
+          game.players[0].strategy = jasmine.createSpy().and.returnValues(
+            actions.split, actions.split, actions.stand, actions.stand, actions.split, actions.stand, actions.stand);
+
+          expect(() => result = Game.play(game)).toThrow(new Error('Resplitting of aces is not allowed.'));
+          
+          const result = Game.play.calls.argsFor(1)[0];
+          expect(result.players[0].hands.length).toEqual(2);
         });
       });
     });
