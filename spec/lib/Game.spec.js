@@ -183,6 +183,17 @@ describe('Game', () => {
         game.players[1].strategy = () => actions.stand;
       });
 
+      describe('when the player has a blackjack', () => {
+        it('deals no cards to the player', () => {
+          game.shoe.cards = [ace, ten, ten, ten, ten];
+          game.players[0].strategy = () => actions.hit;
+          Game.play(game);
+          const result = Game.play.calls.argsFor(1)[0];
+
+          expect(result.players[0].hands[0].cards.length).toBe(2);
+        });
+      });
+
       describe('when the player\'s strategy says to stand', () => {
         it('deals no cards to the player', () => {
           game.players[0].strategy = () => actions.stand;
@@ -296,8 +307,8 @@ describe('Game', () => {
           game.players[0].strategy = jasmine.createSpy().and.returnValues(
             actions.split, actions.split, actions.stand, actions.stand, actions.split, actions.stand, actions.stand);
 
-          expect(() => result = Game.play(game)).toThrow(new Error('Resplitting of aces is not allowed.'));
-          
+          expect(() => Game.play(game)).toThrow(new Error('Resplitting of aces is not allowed.'));
+
           const result = Game.play.calls.argsFor(1)[0];
           expect(result.players[0].hands.length).toEqual(2);
         });
