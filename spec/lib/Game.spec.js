@@ -4,6 +4,11 @@ const Game = require('../../lib/Game');
 const Players = require('../../lib/Players');
 const actions = require('../../lib/Strategy').actions;
 
+const ace = Card.values[0];
+const two = Card.values[1];
+const three = Card.values[2];
+const ten = Card.values[9];
+
 describe('Game', () => {
   describe('create()', () => {
     const playersMock = [ 'player1', 'player2' ];
@@ -165,10 +170,6 @@ describe('Game', () => {
 
     describe('handles player actions properly', () => {
       let game;
-      const ace = Card.values[0];
-      const two = Card.values[1];
-      const three = Card.values[2];
-      const ten = Card.values[9];
 
       beforeEach(() => {
         const config = {
@@ -316,6 +317,51 @@ describe('Game', () => {
     });
 
     describe('after everyone has played', () => {
+      let game;
+
+      beforeEach(() => {
+        game = Game.create({
+          deckCount: 4,
+          handCount: 1,
+          playerCount: 1,
+          deckPenetration: 0.75,
+          blackjackPayout: 3 / 2
+        });
+      });
+
+      describe('and a player has blackjack', () => {
+        it('increases the player\'s bankroll by the blackjack payout', () => {
+          game.players[0].strategy = () => actions.stand;
+          game.players[1].strategy = () => actions.stand;
+          game.shoe.cards = [ace, ten, ten, ten];
+          const result = Game.play(game);
+
+          expect(result.players[0].bankroll).toEqual(1.5);
+        });
+      });
+
+      describe('and a player is busted', () => {
+        it('player\'s bankroll is unchanged');
+      });
+
+      describe('and the dealer is busted', () => {
+        it('increases the player\'s bankroll by two bets');
+      });
+
+      describe('and a player scores higher than the dealer', () => {
+        it('increases the player\'s bankroll by two bets');
+      });
+
+      describe('dealer scores higher than the player', () => {
+        it('decreases the player\'s bankroll by two bets');
+      });
+
+      describe('the player ties the dealer', () => {
+        it('decreases the player\'s bankroll by one bet');
+      });
+    });
+
+    describe('after bets are settled', () => {
       const game = Game.create({
         deckCount: 4,
         handCount: 2,
@@ -323,9 +369,9 @@ describe('Game', () => {
         deckPenetration: 0.75
       });
 
-      const result = Game.play(game);
-
       it('resets everyone\'s hands/bets', () => {
+        const result = Game.play(game);
+
         expect(result.players[0].hands.length).toEqual(1);
         expect(result.players[1].hands.length).toEqual(1);
         expect(result.players[2].hands.length).toEqual(1);
