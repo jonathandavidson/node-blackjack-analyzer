@@ -397,11 +397,25 @@ describe('Game', () => {
       });
 
       describe('dealer scores higher than the player', () => {
-        it('decreases the player’s bankroll by two bets');
+        it('decreases the player’s bankroll by two bets', () => {
+          game.players[0].strategy = () => actions.stand;
+          game.players[1].strategy = () => actions.stand;
+          game.shoe.cards = [two, ten, two, ten];
+          const result = Game.play(game);
+
+          expect(result.players[0].bankroll).toEqual(-1);
+        });
       });
 
       describe('the player ties the dealer', () => {
-        it('decreases the player’s bankroll by one bet');
+        it('increases the player’s bankroll by one bet', () => {
+          game.players[0].strategy = () => actions.stand;
+          game.players[1].strategy = () => actions.stand;
+          game.shoe.cards = [two, two, two, two];
+          const result = Game.play(game);
+
+          expect(result.players[0].bankroll).toEqual(0);
+        });
       });
     });
 
