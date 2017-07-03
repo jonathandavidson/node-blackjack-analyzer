@@ -245,6 +245,7 @@ describe('Game', () => {
       describe('when the player’s strategy says to double down', () => {
         it('deals the player one card and doubles the bet', () => {
           game.players[0].strategy = () => actions.doubleDown;
+          game.shoe.cards = [two, ten, two, ten, two];
           Game.play(game);
           const result = Game.play.calls.argsFor(1)[0];
 
@@ -385,7 +386,14 @@ describe('Game', () => {
       });
 
       describe('and a player scores higher than the dealer', () => {
-        it('increases the player’s bankroll by two bets');
+        it('increases the player’s bankroll by two bets', () => {
+          game.players[0].strategy = () => actions.stand;
+          game.players[1].strategy = () => actions.stand;
+          game.shoe.cards = [ten, two, ten, two];
+          const result = Game.play(game);
+
+          expect(result.players[0].bankroll).toEqual(1);
+        });
       });
 
       describe('dealer scores higher than the player', () => {
