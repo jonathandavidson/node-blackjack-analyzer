@@ -352,11 +352,29 @@ describe('Game', () => {
       });
 
       describe('and a player is busted', () => {
-        it('player’s bankroll is unchanged');
+        it('player’s bankroll is unchanged', () => {
+          game.players[0].strategy = () => actions.hit;
+          game.players[1].strategy = () => actions.stand;
+          game.shoe.cards = [ten, two, ten, two, ten];
+          const result = Game.play(game);
+
+          expect(result.players[0].bankroll).toEqual(-1);
+        });
       });
 
       describe('and the dealer is busted', () => {
-        it('increases the player’s bankroll by two bets');
+        it('increases the player’s bankroll by two bets', () => {
+          game.players[0].strategy = () => actions.stand;
+          game.players[1].strategy = () => actions.hit;
+          game.shoe.cards = [two, ten, two, ten, ten];
+          const result = Game.play(game);
+
+          expect(result.players[0].bankroll).toEqual(1);
+        });
+      });
+
+      describe('and both the player and the dealer are busted', () => {
+        it('player’s bankroll is unchanged');
       });
 
       describe('and a player scores higher than the dealer', () => {
