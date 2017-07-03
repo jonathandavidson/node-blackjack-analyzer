@@ -1,5 +1,3 @@
-'use strict';
-
 const Hand = require('../../lib/Hand');
 const Card = require('../../lib/Card');
 

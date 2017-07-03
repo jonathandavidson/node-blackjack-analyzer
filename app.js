@@ -1,4 +1,4 @@
-const config = require('./lib/config');
+const config = require('./config/settings');
 const Game = require('./lib/Game');
 
 const game = Game.create(config);
