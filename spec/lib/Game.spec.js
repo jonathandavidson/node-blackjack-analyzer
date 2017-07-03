@@ -185,7 +185,7 @@ describe('Game', () => {
       });
 
       describe('when the dealer has a blackjack', () => {
-        it('ignores the player\'s hit actions', () => {
+        it('ignores the player’s hit actions', () => {
           game.shoe.cards = [ten, ace, ten, ten, two];
           game.players[1].strategy = () => actions.hit;
           Game.play(game);
@@ -206,7 +206,7 @@ describe('Game', () => {
         });
       });
 
-      describe('when the player\'s strategy says to stand', () => {
+      describe('when the player’s strategy says to stand', () => {
         it('deals no cards to the player', () => {
           game.players[0].strategy = () => actions.stand;
           Game.play(game);
@@ -216,7 +216,7 @@ describe('Game', () => {
         });
       });
 
-      describe('when the player\'s strategy continues to say to hit', () => {
+      describe('when the player’s strategy continues to say to hit', () => {
         it('deals until the player busts', () => {
           game.players[0].strategy = jasmine.createSpy().and.returnValues(
             actions.hit, actions.hit, actions.hit, actions.hit);
@@ -229,7 +229,7 @@ describe('Game', () => {
         });
       });
 
-      describe('when the player\'s strategy says to hit then stand', () => {
+      describe('when the player’s strategy says to hit then stand', () => {
         it('deals until the player stands', () => {
           game.players[0].strategy = jasmine.createSpy().and.returnValues(
             actions.hit, actions.hit, actions.stand);
@@ -242,7 +242,7 @@ describe('Game', () => {
         });
       });
 
-      describe('when the player\'s strategy says to double down', () => {
+      describe('when the player’s strategy says to double down', () => {
         it('deals the player one card and doubles the bet', () => {
           game.players[0].strategy = () => actions.doubleDown;
           Game.play(game);
@@ -253,7 +253,7 @@ describe('Game', () => {
         });
       });
 
-      describe('when the player\'s strategy says to split', () => {
+      describe('when the player’s strategy says to split', () => {
         it('creates a second hand', () => {
           game.players[0].strategy = jasmine.createSpy().and.returnValues(
             actions.split, actions.stand, actions.stand);
@@ -341,7 +341,7 @@ describe('Game', () => {
       });
 
       describe('and a player has blackjack', () => {
-        it('increases the player\'s bankroll by the blackjack payout', () => {
+        it('increases the player’s bankroll by the blackjack payout', () => {
           game.players[0].strategy = () => actions.stand;
           game.players[1].strategy = () => actions.stand;
           game.shoe.cards = [ace, ten, ten, ten];
@@ -352,23 +352,23 @@ describe('Game', () => {
       });
 
       describe('and a player is busted', () => {
-        it('player\'s bankroll is unchanged');
+        it('player’s bankroll is unchanged');
       });
 
       describe('and the dealer is busted', () => {
-        it('increases the player\'s bankroll by two bets');
+        it('increases the player’s bankroll by two bets');
       });
 
       describe('and a player scores higher than the dealer', () => {
-        it('increases the player\'s bankroll by two bets');
+        it('increases the player’s bankroll by two bets');
       });
 
       describe('dealer scores higher than the player', () => {
-        it('decreases the player\'s bankroll by two bets');
+        it('decreases the player’s bankroll by two bets');
       });
 
       describe('the player ties the dealer', () => {
-        it('decreases the player\'s bankroll by one bet');
+        it('decreases the player’s bankroll by one bet');
       });
     });
 
@@ -380,7 +380,7 @@ describe('Game', () => {
         deckPenetration: 0.75
       });
 
-      it('resets everyone\'s hands/bets', () => {
+      it('resets everyone’s hands/bets', () => {
         const result = Game.play(game);
 
         expect(result.players[0].hands.length).toEqual(1);
