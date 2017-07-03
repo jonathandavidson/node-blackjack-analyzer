@@ -417,6 +417,17 @@ describe('Game', () => {
           expect(result.players[0].bankroll).toEqual(0);
         });
       });
+
+      describe('the player ties the dealer with blackjack', () => {
+        it('increases the player’s bankroll by one bet', () => {
+          game.players[0].strategy = () => actions.stand;
+          game.players[1].strategy = () => actions.stand;
+          game.shoe.cards = [ace, ace, ten, ten];
+          const result = Game.play(game);
+
+          expect(result.players[0].bankroll).toEqual(0);
+        });
+      });
     });
 
     describe('after bets are settled', () => {
