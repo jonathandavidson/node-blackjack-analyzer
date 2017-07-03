@@ -184,6 +184,17 @@ describe('Game', () => {
         game.players[1].strategy = () => actions.stand;
       });
 
+      describe('when the dealer has a blackjack', () => {
+        it('ignores the player\'s hit actions', () => {
+          game.shoe.cards = [ten, ace, ten, ten, two];
+          game.players[1].strategy = () => actions.hit;
+          Game.play(game);
+          const result = Game.play.calls.argsFor(1)[0];
+
+          expect(result.players[0].hands[0].cards.length).toBe(2);
+        });
+      });
+
       describe('when the player has a blackjack', () => {
         it('deals no cards to the player', () => {
           game.shoe.cards = [ace, ten, ten, ten, ten];
