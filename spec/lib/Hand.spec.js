@@ -27,6 +27,30 @@ describe('lib/Hand', () => {
     });
   });
 
+  describe('getValue()', () => {
+    const hand = Hand.create();
+
+    describe('when no aces are present', () => {
+      hand.cards = [ten, two];
+
+      it('sums the values of the cards', () => {
+        expect(Hand.getValue(hand)).toEqual(12);
+      });
+    });
+
+    describe('when aces are present', () => {
+      it('counts one ace as 11 if not busted', () => {
+        hand.cards = [ace, ace, two];
+        expect(Hand.getValue(hand)).toEqual(14);
+      });
+
+      it('counts all aces as 1 if counting one as 11 busts', () => {
+        hand.cards = [ace, ace, ten];
+        expect(Hand.getValue(hand)).toEqual(12);
+      });
+    });
+  });
+
   describe('isBlackjack()', () => {
     it('identifies blackjack with ace and ten', () => {
       const hand = {
