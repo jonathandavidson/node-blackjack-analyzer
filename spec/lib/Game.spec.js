@@ -65,6 +65,7 @@ describe('Game', () => {
       };
 
       const game = Game.create(config);
+      game.players[2].strategy = () => actions.hit;
       const result = Game.play(game);
 
       expect(result.handCount).toEqual(2);
@@ -437,6 +438,8 @@ describe('Game', () => {
         playerCount: 2,
         deckPenetration: 0.75
       });
+
+      game.players[2].strategy = () => actions.stand;
 
       it('resets everyone’s hands/bets', () => {
         const result = Game.play(game);

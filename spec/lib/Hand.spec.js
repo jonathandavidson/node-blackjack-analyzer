@@ -3,9 +3,25 @@ const Card = require('../../lib/Card');
 
 const ace = Card.values[0];
 const two = Card.values[1];
+const five = Card.values[4];
+const six = Card.values[5];
 const ten = Card.values[9];
 
 describe('lib/Hand', () => {
+  describe('containsAce()', () => {
+    const hand = Hand.create();
+
+    it('returns true when the hand contains an ace', () => {
+      hand.cards = [ace, two];
+      expect(Hand.containsAce(hand)).toBe(true);
+    });
+
+    it('returns false when the hand contains no aces', () => {
+      hand.cards = [two, two];
+      expect(Hand.containsAce(hand)).toBe(false);
+    });
+  });
+
   describe('create()', () => {
     const hand = Hand.create();
 
@@ -130,6 +146,25 @@ describe('lib/Hand', () => {
       };
 
       expect(Hand.isBusted(hand)).toBe(false);
+    });
+  });
+
+  describe('isSoft()', () => {
+    const hand = Hand.create();
+
+    it('returns false when there are no aces', () => {
+      hand.cards = [five, six];
+      expect(Hand.isSoft(hand)).toBe(false);
+    });
+
+    it('returns false when all aces are hard', () => {
+      hand.cards = [ten, two, ace];
+      expect(Hand.isSoft(hand)).toBe(false);
+    });
+
+    it('returns true when there is a soft ace', () => {
+      hand.cards = [two, ace];
+      expect(Hand.isSoft(hand)).toBe(true);
     });
   });
 });
