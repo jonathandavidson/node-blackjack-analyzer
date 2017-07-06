@@ -8,7 +8,7 @@ const config = {
   blackjackPayout: 3 / 2,
   deckCount: 4,
   deckPenetration: 0.75,
-  handCount: 10,
+  handCount: 100000,
   insurancePayout: 2, // Insurance not yet supported
   playerCount: 3
 };

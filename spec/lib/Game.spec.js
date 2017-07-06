@@ -51,9 +51,9 @@ describe('Game', () => {
     });
   });
 
-  describe('play()', () => {
+  describe('start()', () => {
     beforeEach(() => {
-      spyOn(Game, 'play').and.callThrough();
+      spyOn(Game, 'playHand').and.callThrough();
     });
 
     it('plays the correct number of hands', () => {
@@ -66,7 +66,7 @@ describe('Game', () => {
 
       const game = Game.create(config);
       game.players[2].strategy = () => actions.hit;
-      const result = Game.play(game);
+      const result = Game.start(game);
 
       expect(result.handCount).toEqual(2);
     });
@@ -91,7 +91,7 @@ describe('Game', () => {
         game.players[1].strategy = () => actions.stand;
 
         it('shuffles the shoe', () => {
-          const result = Game.play(game);
+          const result = Game.start(game);
           expect(Deck.generateShoe.calls.count()).toEqual(1);
           expect(result.shoe.cards.length).toEqual(49);
         });
@@ -126,9 +126,9 @@ describe('Game', () => {
           game.players[1].strategy = () => actions.stand;
           game.players[2].strategy = () => actions.stand;
 
-          Game.play(game);
+          Game.start(game);
 
-          result = Game.play.calls.argsFor(1)[0];
+          result = Game.playHand.calls.argsFor(0)[0];
         });
 
         it('places a bet for each player', () => {
@@ -189,8 +189,8 @@ describe('Game', () => {
         it('ignores the player’s hit actions', () => {
           game.shoe.cards = [ten, ace, ten, ten, two];
           game.players[1].strategy = () => actions.hit;
-          Game.play(game);
-          const result = Game.play.calls.argsFor(1)[0];
+          Game.start(game);
+          const result = Game.playHand.calls.argsFor(0)[0];
 
           expect(result.players[0].hands[0].cards.length).toBe(2);
         });
@@ -200,8 +200,8 @@ describe('Game', () => {
         it('deals no cards to the player', () => {
           game.shoe.cards = [ace, ten, ten, ten, ten];
           game.players[0].strategy = () => actions.hit;
-          Game.play(game);
-          const result = Game.play.calls.argsFor(1)[0];
+          Game.start(game);
+          const result = Game.playHand.calls.argsFor(0)[0];
 
           expect(result.players[0].hands[0].cards.length).toBe(2);
         });
@@ -210,8 +210,8 @@ describe('Game', () => {
       describe('when the player’s strategy says to stand', () => {
         it('deals no cards to the player', () => {
           game.players[0].strategy = () => actions.stand;
-          Game.play(game);
-          const result = Game.play.calls.argsFor(1)[0];
+          Game.start(game);
+          const result = Game.playHand.calls.argsFor(0)[0];
 
           expect(result.players[0].hands[0].cards.length).toBe(2);
         });
@@ -222,8 +222,8 @@ describe('Game', () => {
           game.players[0].strategy = jasmine.createSpy().and.returnValues(
             actions.hit, actions.hit, actions.hit, actions.hit);
 
-          Game.play(game);
-          const result = Game.play.calls.argsFor(1)[0];
+          Game.start(game);
+          const result = Game.playHand.calls.argsFor(0)[0];
 
           expect(result.players[0].hands[0].cards.length).toBe(5);
           expect(game.players[0].strategy).toHaveBeenCalledTimes(3);
@@ -235,8 +235,8 @@ describe('Game', () => {
           game.players[0].strategy = jasmine.createSpy().and.returnValues(
             actions.hit, actions.hit, actions.stand);
 
-          Game.play(game);
-          const result = Game.play.calls.argsFor(1)[0];
+          Game.start(game);
+          const result = Game.playHand.calls.argsFor(0)[0];
 
           expect(result.players[0].hands[0].cards.length).toBe(4);
           expect(game.players[0].strategy).toHaveBeenCalledTimes(3);
@@ -247,8 +247,8 @@ describe('Game', () => {
         it('deals the player one card and doubles the bet', () => {
           game.players[0].strategy = () => actions.doubleDown;
           game.shoe.cards = [two, ten, two, ten, two];
-          Game.play(game);
-          const result = Game.play.calls.argsFor(1)[0];
+          Game.start(game);
+          const result = Game.playHand.calls.argsFor(0)[0];
 
           expect(result.players[0].hands[0].cards.length).toBe(3);
           expect(result.players[0].bankroll).toEqual(-2);
@@ -262,8 +262,8 @@ describe('Game', () => {
 
           game.shoe.cards = [two, two, two, two, three, three, ten];
 
-          Game.play(game);
-          const result = Game.play.calls.argsFor(1)[0];
+          Game.start(game);
+          const result = Game.playHand.calls.argsFor(0)[0];
 
           expect(result.players[0].hands.length).toBe(2);
           expect(result.players[0].hands[0].cards).toEqual([two, three]);
@@ -276,8 +276,8 @@ describe('Game', () => {
 
           game.shoe.cards = [two, two, two, two, three, three, ten];
 
-          Game.play(game);
-          const result = Game.play.calls.argsFor(1)[0];
+          Game.start(game);
+          const result = Game.playHand.calls.argsFor(0)[0];
 
           expect(result.players[0].hands[1].bet).toEqual(1);
         });
@@ -288,8 +288,8 @@ describe('Game', () => {
 
           game.shoe.cards = [two, two, two, two, three, three, ten, ten];
 
-          Game.play(game);
-          const result = Game.play.calls.argsFor(1)[0];
+          Game.start(game);
+          const result = Game.playHand.calls.argsFor(0)[0];
           expect(result.players[0].hands[0].cards).toEqual([two, three, ten]);
           expect(result.players[0].hands[1].cards).toEqual([two, three, ten]);
         });
@@ -299,7 +299,7 @@ describe('Game', () => {
           game.players[0].strategy = jasmine.createSpy().and.returnValues(
             actions.split, actions.hit, actions.stand, actions.hit, actions.stand);
 
-          expect(() => Game.play(game)).toThrow(new Error('Splitting of unequal cards is not allowed.'));
+          expect(() => Game.start(game)).toThrow(new Error('Splitting of unequal cards is not allowed.'));
         });
 
         it('allows resplits', () => {
@@ -307,8 +307,8 @@ describe('Game', () => {
           game.players[0].strategy = jasmine.createSpy().and.returnValues(
             actions.split, actions.split, actions.stand, actions.stand, actions.split, actions.stand, actions.stand);
 
-          Game.play(game);
-          const result = Game.play.calls.argsFor(1)[0];
+          Game.start(game);
+          const result = Game.playHand.calls.argsFor(0)[0];
 
           expect(result.players[0].hands[0].cards).toEqual([two, three]);
           expect(result.players[0].hands[1].cards).toEqual([two, three]);
@@ -321,9 +321,9 @@ describe('Game', () => {
           game.players[0].strategy = jasmine.createSpy().and.returnValues(
             actions.split, actions.split, actions.stand, actions.stand, actions.split, actions.stand, actions.stand);
 
-          expect(() => Game.play(game)).toThrow(new Error('Resplitting of aces is not allowed.'));
+          expect(() => Game.start(game)).toThrow(new Error('Resplitting of aces is not allowed.'));
 
-          const result = Game.play.calls.argsFor(1)[0];
+          const result = Game.playHand.calls.argsFor(0)[0];
           expect(result.players[0].hands.length).toEqual(2);
         });
       });
@@ -347,7 +347,7 @@ describe('Game', () => {
           game.players[0].strategy = () => actions.stand;
           game.players[1].strategy = () => actions.stand;
           game.shoe.cards = [ace, ten, ten, ten];
-          const result = Game.play(game);
+          const result = Game.start(game);
 
           expect(result.players[0].bankroll).toEqual(1.5);
         });
@@ -358,7 +358,7 @@ describe('Game', () => {
           game.players[0].strategy = () => actions.hit;
           game.players[1].strategy = () => actions.stand;
           game.shoe.cards = [ten, two, ten, two, ten];
-          const result = Game.play(game);
+          const result = Game.start(game);
 
           expect(result.players[0].bankroll).toEqual(-1);
         });
@@ -369,7 +369,7 @@ describe('Game', () => {
           game.players[0].strategy = () => actions.stand;
           game.players[1].strategy = () => actions.hit;
           game.shoe.cards = [two, ten, two, ten, ten];
-          const result = Game.play(game);
+          const result = Game.start(game);
 
           expect(result.players[0].bankroll).toEqual(1);
         });
@@ -380,7 +380,7 @@ describe('Game', () => {
           game.players[0].strategy = () => actions.hit;
           game.players[1].strategy = () => actions.hit;
           game.shoe.cards = [ten, ten, ten, ten, ten, ten];
-          const result = Game.play(game);
+          const result = Game.start(game);
 
           expect(result.players[0].bankroll).toEqual(-1);
         });
@@ -391,7 +391,7 @@ describe('Game', () => {
           game.players[0].strategy = () => actions.stand;
           game.players[1].strategy = () => actions.stand;
           game.shoe.cards = [ten, two, ten, two];
-          const result = Game.play(game);
+          const result = Game.start(game);
 
           expect(result.players[0].bankroll).toEqual(1);
         });
@@ -402,7 +402,7 @@ describe('Game', () => {
           game.players[0].strategy = () => actions.stand;
           game.players[1].strategy = () => actions.stand;
           game.shoe.cards = [two, ten, two, ten];
-          const result = Game.play(game);
+          const result = Game.start(game);
 
           expect(result.players[0].bankroll).toEqual(-1);
         });
@@ -413,7 +413,7 @@ describe('Game', () => {
           game.players[0].strategy = () => actions.stand;
           game.players[1].strategy = () => actions.stand;
           game.shoe.cards = [two, two, two, two];
-          const result = Game.play(game);
+          const result = Game.start(game);
 
           expect(result.players[0].bankroll).toEqual(0);
         });
@@ -424,7 +424,7 @@ describe('Game', () => {
           game.players[0].strategy = () => actions.stand;
           game.players[1].strategy = () => actions.stand;
           game.shoe.cards = [ace, ace, ten, ten];
-          const result = Game.play(game);
+          const result = Game.start(game);
 
           expect(result.players[0].bankroll).toEqual(0);
         });
@@ -442,7 +442,7 @@ describe('Game', () => {
       game.players[2].strategy = () => actions.stand;
 
       it('resets everyone’s hands/bets', () => {
-        const result = Game.play(game);
+        const result = Game.start(game);
 
         expect(result.players[0].hands.length).toEqual(1);
         expect(result.players[1].hands.length).toEqual(1);
