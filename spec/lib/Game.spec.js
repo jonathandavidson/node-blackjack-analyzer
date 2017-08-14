@@ -7,6 +7,7 @@ const actions = require('../../lib/Strategy').actions;
 const ace = Card.values[0];
 const two = Card.values[1];
 const three = Card.values[2];
+const nine = Card.values[8];
 const ten = Card.values[9];
 
 describe('Game', () => {
@@ -327,6 +328,18 @@ describe('Game', () => {
           expect(result.players[0].hands.length).toEqual(2);
         });
       });
+
+      describe('when the player’s strategy says to surrender', () => {
+        it('deals the player no more cards', () => {
+          game.shoe.cards = [two, ten, two, ten];
+          game.players[0].strategy = jasmine.createSpy().and.returnValues(actions.surrender, actions.hit);
+
+          Game.start(game);
+          const result = Game.playHand.calls.argsFor(0)[0];
+
+          expect(result.players[0].hands[0].cards).toEqual([two, two]);
+        });
+      });
     });
 
     describe('after everyone has played', () => {
@@ -350,6 +363,17 @@ describe('Game', () => {
           const result = Game.start(game);
 
           expect(result.players[0].bankroll).toEqual(1.5);
+        });
+      });
+
+      describe('and the player has surrendered', () => {
+        it('decreases the player’s bankroll by half a bet', () => {
+          game.players[0].strategy = () => actions.surrender;
+          game.players[1].strategy = () => actions.stand;
+          game.shoe.cards = [ten, ten, ten, nine];
+          const result = Game.start(game);
+
+          expect(result.players[0].bankroll).toEqual(-0.5);
         });
       });
 

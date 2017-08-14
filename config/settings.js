@@ -3,9 +3,9 @@ const config = {
   allowResplit: true, // Always true. Not yet supported
   allowResplitAces: false, // Always false. Not yet supported
   allowSplitAnyTens: true, // Always true. Not yet supported
-  allowEarlySurrender: true, // Surrender not yet supported
   allowLateSurrender: true, // Surrender not yet supported
   blackjackPayout: 3 / 2,
+  dealerHitsSoft17: true, // Always true. Not yet supported
   deckCount: 4,
   deckPenetration: 0.75,
   handCount: 100000,
