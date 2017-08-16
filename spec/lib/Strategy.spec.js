@@ -3,16 +3,20 @@ const Card = require('../../lib/Card');
 const Hand = require('../../lib/Hand');
 
 const ace = Card.values[0];
+const two = Card.values[1]
 const three = Card.values[2];
+const four = Card.values[3]
 const five = Card.values[4];
 const six = Card.values[5];
 const seven = Card.values[6];
+const eight = Card.values[7];
+const nine = Card.values[8];
 const ten = Card.values[9];
-
-const hand = Hand.create();
 
 describe('lib/Strategy', () => {
   describe('dealer()', () => {
+    const hand = Hand.create();
+
     describe('when hand value is less than 17', () => {
       hand.cards = [ten, three, three];
       const result = Strategy.dealer(hand);
@@ -58,6 +62,149 @@ describe('lib/Strategy', () => {
       it('returns stand', () => {
         expect(result).toEqual(Strategy.actions.stand);
       });
+    });
+  });
+
+  describe('basic()', () => {
+    const dealerHand = Hand.create();
+
+    describe('when the hand value is 5', () => {
+      const hand = Hand.create();
+      hand.cards = [two, three];
+      const dealerCards = [two, three, four, five, six, seven, eight, nine, ten, ace];
+
+      const responses = dealerCards.map(dealerCard => {
+        dealerHand.cards = [dealerCard];
+        return Strategy.basic(hand, dealerHand);
+      });
+
+      it('returns hit', () => {
+        expect(responses.every(response => response === Strategy.actions.hit)).toBe(true);
+      });
+    });
+
+    describe('when the hand value is 6', () => {
+      const hand = Hand.create();
+      hand.cards = [two, four];
+      const dealerCards = [two, three, four, five, six, seven, eight, nine, ten, ace];
+
+      const responses = dealerCards.map(dealerCard => {
+        dealerHand.cards = [dealerCard];
+        return Strategy.basic(hand, dealerHand);
+      });
+
+      it('returns hit', () => {
+        expect(responses.every(response => response === Strategy.actions.hit)).toBe(true);
+      });
+    });
+
+    describe('when the hand value is 7', () => {
+      const hand = Hand.create();
+      hand.cards = [three, four];
+      const dealerCards = [two, three, four, five, six, seven, eight, nine, ten, ace];
+
+      const responses = dealerCards.map(dealerCard => {
+        dealerHand.cards = [dealerCard];
+        return Strategy.basic(hand, dealerHand);
+      });
+
+      it('returns hit', () => {
+        expect(responses.every(response => response === Strategy.actions.hit)).toBe(true);
+      });
+    });
+
+    describe('when the hand value is 8', () => {
+      const hand = Hand.create();
+      hand.cards = [two, six];
+      const dealerCards = [two, three, four, five, six, seven, eight, nine, ten, ace];
+
+      const responses = dealerCards.map(dealerCard => {
+        dealerHand.cards = [dealerCard];
+        return Strategy.basic(hand, dealerHand);
+      });
+
+      it('returns hit', () => {
+        expect(responses.every(response => response === Strategy.actions.hit)).toBe(true);
+      });
+    });
+
+    describe('when the hand value is 9', () => {
+      const hand = Hand.create();
+      hand.cards = [two, seven];
+
+      describe('and dealer shows 2, 7, 8, 9, 10 or Ace', () => {
+        const dealerCards = [two, seven, eight, nine, ten, ace];
+
+        const responses = dealerCards.map(dealerCard => {
+          dealerHand.cards = [dealerCard];
+          return Strategy.basic(hand, dealerHand);
+        });
+
+        it('returns hit', () => {
+          expect(responses.every(response => response === Strategy.actions.hit)).toBe(true);
+        });
+      });
+
+      describe('and dealer shows 3, 4, 5 or 6', () => {
+        const dealerCards = [three, four, five, six];
+
+        const responses = dealerCards.map(dealerCard => {
+          dealerHand.cards = [dealerCard];
+          return Strategy.basic(hand, dealerHand);
+        });
+
+        it('returns double down', () => {
+          expect(responses.every(response => response === Strategy.actions.doubleDown)).toBe(true);
+        });
+      });
+    });
+
+    describe('when the hand value is 10', () => {
+
+    });
+
+    describe('when the hand value is 11', () => {
+
+    });
+
+    describe('when the hand value is 12', () => {
+
+    });
+
+    describe('when the hand value is 13', () => {
+
+    });
+
+    describe('when the hand value is 14', () => {
+
+    });
+
+    describe('when the hand value is 15', () => {
+
+    });
+
+    describe('when the hand value is 16', () => {
+
+    });
+
+    describe('when the hand value is 17', () => {
+
+    });
+
+    describe('when the hand value is 18', () => {
+
+    });
+
+    describe('when the hand value is 19', () => {
+
+    });
+
+    describe('when the hand value is 20', () => {
+
+    });
+
+    describe('when the hand value is 21', () => {
+
     });
   });
 });
