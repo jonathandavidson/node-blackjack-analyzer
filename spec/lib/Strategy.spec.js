@@ -140,11 +140,35 @@ describe('lib/Strategy', () => {
     });
 
     describe('when the hand value is 10', () => {
+      const playerCards = [three, seven];
 
+      describe('and dealer shows 2, 3, 4, 5, 6, 7, 8 or 9', () => {
+        const dealerCards = [two, three, four, five, six, seven, eight, nine];
+        const responses = getResponses(playerCards, dealerCards);
+
+        it('returns double down', () => {
+          expect(responses.every(response => response === Strategy.actions.doubleDown)).toBe(true);
+        });
+      });
+
+      describe('and dealer shows 10 or Ace', () => {
+        const dealerCards = [ten, ace];
+        const responses = getResponses(playerCards, dealerCards);
+
+        it('returns hit', () => {
+          expect(responses.every(response => response === Strategy.actions.hit)).toBe(true);
+        });
+      });
     });
 
     describe('when the hand value is 11', () => {
+      const playerCards = [three, eight];
+      const dealerCards = [two, three, four, five, six, seven, eight, nine, ten, ace];
+      const responses = getResponses(playerCards, dealerCards);
 
+      it('returns double down', () => {
+        expect(responses.every(response => response === Strategy.actions.doubleDown)).toBe(true);
+      });
     });
 
     describe('when the hand value is 12', () => {
