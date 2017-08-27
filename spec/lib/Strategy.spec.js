@@ -66,17 +66,21 @@ describe('lib/Strategy', () => {
   });
 
   describe('basic()', () => {
-    const dealerHand = Hand.create();
-
-    describe('when the hand value is 5', () => {
+    function getResponses (playerCards, dealerCards) {
       const hand = Hand.create();
-      hand.cards = [two, three];
-      const dealerCards = [two, three, four, five, six, seven, eight, nine, ten, ace];
+      hand.cards = playerCards;
+      const dealerHand = Hand.create();
 
-      const responses = dealerCards.map(dealerCard => {
+      return dealerCards.map(dealerCard => {
         dealerHand.cards = [dealerCard];
         return Strategy.basic(hand, dealerHand);
       });
+    }
+
+    describe('when the hand value is 5', () => {
+      const playerCards = [two, three];
+      const dealerCards = [two, three, four, five, six, seven, eight, nine, ten, ace];
+      const responses = getResponses(playerCards, dealerCards);
 
       it('returns hit', () => {
         expect(responses.every(response => response === Strategy.actions.hit)).toBe(true);
@@ -84,14 +88,9 @@ describe('lib/Strategy', () => {
     });
 
     describe('when the hand value is 6', () => {
-      const hand = Hand.create();
-      hand.cards = [two, four];
+      const playerCards = [two, four];
       const dealerCards = [two, three, four, five, six, seven, eight, nine, ten, ace];
-
-      const responses = dealerCards.map(dealerCard => {
-        dealerHand.cards = [dealerCard];
-        return Strategy.basic(hand, dealerHand);
-      });
+      const responses = getResponses(playerCards, dealerCards);
 
       it('returns hit', () => {
         expect(responses.every(response => response === Strategy.actions.hit)).toBe(true);
@@ -99,14 +98,9 @@ describe('lib/Strategy', () => {
     });
 
     describe('when the hand value is 7', () => {
-      const hand = Hand.create();
-      hand.cards = [three, four];
+      const playerCards = [three, four];
       const dealerCards = [two, three, four, five, six, seven, eight, nine, ten, ace];
-
-      const responses = dealerCards.map(dealerCard => {
-        dealerHand.cards = [dealerCard];
-        return Strategy.basic(hand, dealerHand);
-      });
+      const responses = getResponses(playerCards, dealerCards);
 
       it('returns hit', () => {
         expect(responses.every(response => response === Strategy.actions.hit)).toBe(true);
@@ -114,14 +108,9 @@ describe('lib/Strategy', () => {
     });
 
     describe('when the hand value is 8', () => {
-      const hand = Hand.create();
-      hand.cards = [two, six];
+      const playerCards = [two, six];
       const dealerCards = [two, three, four, five, six, seven, eight, nine, ten, ace];
-
-      const responses = dealerCards.map(dealerCard => {
-        dealerHand.cards = [dealerCard];
-        return Strategy.basic(hand, dealerHand);
-      });
+      const responses = getResponses(playerCards, dealerCards);
 
       it('returns hit', () => {
         expect(responses.every(response => response === Strategy.actions.hit)).toBe(true);
@@ -129,16 +118,11 @@ describe('lib/Strategy', () => {
     });
 
     describe('when the hand value is 9', () => {
-      const hand = Hand.create();
-      hand.cards = [two, seven];
+      const playerCards = [two, seven];
 
       describe('and dealer shows 2, 7, 8, 9, 10 or Ace', () => {
         const dealerCards = [two, seven, eight, nine, ten, ace];
-
-        const responses = dealerCards.map(dealerCard => {
-          dealerHand.cards = [dealerCard];
-          return Strategy.basic(hand, dealerHand);
-        });
+        const responses = getResponses(playerCards, dealerCards);
 
         it('returns hit', () => {
           expect(responses.every(response => response === Strategy.actions.hit)).toBe(true);
@@ -147,11 +131,7 @@ describe('lib/Strategy', () => {
 
       describe('and dealer shows 3, 4, 5 or 6', () => {
         const dealerCards = [three, four, five, six];
-
-        const responses = dealerCards.map(dealerCard => {
-          dealerHand.cards = [dealerCard];
-          return Strategy.basic(hand, dealerHand);
-        });
+        const responses = getResponses(playerCards, dealerCards);
 
         it('returns double down', () => {
           expect(responses.every(response => response === Strategy.actions.doubleDown)).toBe(true);
