@@ -183,7 +183,7 @@ describe('Game', () => {
 
         game = Game.create(config);
         game.shoe.cards = [two, two, two, two, two, ten, ten, ten];
-        game.players[1].strategy = () => actions.stand;
+        game.players[1].strategy = jasmine.createSpy().and.returnValue(actions.stand);
       });
 
       describe('when the dealer has a blackjack', () => {
