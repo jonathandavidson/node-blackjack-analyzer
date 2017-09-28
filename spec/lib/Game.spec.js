@@ -1,12 +1,14 @@
 const Card = require('../../lib/Card');
 const Deck = require('../../lib/Deck');
 const Game = require('../../lib/Game');
+const Hand = require('../../lib/Hand');
 const Players = require('../../lib/Players');
 const actions = require('../../lib/Strategy').actions;
 
 const ace = Card.values[0];
 const two = Card.values[1];
 const three = Card.values[2];
+const four = Card.values[3];
 const nine = Card.values[8];
 const ten = Card.values[9];
 
@@ -183,7 +185,22 @@ describe('Game', () => {
 
         game = Game.create(config);
         game.shoe.cards = [two, two, two, two, two, ten, ten, ten];
+        game.players[1].strategy = () => actions.stand;
+      });
+
+      it('passes the correct arguments to dealer and player strategies', () => {
+        game.shoe.cards = [ace, two, three, four];
+
         game.players[1].strategy = jasmine.createSpy().and.returnValue(actions.stand);
+        game.players[0].strategy = jasmine.createSpy().and.returnValue(actions.stand);
+
+        Game.start(game);
+
+        expect(game.players[0].strategy).toHaveBeenCalledTimes(1);
+        expect(game.players[0].strategy).toHaveBeenCalledWith(game.players[0].hands[0], game.players[1].hands[0].cards[0]);
+
+        expect(game.players[1].strategy).toHaveBeenCalledTimes(1);
+        expect(game.players[1].strategy).toHaveBeenCalledWith(game.players[1].hands[0], game.players[1].hands[0].cards[0]);
       });
 
       describe('when the dealer has a blackjack', () => {
