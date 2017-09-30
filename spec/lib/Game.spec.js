@@ -4,10 +4,11 @@ const Game = require('../../lib/Game');
 const Players = require('../../lib/Players');
 const actions = require('../../lib/Strategy').actions;
 
-const [ace, two, three, four, nine, ten] =
+const [ace, two, three, four, five, six, nine, ten] =
   [
     Card.values[0], Card.values[1], Card.values[2],
-    Card.values[3], Card.values[8], Card.values[9]
+    Card.values[3], Card.values[4], Card.values[5],
+    Card.values[8], Card.values[9]
   ];
 
 describe('Game', () => {
@@ -186,21 +187,64 @@ describe('Game', () => {
         game.players[1].strategy = () => actions.stand;
       });
 
-      it('passes the correct arguments to dealer and player strategies', () => {
-        game.shoe.cards = [ace, two, three, four];
+      describe('stategies receive the correct arguments', () => {
+        it('dealer stategy receives correct arguments', () => {
+          game.shoe.cards = [ace, two, three, four];
 
-        game.players[1].strategy = jasmine.createSpy().and.returnValue(actions.stand);
-        game.players[0].strategy = jasmine.createSpy().and.returnValue(actions.stand);
+          game.players[1].strategy = jasmine.createSpy().and.returnValue(actions.stand);
+          game.players[0].strategy = jasmine.createSpy().and.returnValue(actions.stand);
 
-        Game.start(game);
+          Game.start(game);
 
-        expect(game.players[0].strategy).toHaveBeenCalledTimes(1);
-        expect(game.players[0].strategy)
-          .toHaveBeenCalledWith(game.players[0].hands[0], game.players[1].hands[0].cards[0], true);
+          expect(game.players[1].strategy).toHaveBeenCalledTimes(1);
+          expect(game.players[1].strategy)
+            .toHaveBeenCalledWith(game.players[1].hands[0], game.players[1].hands[0].cards[0], true, true);
+        });
 
-        expect(game.players[1].strategy).toHaveBeenCalledTimes(1);
-        expect(game.players[1].strategy)
-          .toHaveBeenCalledWith(game.players[1].hands[0], game.players[1].hands[0].cards[0], true);
+        describe('when the hand has not been hit or split', () => {
+          it('player strategy receives the correct arguments', () => {
+            game.shoe.cards = [ace, two, three, four];
+
+            game.players[1].strategy = jasmine.createSpy().and.returnValue(actions.stand);
+            game.players[0].strategy = jasmine.createSpy().and.returnValue(actions.stand);
+
+            Game.start(game);
+
+            expect(game.players[0].strategy).toHaveBeenCalledTimes(1);
+            expect(game.players[0].strategy)
+              .toHaveBeenCalledWith(game.players[0].hands[0], game.players[1].hands[0].cards[0], true, true);
+          });
+        });
+
+        describe('when the hand has been hit', () => {
+          it('player strategy receives the correct arguments', () => {
+            game.shoe.cards = [ace, two, three, four, five];
+
+            game.players[1].strategy = jasmine.createSpy().and.returnValue(actions.stand);
+            game.players[0].strategy = jasmine.createSpy().and.returnValues(actions.hit, actions.stand);
+
+            Game.start(game);
+
+            expect(game.players[0].strategy).toHaveBeenCalledTimes(2);
+            expect(game.players[0].strategy.calls.argsFor(1))
+              .toEqual([game.players[0].hands[0], game.players[1].hands[0].cards[0], false, false]);
+          });
+        });
+
+        describe('when the hand has been split', () => {
+          it('player strategy receives the correct arguments', () => {
+            game.shoe.cards = [two, three, two, four, five, six];
+
+            game.players[1].strategy = jasmine.createSpy().and.returnValue(actions.stand);
+            game.players[0].strategy = jasmine.createSpy().and.returnValues(actions.split, actions.stand, actions.stand);
+
+            Game.start(game);
+
+            expect(game.players[0].strategy).toHaveBeenCalledTimes(3);
+            expect(game.players[0].strategy.calls.argsFor(1))
+              .toEqual([game.players[0].hands[0], game.players[1].hands[0].cards[0], true, false]);
+          });
+        });
       });
 
       describe('when the dealer has a blackjack', () => {
@@ -359,14 +403,36 @@ describe('Game', () => {
       });
 
       describe('when the player’s strategy says to surrender', () => {
-        it('deals the player no more cards', () => {
-          game.shoe.cards = [two, ten, two, ten];
-          game.players[0].strategy = jasmine.createSpy().and.returnValues(actions.surrender, actions.hit);
+        describe('and the hand has not been hit or split', () => {
+          it('deals the player no more cards', () => {
+            game.shoe.cards = [two, ten, two, ten];
+            game.players[0].strategy = jasmine.createSpy().and.returnValues(actions.surrender, actions.hit);
 
-          Game.start(game);
-          const result = Game.playHand.calls.argsFor(0)[0];
+            Game.start(game);
+            const result = Game.playHand.calls.argsFor(0)[0];
 
-          expect(result.players[0].hands[0].cards).toEqual([two, two]);
+            expect(result.players[0].hands[0].cards).toEqual([two, two]);
+          });
+        });
+
+        describe('and the hand has been hit', () => {
+          it('throws an error', () => {
+            game.shoe.cards = [two, ten, two, ten, two];
+            game.players[0].strategy = jasmine.createSpy().and.returnValues(
+                actions.hit, actions.surrender);
+
+            expect(() => Game.start(game)).toThrow(new Error('Surrender is not allowed after hitting'));
+          });
+        });
+
+        describe('and the hand has been split', () => {
+          it('throws an error', () => {
+            game.shoe.cards = [two, ten, two, ten, two, two];
+            game.players[0].strategy = jasmine.createSpy().and.returnValues(
+                actions.split, actions.surrender);
+
+            expect(() => Game.start(game)).toThrow(new Error('Surrender is not allowed after splitting'));
+          });
         });
       });
     });
