@@ -481,15 +481,69 @@ describe('lib/Strategy', () => {
     });
 
     describe('when the hand value is 19', () => {
+      describe('and the hand is hard', () => {
+        const playerCards = [ten, nine];
+        const dealerCards = [two, three, four, five, six, seven, eight, nine, ten, ace];
+        const responses = getResponses(playerCards, dealerCards);
 
+        it('returns stand', () => {
+          expect(allResponsesMatch(responses, stand)).toBe(true);
+        });
+      });
+
+      describe('and the hand is hard', () => {
+        const playerCards = [ace, eight];
+
+        describe('and the dealer shows 2, 3, 4 or 5', () => {
+          const dealerCards = [two, three, four, five, seven, eight, nine, ten, ace];
+          const responses = getResponses(playerCards, dealerCards);
+
+          it('returns stand', () => {
+            expect(allResponsesMatch(responses, stand)).toBe(true);
+          });
+        });
+
+        describe('and the dealer shows 6', () => {
+          const dealerCards = [six];
+          const responses = getResponses(playerCards, dealerCards);
+
+          it('returns doubleDown', () => {
+            expect(allResponsesMatch(responses, doubleDown)).toBe(true);
+          });
+        });
+      });
     });
 
     describe('when the hand value is 20', () => {
+      describe('and the hand is hard', () => {
+        const playerCards = [ten, ten];
+        const dealerCards = [two, three, four, five, six, seven, eight, nine, ten, ace];
+        const responses = getResponses(playerCards, dealerCards);
 
+        it('returns stand', () => {
+          expect(allResponsesMatch(responses, stand)).toBe(true);
+        });
+      });
+
+      describe('and the hand is soft', () => {
+        const playerCards = [ace, nine];
+        const dealerCards = [two, three, four, five, six, seven, eight, nine, ten, ace];
+        const responses = getResponses(playerCards, dealerCards);
+
+        it('returns stand', () => {
+          expect(allResponsesMatch(responses, stand)).toBe(true);
+        });
+      });
     });
 
     describe('when the hand value is 21', () => {
+      const playerCards = [ace, five, five];
+      const dealerCards = [two, three, four, five, six, seven, eight, nine, ten, ace];
+      const responses = getResponses(playerCards, dealerCards);
 
+      it('returns stand', () => {
+        expect(allResponsesMatch(responses, stand)).toBe(true);
+      });
     });
   });
 });
