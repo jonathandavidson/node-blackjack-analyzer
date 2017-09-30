@@ -58,12 +58,12 @@ describe('lib/Strategy', () => {
   });
 
   describe('basic()', () => {
-    function getResponses (playerCards, dealerCards) {
+    function getResponses (playerCards, dealerCards, doubleDownIsAllowed) {
       const hand = Hand.create();
       hand.cards = playerCards;
 
       return dealerCards.map(dealerCard => {
-        return Strategy.basic(hand, dealerCard);
+        return Strategy.basic(hand, dealerCard, doubleDownIsAllowed);
       });
     }
 
@@ -127,10 +127,21 @@ describe('lib/Strategy', () => {
 
       describe('and dealer shows 3, 4, 5 or 6', () => {
         const dealerCards = [three, four, five, six];
-        const responses = getResponses(playerCards, dealerCards);
 
-        it('returns double down', () => {
-          expect(allResponsesMatch(responses, doubleDown)).toBe(true);
+        describe('and double down is allowed', () => {
+          const responses = getResponses(playerCards, dealerCards, true);
+
+          it('returns double down', () => {
+            expect(allResponsesMatch(responses, doubleDown)).toBe(true);
+          });
+        });
+
+        describe('and double down is not allowed', () => {
+          const responses = getResponses(playerCards, dealerCards, false);
+
+          it('returns hit', () => {
+            expect(allResponsesMatch(responses, hit)).toBe(true);
+          });
         });
       });
     });
@@ -140,10 +151,21 @@ describe('lib/Strategy', () => {
 
       describe('and dealer shows 2, 3, 4, 5, 6, 7, 8 or 9', () => {
         const dealerCards = [two, three, four, five, six, seven, eight, nine];
-        const responses = getResponses(playerCards, dealerCards);
 
-        it('returns double down', () => {
-          expect(allResponsesMatch(responses, doubleDown)).toBe(true);
+        describe('and double down is allowed', () => {
+          const responses = getResponses(playerCards, dealerCards, true);
+
+          it('returns double down', () => {
+            expect(allResponsesMatch(responses, doubleDown)).toBe(true);
+          });
+        });
+
+        describe('and double down is not allowed', () => {
+          const responses = getResponses(playerCards, dealerCards, false);
+
+          it('returns hit', () => {
+            expect(allResponsesMatch(responses, hit)).toBe(true);
+          });
         });
       });
 
@@ -160,10 +182,21 @@ describe('lib/Strategy', () => {
     describe('when the hand value is 11', () => {
       const playerCards = [three, eight];
       const dealerCards = [two, three, four, five, six, seven, eight, nine, ten, ace];
-      const responses = getResponses(playerCards, dealerCards);
 
-      it('returns double down', () => {
-        expect(allResponsesMatch(responses, doubleDown)).toBe(true);
+      describe('and double down is allowed', () => {
+        const responses = getResponses(playerCards, dealerCards, true);
+
+        it('returns double down', () => {
+          expect(allResponsesMatch(responses, doubleDown)).toBe(true);
+        });
+      });
+
+      describe('and double down is not allowed', () => {
+        const responses = getResponses(playerCards, dealerCards, false);
+
+        it('returns hit', () => {
+          expect(allResponsesMatch(responses, hit)).toBe(true);
+        });
       });
     });
 
@@ -226,10 +259,21 @@ describe('lib/Strategy', () => {
 
         describe('and the dealer shows 5 or 6', () => {
           const dealerCards = [five, six];
-          const responses = getResponses(playerCards, dealerCards);
 
-          it('returns hit', () => {
-            expect(allResponsesMatch(responses, doubleDown)).toBe(true);
+          describe('and double down is allowed', () => {
+            const responses = getResponses(playerCards, dealerCards, true);
+
+            it('returns double down', () => {
+              expect(allResponsesMatch(responses, doubleDown)).toBe(true);
+            });
+          });
+
+          describe('and double down is not allowed', () => {
+            const responses = getResponses(playerCards, dealerCards, false);
+
+            it('returns hit', () => {
+              expect(allResponsesMatch(responses, hit)).toBe(true);
+            });
           });
         });
       });
@@ -272,10 +316,21 @@ describe('lib/Strategy', () => {
 
         describe('and the dealer shows 5 or 6', () => {
           const dealerCards = [five, six];
-          const responses = getResponses(playerCards, dealerCards);
+ 
+          describe('and double down is allowed', () => {
+            const responses = getResponses(playerCards, dealerCards, true);
 
-          it('returns hit', () => {
-            expect(allResponsesMatch(responses, doubleDown)).toBe(true);
+            it('returns double down', () => {
+              expect(allResponsesMatch(responses, doubleDown)).toBe(true);
+            });
+          });
+
+          describe('and double down is not allowed', () => {
+            const responses = getResponses(playerCards, dealerCards, false);
+
+            it('returns hit', () => {
+              expect(allResponsesMatch(responses, hit)).toBe(true);
+            });
           });
         });
       });
@@ -327,10 +382,21 @@ describe('lib/Strategy', () => {
 
         describe('and the dealer shows 4, 5 or 6', () => {
           const dealerCards = [four, five, six];
-          const responses = getResponses(playerCards, dealerCards);
 
-          it('returns hit', () => {
-            expect(allResponsesMatch(responses, doubleDown)).toBe(true);
+          describe('and double down is allowed', () => {
+            const responses = getResponses(playerCards, dealerCards, true);
+
+            it('returns double down', () => {
+              expect(allResponsesMatch(responses, doubleDown)).toBe(true);
+            });
+          });
+
+          describe('and double down is not allowed', () => {
+            const responses = getResponses(playerCards, dealerCards, false);
+
+            it('returns hit', () => {
+              expect(allResponsesMatch(responses, hit)).toBe(true);
+            });
           });
         });
       });
@@ -382,10 +448,21 @@ describe('lib/Strategy', () => {
 
         describe('and the dealer shows 4, 5 or 6', () => {
           const dealerCards = [four, five, six];
-          const responses = getResponses(playerCards, dealerCards);
 
-          it('returns doubleDown', () => {
-            expect(allResponsesMatch(responses, doubleDown)).toBe(true);
+          describe('and double down is allowed', () => {
+            const responses = getResponses(playerCards, dealerCards, true);
+
+            it('returns double down', () => {
+              expect(allResponsesMatch(responses, doubleDown)).toBe(true);
+            });
+          });
+
+          describe('and double down is not allowed', () => {
+            const responses = getResponses(playerCards, dealerCards, false);
+
+            it('returns hit', () => {
+              expect(allResponsesMatch(responses, hit)).toBe(true);
+            });
           });
         });
       });
@@ -428,10 +505,21 @@ describe('lib/Strategy', () => {
 
         describe('and the dealer shows 3, 4, 5 or 6', () => {
           const dealerCards = [three, four, five, six];
-          const responses = getResponses(playerCards, dealerCards);
 
-          it('returns doubleDown', () => {
-            expect(allResponsesMatch(responses, doubleDown)).toBe(true);
+          describe('and double down is allowed', () => {
+            const responses = getResponses(playerCards, dealerCards, true);
+
+            it('returns double down', () => {
+              expect(allResponsesMatch(responses, doubleDown)).toBe(true);
+            });
+          });
+
+          describe('and double down is not allowed', () => {
+            const responses = getResponses(playerCards, dealerCards, false);
+
+            it('returns hit', () => {
+              expect(allResponsesMatch(responses, hit)).toBe(true);
+            });
           });
         });
       });
@@ -453,10 +541,21 @@ describe('lib/Strategy', () => {
 
         describe('and the dealer shows 2, 3, 4, 5 or 6', () => {
           const dealerCards = [two, three, four, five, six];
-          const responses = getResponses(playerCards, dealerCards);
 
-          it('returns doubleDown', () => {
-            expect(allResponsesMatch(responses, doubleDown)).toBe(true);
+          describe('and double down is allowed', () => {
+            const responses = getResponses(playerCards, dealerCards, true);
+
+            it('returns double down', () => {
+              expect(allResponsesMatch(responses, doubleDown)).toBe(true);
+            });
+          });
+
+          describe('and double down is not allowed', () => {
+            const responses = getResponses(playerCards, dealerCards, false);
+
+            it('returns stand', () => {
+              expect(allResponsesMatch(responses, stand)).toBe(true);
+            });
           });
         });
 
@@ -505,10 +604,21 @@ describe('lib/Strategy', () => {
 
         describe('and the dealer shows 6', () => {
           const dealerCards = [six];
-          const responses = getResponses(playerCards, dealerCards);
 
-          it('returns doubleDown', () => {
-            expect(allResponsesMatch(responses, doubleDown)).toBe(true);
+          describe('and double down is allowed', () => {
+            const responses = getResponses(playerCards, dealerCards, true);
+
+            it('returns double down', () => {
+              expect(allResponsesMatch(responses, doubleDown)).toBe(true);
+            });
+          });
+
+          describe('and double down is not allowed', () => {
+            const responses = getResponses(playerCards, dealerCards, false);
+
+            it('returns stand', () => {
+              expect(allResponsesMatch(responses, stand)).toBe(true);
+            });
           });
         });
       });
