@@ -5,12 +5,7 @@ const Hand = require('../../lib/Hand');
 const Players = require('../../lib/Players');
 const actions = require('../../lib/Strategy').actions;
 
-const ace = Card.values[0];
-const two = Card.values[1];
-const three = Card.values[2];
-const four = Card.values[3];
-const nine = Card.values[8];
-const ten = Card.values[9];
+const [ace, two, three, four, five, six, seven, eight, nine, ten] = Card.values;
 
 describe('Game', () => {
   describe('create()', () => {
@@ -197,10 +192,12 @@ describe('Game', () => {
         Game.start(game);
 
         expect(game.players[0].strategy).toHaveBeenCalledTimes(1);
-        expect(game.players[0].strategy).toHaveBeenCalledWith(game.players[0].hands[0], game.players[1].hands[0].cards[0]);
+        expect(game.players[0].strategy)
+          .toHaveBeenCalledWith(game.players[0].hands[0], game.players[1].hands[0].cards[0], false);
 
         expect(game.players[1].strategy).toHaveBeenCalledTimes(1);
-        expect(game.players[1].strategy).toHaveBeenCalledWith(game.players[1].hands[0], game.players[1].hands[0].cards[0]);
+        expect(game.players[1].strategy)
+          .toHaveBeenCalledWith(game.players[1].hands[0], game.players[1].hands[0].cards[0], false);
       });
 
       describe('when the dealer has a blackjack', () => {
