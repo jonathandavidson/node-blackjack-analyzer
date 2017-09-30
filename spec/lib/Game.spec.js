@@ -193,11 +193,11 @@ describe('Game', () => {
 
         expect(game.players[0].strategy).toHaveBeenCalledTimes(1);
         expect(game.players[0].strategy)
-          .toHaveBeenCalledWith(game.players[0].hands[0], game.players[1].hands[0].cards[0], false);
+          .toHaveBeenCalledWith(game.players[0].hands[0], game.players[1].hands[0].cards[0], true);
 
         expect(game.players[1].strategy).toHaveBeenCalledTimes(1);
         expect(game.players[1].strategy)
-          .toHaveBeenCalledWith(game.players[1].hands[0], game.players[1].hands[0].cards[0], false);
+          .toHaveBeenCalledWith(game.players[1].hands[0], game.players[1].hands[0].cards[0], true);
       });
 
       describe('when the dealer has a blackjack', () => {
