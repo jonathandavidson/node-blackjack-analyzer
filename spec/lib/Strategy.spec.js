@@ -384,7 +384,7 @@ describe('lib/Strategy', () => {
           const dealerCards = [four, five, six];
           const responses = getResponses(playerCards, dealerCards);
 
-          it('returns hit', () => {
+          it('returns doubleDown', () => {
             expect(allResponsesMatch(responses, doubleDown)).toBe(true);
           });
         });
@@ -392,11 +392,92 @@ describe('lib/Strategy', () => {
     });
 
     describe('when the hand value is 17', () => {
+      describe('and the hand is hard', () => {
+        const playerCards = [ten, seven];
 
+        describe('and the dealer shows 2, through ten', () => {
+          const dealerCards = [two, three, four, five, six, seven, eight, nine, ten];
+          const responses = getResponses(playerCards, dealerCards);
+
+          it('returns stand', () => {
+            expect(allResponsesMatch(responses, stand)).toBe(true);
+          });
+        });
+
+        describe('and the dealer shows Ace', () => {
+          const dealerCards = [ace];
+          const responses = getResponses(playerCards, dealerCards);
+
+          it('returns hit', () => {
+            expect(allResponsesMatch(responses, surrender)).toBe(true);
+          });
+        });
+      });
+
+      describe('and the hand is soft', () => {
+        const playerCards = [ace, six];
+
+        describe('and the dealer shows 2, 7, 8, 9, 10, or Ace', () => {
+          const dealerCards = [two, seven, eight, nine, ten, ace];
+          const responses = getResponses(playerCards, dealerCards);
+
+          it('returns hit', () => {
+            expect(allResponsesMatch(responses, hit)).toBe(true);
+          });
+        });
+
+        describe('and the dealer shows 3, 4, 5 or 6', () => {
+          const dealerCards = [three, four, five, six];
+          const responses = getResponses(playerCards, dealerCards);
+
+          it('returns doubleDown', () => {
+            expect(allResponsesMatch(responses, doubleDown)).toBe(true);
+          });
+        });
+      });
     });
 
     describe('when the hand value is 18', () => {
+      describe('and the hand is hard', () => {
+        const playerCards = [ten, eight];
+        const dealerCards = [two, three, four, five, six, seven, eight, nine, ten, ace];
+        const responses = getResponses(playerCards, dealerCards);
 
+        it('returns stand', () => {
+          expect(allResponsesMatch(responses, stand)).toBe(true);
+        });
+      });
+
+      describe('and the hand is soft', () => {
+        const playerCards = [ace, seven];
+
+        describe('and the dealer shows 2, 3, 4, 5 or 6', () => {
+          const dealerCards = [two, three, four, five, six];
+          const responses = getResponses(playerCards, dealerCards);
+
+          it('returns doubleDown', () => {
+            expect(allResponsesMatch(responses, doubleDown)).toBe(true);
+          });
+        });
+
+        describe('and the dealer shows 7 or 8', () => {
+          const dealerCards = [seven, eight];
+          const responses = getResponses(playerCards, dealerCards);
+
+          it('returns stand', () => {
+            expect(allResponsesMatch(responses, stand)).toBe(true);
+          });
+        });
+
+        describe('and the dealer shows 9, 10 or Ace', () => {
+          const dealerCards = [nine, ten, ace];
+          const responses = getResponses(playerCards, dealerCards);
+
+          it('returns hit', () => {
+            expect(allResponsesMatch(responses, hit)).toBe(true);
+          });
+        });
+      });
     });
 
     describe('when the hand value is 19', () => {
