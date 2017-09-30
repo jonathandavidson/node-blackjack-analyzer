@@ -1,11 +1,14 @@
 const Card = require('../../lib/Card');
 const Deck = require('../../lib/Deck');
 const Game = require('../../lib/Game');
-const Hand = require('../../lib/Hand');
 const Players = require('../../lib/Players');
 const actions = require('../../lib/Strategy').actions;
 
-const [ace, two, three, four, five, six, seven, eight, nine, ten] = Card.values;
+const [ace, two, three, four, nine, ten] =
+  [
+    Card.values[0], Card.values[1], Card.values[2],
+    Card.values[3], Card.values[8], Card.values[9]
+  ];
 
 describe('Game', () => {
   describe('create()', () => {

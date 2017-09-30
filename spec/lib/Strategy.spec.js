@@ -67,7 +67,7 @@ describe('lib/Strategy', () => {
       });
     }
 
-    function allResponsesMatch(responses, action) {
+    function allResponsesMatch (responses, action) {
       return responses.every(response => response === action);
     }
 
@@ -316,7 +316,7 @@ describe('lib/Strategy', () => {
 
         describe('and the dealer shows 5 or 6', () => {
           const dealerCards = [five, six];
- 
+
           describe('and double down is allowed', () => {
             const responses = getResponses(playerCards, dealerCards, true);
 
