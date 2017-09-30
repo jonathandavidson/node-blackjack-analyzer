@@ -262,14 +262,26 @@ describe('Game', () => {
       });
 
       describe('when the player’s strategy says to double down', () => {
-        it('deals the player one card and doubles the bet', () => {
-          game.players[0].strategy = () => actions.doubleDown;
-          game.shoe.cards = [two, ten, two, ten, two];
-          Game.start(game);
-          const result = Game.playHand.calls.argsFor(0)[0];
+        describe('and the hand has not been hit', () => {
+          it('deals the player one card and doubles the bet', () => {
+            game.players[0].strategy = () => actions.doubleDown;
+            game.shoe.cards = [two, ten, two, ten, two];
+            Game.start(game);
+            const result = Game.playHand.calls.argsFor(0)[0];
 
-          expect(result.players[0].hands[0].cards.length).toBe(3);
-          expect(result.players[0].bankroll).toEqual(-2);
+            expect(result.players[0].hands[0].cards.length).toBe(3);
+            expect(result.players[0].bankroll).toEqual(-2);
+          });
+        });
+
+        describe('and the hand has been hit', () => {
+          it('throws an error', () => {
+            game.shoe.cards = [two, ten, two, ten, two];
+            game.players[0].strategy = jasmine.createSpy().and.returnValues(
+              actions.hit, actions.doubleDown);
+
+            expect(() => Game.start(game)).toThrow(new Error('Double Down is not allowed after hit.'));
+          });
         });
       });
 
