@@ -15,6 +15,7 @@ const ten = Card.values[9];
 
 describe('lib/Strategy', () => {
   describe('dealer()', () => {
+    const { hit, stand } = Strategy.actions;
     const hand = Hand.create();
 
     describe('when hand value is less than 17', () => {
@@ -22,7 +23,7 @@ describe('lib/Strategy', () => {
       const result = Strategy.dealer(hand);
 
       it('returns hit', () => {
-        expect(result).toEqual(Strategy.actions.hit);
+        expect(result).toEqual(hit);
       });
     });
 
@@ -32,7 +33,7 @@ describe('lib/Strategy', () => {
         const result = Strategy.dealer(hand);
 
         it('returns hit', () => {
-          expect(result).toEqual(Strategy.actions.hit);
+          expect(result).toEqual(hit);
         });
       });
 
@@ -41,7 +42,7 @@ describe('lib/Strategy', () => {
         const result = Strategy.dealer(hand);
 
         it('returns stand', () => {
-          expect(result).toEqual(Strategy.actions.stand);
+          expect(result).toEqual(stand);
         });
       });
 
@@ -50,7 +51,7 @@ describe('lib/Strategy', () => {
         const result = Strategy.dealer(hand);
 
         it('returns stand', () => {
-          expect(result).toEqual(Strategy.actions.stand);
+          expect(result).toEqual(stand);
         });
       });
     });
@@ -60,7 +61,7 @@ describe('lib/Strategy', () => {
       const result = Strategy.dealer(hand);
 
       it('returns stand', () => {
-        expect(result).toEqual(Strategy.actions.stand);
+        expect(result).toEqual(stand);
       });
     });
   });
@@ -69,13 +70,17 @@ describe('lib/Strategy', () => {
     function getResponses (playerCards, dealerCards) {
       const hand = Hand.create();
       hand.cards = playerCards;
-      const dealerHand = Hand.create();
 
       return dealerCards.map(dealerCard => {
-        dealerHand.cards = [dealerCard];
-        return Strategy.basic(hand, dealerHand);
+        return Strategy.basic(hand, dealerCard);
       });
     }
+
+    function allResponsesMatch(responses, action) {
+      return responses.every(response => response === action);
+    }
+
+    const { hit, stand, doubleDown } = Strategy.actions;
 
     describe('when the hand value is 5', () => {
       const playerCards = [two, three];
@@ -83,7 +88,7 @@ describe('lib/Strategy', () => {
       const responses = getResponses(playerCards, dealerCards);
 
       it('returns hit', () => {
-        expect(responses.every(response => response === Strategy.actions.hit)).toBe(true);
+        expect(allResponsesMatch(responses, hit)).toBe(true);
       });
     });
 
@@ -93,7 +98,7 @@ describe('lib/Strategy', () => {
       const responses = getResponses(playerCards, dealerCards);
 
       it('returns hit', () => {
-        expect(responses.every(response => response === Strategy.actions.hit)).toBe(true);
+        expect(allResponsesMatch(responses, hit)).toBe(true);
       });
     });
 
@@ -103,7 +108,7 @@ describe('lib/Strategy', () => {
       const responses = getResponses(playerCards, dealerCards);
 
       it('returns hit', () => {
-        expect(responses.every(response => response === Strategy.actions.hit)).toBe(true);
+        expect(allResponsesMatch(responses, hit)).toBe(true);
       });
     });
 
@@ -113,7 +118,7 @@ describe('lib/Strategy', () => {
       const responses = getResponses(playerCards, dealerCards);
 
       it('returns hit', () => {
-        expect(responses.every(response => response === Strategy.actions.hit)).toBe(true);
+        expect(allResponsesMatch(responses, hit)).toBe(true);
       });
     });
 
@@ -125,7 +130,7 @@ describe('lib/Strategy', () => {
         const responses = getResponses(playerCards, dealerCards);
 
         it('returns hit', () => {
-          expect(responses.every(response => response === Strategy.actions.hit)).toBe(true);
+          expect(allResponsesMatch(responses, hit)).toBe(true);
         });
       });
 
@@ -134,7 +139,7 @@ describe('lib/Strategy', () => {
         const responses = getResponses(playerCards, dealerCards);
 
         it('returns double down', () => {
-          expect(responses.every(response => response === Strategy.actions.doubleDown)).toBe(true);
+          expect(allResponsesMatch(responses, doubleDown)).toBe(true);
         });
       });
     });
@@ -147,7 +152,7 @@ describe('lib/Strategy', () => {
         const responses = getResponses(playerCards, dealerCards);
 
         it('returns double down', () => {
-          expect(responses.every(response => response === Strategy.actions.doubleDown)).toBe(true);
+          expect(allResponsesMatch(responses, doubleDown)).toBe(true);
         });
       });
 
@@ -156,7 +161,7 @@ describe('lib/Strategy', () => {
         const responses = getResponses(playerCards, dealerCards);
 
         it('returns hit', () => {
-          expect(responses.every(response => response === Strategy.actions.hit)).toBe(true);
+          expect(allResponsesMatch(responses, hit)).toBe(true);
         });
       });
     });
@@ -167,16 +172,76 @@ describe('lib/Strategy', () => {
       const responses = getResponses(playerCards, dealerCards);
 
       it('returns double down', () => {
-        expect(responses.every(response => response === Strategy.actions.doubleDown)).toBe(true);
+        expect(allResponsesMatch(responses, doubleDown)).toBe(true);
       });
     });
 
     describe('when the hand value is 12', () => {
+      const playerCards = [ten, two];
 
+      describe('and dealer shows 2, 3, 7, 8, 9, 10, or Ace', () => {
+        const dealerCards = [two, three, seven, eight, nine, ten, ace];
+        const responses = getResponses(playerCards, dealerCards);
+
+        it('returns hit', () => {
+          expect(allResponsesMatch(responses, hit)).toBe(true);
+        });
+      });
+
+      describe('and dealer shows 4, 5, or 6', () => {
+        const dealerCards = [four, five, six];
+        const responses = getResponses(playerCards, dealerCards);
+
+        it('returns stand', () => {
+          expect(allResponsesMatch(responses, stand)).toBe(true);
+        });
+      });
     });
 
     describe('when the hand value is 13', () => {
+      describe('and the hand is hard', () => {
+        const playerCards = [ten, three];
 
+        describe('and the dealer shows 2, 3, 4, 5, or 6', () => {
+          const dealerCards = [two, three, four, five, six];
+          const responses = getResponses(playerCards, dealerCards);
+
+          it('returns stand', () => {
+            expect(allResponsesMatch(responses, stand)).toBe(true);
+          });
+        });
+
+        describe('and the dealer shows 7, 8, 9, 10, or Ace', () => {
+          const dealerCards = [seven, eight, nine, ten, ace];
+          const responses = getResponses(playerCards, dealerCards);
+
+          it('returns hit', () => {
+            expect(allResponsesMatch(responses, hit)).toBe(true);
+          });
+        });
+      });
+
+      describe('and the hand is soft', () => {
+        const playerCards = [ace, two];
+
+        describe('and the dealer shows 2, 3, 4, 7, 8, 9, 10, or Ace', () => {
+          const dealerCards = [two, three, four, seven, eight, nine, ten, ace];
+          const responses = getResponses(playerCards, dealerCards);
+
+          it('returns hit', () => {
+            expect(allResponsesMatch(responses, hit)).toBe(true);
+          });
+        });
+
+        describe('and the dealer shows 5 or 6', () => {
+          const dealerCards = [five, six];
+          const responses = getResponses(playerCards, dealerCards);
+
+          it('returns hit', () => {
+            expect(allResponsesMatch(responses, doubleDown)).toBe(true);
+          });
+        });
+      });
     });
 
     describe('when the hand value is 14', () => {
