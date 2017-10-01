@@ -1,4 +1,5 @@
 const Strategy = require('../../lib/Strategy');
+const basicStrategy = require('../../lib/Strategy/Basic');
 const Card = require('../../lib/Card');
 const Hand = require('../../lib/Hand');
 
@@ -63,7 +64,7 @@ describe('lib/Strategy', () => {
       hand.cards = playerCards;
 
       return dealerCards.map(dealerCard => {
-        return Strategy.basic(hand, dealerCard, doubleDownIsAllowed, surrenderIsAllowed);
+        return basicStrategy(hand, dealerCard, doubleDownIsAllowed, surrenderIsAllowed);
       });
     }
 
@@ -71,7 +72,60 @@ describe('lib/Strategy', () => {
       return responses.every(response => response === action);
     }
 
-    const { hit, stand, doubleDown, surrender } = Strategy.actions;
+    const { doubleDown, hit, split, stand, surrender } = Strategy.actions;
+
+    // describe('when the hand is a pair of 2s', () => {
+    //   const playerCards = [two, two];
+      
+    //   describe('when dealer holds 2, 3, 4, 5, 6 or 7', () => {
+    //     const dealerCards = [two, three, four, five, six, seven];
+    //     const responses = getResponses(playerCards, dealerCards);
+
+    //     it('returns split', () => {
+    //       expect(allResponsesMatch(responses, split)).toBe(true);
+    //     });
+    //   });
+
+    //   describe('when dealer holds 8, 9, 10 or Ace', () => {
+    //     it('returns hit');
+    //   });
+    // });
+
+    describe('when the hand is a pair of 3s', () => {
+      
+    });
+
+    describe('when the hand is a pair of 4s', () => {
+      
+    });
+
+    describe('when the hand is a pair of 5s', () => {
+      
+    });
+
+    describe('when the hand is a pair of 6s', () => {
+      
+    });
+
+    describe('when the hand is a pair of 7s', () => {
+      
+    });
+
+    describe('when the hand is a pair of 8s', () => {
+      
+    });
+
+    describe('when the hand is a pair of 9s', () => {
+      
+    });
+
+    describe('when the hand is a pair of 10s', () => {
+      
+    });
+
+    describe('when the hand is a pair of Aces', () => {
+      
+    });
 
     describe('when the hand value is 5', () => {
       const playerCards = [two, three];

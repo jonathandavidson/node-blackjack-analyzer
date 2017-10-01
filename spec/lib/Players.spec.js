@@ -1,6 +1,7 @@
 const Hand = require('../../lib/Hand');
 const Players = require('../../lib/Players');
 const Strategy = require('../../lib/Strategy');
+const basicStrategy = require('../../lib/Strategy/Basic');
 
 describe('lib/Players', () => {
   describe('generate()', () => {
@@ -24,8 +25,8 @@ describe('lib/Players', () => {
     });
 
     it('sets the strategy for each player to basic stragegy', () => {
-      expect(players[0].strategy).toEqual(Strategy.basic);
-      expect(players[1].strategy).toEqual(Strategy.basic);
+      expect(players[0].strategy).toEqual(basicStrategy);
+      expect(players[1].strategy).toEqual(basicStrategy);
       expect(players[2].strategy).toEqual(Strategy.dealer);
     });
 
