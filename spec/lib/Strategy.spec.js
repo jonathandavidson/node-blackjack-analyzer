@@ -58,12 +58,12 @@ describe('lib/Strategy', () => {
   });
 
   describe('basic()', () => {
-    function getResponses (playerCards, dealerCards, doubleDownIsAllowed) {
+    function getResponses (playerCards, dealerCards, doubleDownIsAllowed, surrenderIsAllowed) {
       const hand = Hand.create();
       hand.cards = playerCards;
 
       return dealerCards.map(dealerCard => {
-        return Strategy.basic(hand, dealerCard, doubleDownIsAllowed);
+        return Strategy.basic(hand, dealerCard, doubleDownIsAllowed, surrenderIsAllowed);
       });
     }
 
@@ -360,10 +360,21 @@ describe('lib/Strategy', () => {
 
         describe('and the dealer shows 10 or Ace', () => {
           const dealerCards = [ten, ace];
-          const responses = getResponses(playerCards, dealerCards);
 
-          it('returns hit', () => {
-            expect(allResponsesMatch(responses, surrender)).toBe(true);
+          describe('when surrender is allowed', () => {
+            const responses = getResponses(playerCards, dealerCards, true, true);
+
+            it('returns surrender', () => {
+              expect(allResponsesMatch(responses, surrender)).toBe(true);
+            });
+          });
+
+          describe('when surrender is not allowed', () => {
+            const responses = getResponses(playerCards, dealerCards, true, false);
+            
+            it('returns hit', () => {
+              expect(allResponsesMatch(responses, hit)).toBe(true);
+            });
           });
         });
       });
@@ -426,10 +437,21 @@ describe('lib/Strategy', () => {
 
         describe('and the dealer shows 9, 10 or Ace', () => {
           const dealerCards = [nine, ten, ace];
-          const responses = getResponses(playerCards, dealerCards);
 
-          it('returns hit', () => {
-            expect(allResponsesMatch(responses, surrender)).toBe(true);
+          describe('when surrender is allowed', () => {
+            const responses = getResponses(playerCards, dealerCards, true, true);
+
+            it('returns surrender', () => {
+              expect(allResponsesMatch(responses, surrender)).toBe(true);
+            });
+          });
+
+          describe('when surrender is not allowed', () => {
+            const responses = getResponses(playerCards, dealerCards, true, false);
+            
+            it('returns hit', () => {
+              expect(allResponsesMatch(responses, hit)).toBe(true);
+            });
           });
         });
       });
@@ -485,8 +507,20 @@ describe('lib/Strategy', () => {
           const dealerCards = [ace];
           const responses = getResponses(playerCards, dealerCards);
 
-          it('returns hit', () => {
-            expect(allResponsesMatch(responses, surrender)).toBe(true);
+          describe('when surrender is allowed', () => {
+            const responses = getResponses(playerCards, dealerCards, true, true);
+
+            it('returns surrender', () => {
+              expect(allResponsesMatch(responses, surrender)).toBe(true);
+            });
+          });
+
+          describe('when surrender is not allowed', () => {
+            const responses = getResponses(playerCards, dealerCards, true, false);
+            
+            it('returns stannd', () => {
+              expect(allResponsesMatch(responses, stand)).toBe(true);
+            });
           });
         });
       });
