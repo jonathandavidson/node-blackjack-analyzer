@@ -390,15 +390,27 @@ describe('Game', () => {
           expect(result.players[0].hands[3].cards).toEqual([two, three]);
         });
 
-        it('does not allow resplit of aces', () => {
+        it('only deals a single card to split aces', () => {
           game.shoe.cards = [ace, ace, ace, ace, ace, ace, two, two, two, two];
           game.players[0].strategy = jasmine.createSpy().and.returnValues(
             actions.split, actions.split, actions.stand, actions.stand, actions.split, actions.stand, actions.stand);
 
-          expect(() => Game.start(game)).toThrow(new Error('Resplitting of aces is not allowed.'));
-
+          Game.start(game);
           const result = Game.playHand.calls.argsFor(0)[0];
+
           expect(result.players[0].hands.length).toEqual(2);
+          expect(result.players[0].hands[0].cards.length).toEqual(2);
+          expect(result.players[0].hands[1].cards.length).toEqual(2);
+        });
+
+        describe('and the hand has been hit', () => {
+          it('throws an error', () => {
+            game.shoe.cards = [two, ten, two, ten, two];
+            game.players[0].strategy = jasmine.createSpy().and.returnValues(
+              actions.hit, actions.split);
+
+            expect(() => Game.start(game)).toThrow(new Error('Splittinng is not allowed after hit.'));
+          });
         });
       });
 
