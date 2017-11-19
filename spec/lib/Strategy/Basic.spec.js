@@ -22,29 +22,70 @@ describe('basic()', () => {
 
   const { doubleDown, hit, split, stand, surrender } = Strategy.actions;
 
-  // describe('when the hand is a pair of 2s', () => {
-  //   const playerCards = [two, two];
+  describe('when the hand is a pair of 2s', () => {
+    const playerCards = [two, two];
     
-  //   describe('when dealer holds 2, 3, 4, 5, 6 or 7', () => {
-  //     const dealerCards = [two, three, four, five, six, seven];
-  //     const responses = getResponses(playerCards, dealerCards);
+    describe('when dealer holds 2, 3, 4, 5, 6 or 7', () => {
+      const dealerCards = [two, three, four, five, six, seven];
+      const responses = getResponses(playerCards, dealerCards);
 
-  //     it('returns split', () => {
-  //       expect(allResponsesMatch(responses, split)).toBe(true);
-  //     });
-  //   });
+      it('returns split', () => {
+        expect(allResponsesMatch(responses, split)).toBe(true);
+      });
+    });
 
-  //   describe('when dealer holds 8, 9, 10 or Ace', () => {
-  //     it('returns hit');
-  //   });
-  // });
+    describe('when dealer holds 8, 9, 10 or Ace', () => {
+      const dealerCards = [eight, nine, ten, ace];
+      const responses = getResponses(playerCards, dealerCards);
+
+      it('returns hit', () => {
+        expect(allResponsesMatch(responses, hit)).toBe(true);
+      });
+    });
+  });
 
   describe('when the hand is a pair of 3s', () => {
+    const playerCards = [three, three];
     
+    describe('when dealer holds 2, 3, 4, 5, 6 or 7', () => {
+      const dealerCards = [two, three, four, five, six, seven];
+      const responses = getResponses(playerCards, dealerCards);
+
+      it('returns split', () => {
+        expect(allResponsesMatch(responses, split)).toBe(true);
+      });
+    });
+
+    describe('when dealer holds 8, 9, 10 or Ace', () => {
+      const dealerCards = [eight, nine, ten, ace];
+      const responses = getResponses(playerCards, dealerCards);
+
+      it('returns hit', () => {
+        expect(allResponsesMatch(responses, hit)).toBe(true);
+      });
+    });
   });
 
   describe('when the hand is a pair of 4s', () => {
+    const playerCards = [four, four];
     
+    describe('when dealer holds 5 or 6', () => {
+      const dealerCards = [five, six];
+      const responses = getResponses(playerCards, dealerCards);
+
+      it('returns split', () => {
+        expect(allResponsesMatch(responses, split)).toBe(true);
+      });
+    });
+
+    describe('when dealer holds 2, 3, 4, 7, 8, 9, 10 or Ace', () => {
+      const dealerCards = [two, three, four, seven, eight, nine, ten, ace];
+      const responses = getResponses(playerCards, dealerCards);
+
+      it('returns hit', () => {
+        expect(allResponsesMatch(responses, hit)).toBe(true);
+      });
+    });
   });
 
   describe('when the hand is a pair of 5s', () => {
@@ -662,7 +703,7 @@ describe('basic()', () => {
 
   describe('when the hand value is 20', () => {
     describe('and the hand is hard', () => {
-      const playerCards = [ten, ten];
+      const playerCards = [ten, five, five];
       const dealerCards = [two, three, four, five, six, seven, eight, nine, ten, ace];
       const responses = getResponses(playerCards, dealerCards);
 
