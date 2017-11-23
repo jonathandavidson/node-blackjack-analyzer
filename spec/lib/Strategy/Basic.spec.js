@@ -122,19 +122,102 @@ describe('basic()', () => {
   });
 
   describe('when the hand is a pair of 6s', () => {
+    const playerCards = [six, six];
     
+    describe('when dealer holds 2, 3, 4, 5, or 6', () => {
+      const dealerCards = [two, three, four, five, six];
+      const responses = getResponses(playerCards, dealerCards);
+
+      it('returns split', () => {
+        expect(allResponsesMatch(responses, split)).toBe(true);
+      });
+    });
+
+    describe('when dealer holds 7, 8, 9, 10 or Ace', () => {
+      const dealerCards = [seven, eight, nine, ten, ace];
+      const responses = getResponses(playerCards, dealerCards);
+
+      it('returns hit', () => {
+        expect(allResponsesMatch(responses, hit)).toBe(true);
+      });
+    });
   });
 
   describe('when the hand is a pair of 7s', () => {
+    const playerCards = [seven, seven];
     
+    describe('when dealer holds 2, 3, 4, 5, 6 or 7', () => {
+      const dealerCards = [two, three, four, five, six, seven];
+      const responses = getResponses(playerCards, dealerCards);
+
+      it('returns split', () => {
+        expect(allResponsesMatch(responses, split)).toBe(true);
+      });
+    });
+
+    describe('when dealer holds 8, 9, 10 or Ace', () => {
+      const dealerCards = [eight, nine, ten, ace];
+      const responses = getResponses(playerCards, dealerCards);
+
+      it('returns hit', () => {
+        expect(allResponsesMatch(responses, hit)).toBe(true);
+      });
+    });
   });
 
   describe('when the hand is a pair of 8s', () => {
-    
+    const playerCards = [eight, eight];
+
+    describe('when dealer holds 2, 3, 4, 5, 6, 7, 8, 9, or 10', () => {
+      const dealerCards = [two, three, four, five, six, seven, eight, nine, ten];
+      const responses = getResponses(playerCards, dealerCards);
+
+      it('returns split', () => {
+        expect(allResponsesMatch(responses, split)).toBe(true);
+      });
+    });
+
+    describe('and the dealer shows an Ace', () => {
+      const dealerCards = [ace];
+
+      describe('when surrender is allowed', () => {
+        const responses = getResponses(playerCards, dealerCards, true, true);
+
+        it('returns surrender', () => {
+          expect(allResponsesMatch(responses, surrender)).toBe(true);
+        });
+      });
+
+      describe('when surrender is not allowed', () => {
+        const responses = getResponses(playerCards, dealerCards, true, false);
+        
+        it('returns split', () => {
+          expect(allResponsesMatch(responses, split)).toBe(true);
+        });
+      });
+    });
   });
 
   describe('when the hand is a pair of 9s', () => {
-    
+    const playerCards = [nine, nine];
+
+    describe('and the dealer holds 7, 10, or Ace', () => {
+      const dealerCards = [seven, ten, ace];
+      const responses = getResponses(playerCards, dealerCards);
+
+      it('returns stand', () => {
+        expect(allResponsesMatch(responses, stand)).toBe(true);
+      });
+    });
+
+    describe('and the dealer holds 2, 3, 4, 5, 6, 8, or 9', () => {
+      const dealerCards = [two, three, four, five, six, eight, nine];
+      const responses = getResponses(playerCards, dealerCards);
+
+      it('returns split', () => {
+        expect(allResponsesMatch(responses, split)).toBe(true);
+      });
+    });
   });
 
   describe('when the hand is a pair of 10s', () => {
@@ -148,7 +231,13 @@ describe('basic()', () => {
   });
 
   describe('when the hand is a pair of Aces', () => {
-    
+    const playerCards = [ace, ace];
+    const dealerCards = [two, three, four, five, six, seven, eight, nine, ten, ace];
+    const responses = getResponses(playerCards, dealerCards);
+
+    it('returns split', () => {
+      expect(allResponsesMatch(responses, split)).toBe(true);
+    });
   });
 
   describe('when the hand value is 5', () => {
