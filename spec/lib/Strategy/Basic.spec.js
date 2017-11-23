@@ -89,7 +89,36 @@ describe('basic()', () => {
   });
 
   describe('when the hand is a pair of 5s', () => {
-    
+    const playerCards = [five, five];
+
+    describe('and dealer shows 2, 3, 4, 5, 6, 7, 8 or 9', () => {
+      const dealerCards = [two, three, four, five, six, seven, eight, nine];
+
+      describe('and double down is allowed', () => {
+        const responses = getResponses(playerCards, dealerCards, true);
+
+        it('returns double down', () => {
+          expect(allResponsesMatch(responses, doubleDown)).toBe(true);
+        });
+      });
+
+      describe('and double down is not allowed', () => {
+        const responses = getResponses(playerCards, dealerCards, false);
+
+        it('returns hit', () => {
+          expect(allResponsesMatch(responses, hit)).toBe(true);
+        });
+      });
+    });
+
+    describe('and dealer shows 10 or Ace', () => {
+      const dealerCards = [ten, ace];
+      const responses = getResponses(playerCards, dealerCards);
+
+      it('returns hit', () => {
+        expect(allResponsesMatch(responses, hit)).toBe(true);
+      });
+    });
   });
 
   describe('when the hand is a pair of 6s', () => {
@@ -109,7 +138,13 @@ describe('basic()', () => {
   });
 
   describe('when the hand is a pair of 10s', () => {
-    
+    const playerCards = [ten, ten];
+    const dealerCards = [two, three, four, five, six, seven, eight, nine, ten, ace];
+    const responses = getResponses(playerCards, dealerCards);
+
+    it('returns stand', () => {
+      expect(allResponsesMatch(responses, stand)).toBe(true);
+    });
   });
 
   describe('when the hand is a pair of Aces', () => {
