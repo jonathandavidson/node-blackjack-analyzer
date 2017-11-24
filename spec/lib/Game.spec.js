@@ -571,11 +571,13 @@ describe('Game', () => {
         deckPenetration: 0.75
       });
 
+      game.players[0].strategy = () => actions.stand;
+      game.players[1].strategy = () => actions.stand;
       game.players[2].strategy = () => actions.stand;
 
-      it('resets everyone’s hands/bets', () => {
-        const result = Game.start(game);
+      const result = Game.start(game);
 
+      it('resets everyone’s hands/bets', () => {
         expect(result.players[0].hands.length).toEqual(1);
         expect(result.players[1].hands.length).toEqual(1);
         expect(result.players[2].hands.length).toEqual(1);
@@ -587,6 +589,11 @@ describe('Game', () => {
         expect(result.players[0].hands[0].bet).toEqual(0);
         expect(result.players[1].hands[0].bet).toEqual(0);
         expect(result.players[2].hands[0].bet).toEqual(0);
+      });
+
+      it('increments each players totalBets property by the amount risked', () => {
+        expect(result.players[0].totalBets).toEqual(2);
+        expect(result.players[1].totalBets).toEqual(2);
       });
     });
 

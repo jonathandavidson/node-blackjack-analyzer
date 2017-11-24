@@ -8,7 +8,7 @@ const config = {
   dealerHitsSoft17: true, // Always true. Not yet supported
   deckCount: 4,
   deckPenetration: 0.75,
-  handCount: 100000,
+  handCount: 1000000,
   insurancePayout: 2, // Insurance not yet supported
   playerCount: 3
 };

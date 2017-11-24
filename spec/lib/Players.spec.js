@@ -78,6 +78,10 @@ describe('lib/Players', () => {
       expect(player.bankroll).toBe(0);
     });
 
+    it('has a totalBets property initialized to 0', () => {
+      expect(player.totalBets).toBe(0);
+    });
+
     it('has a hands property of type array containing one hand', () => {
       expect(Array.isArray(player.hands)).toBe(true);
       expect(player.hands.length).toEqual(1);
