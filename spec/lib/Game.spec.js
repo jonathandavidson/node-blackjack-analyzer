@@ -3,6 +3,7 @@ const Deck = require('../../lib/Deck');
 const Game = require('../../lib/Game');
 const Players = require('../../lib/Players');
 const actions = require('../../lib/Strategy').actions;
+const Stats = require('../../lib/Stats');
 
 const [ace, two, three, four, five, six, nine, ten] =
   [
@@ -586,6 +587,29 @@ describe('Game', () => {
         expect(result.players[0].hands[0].bet).toEqual(0);
         expect(result.players[1].hands[0].bet).toEqual(0);
         expect(result.players[2].hands[0].bet).toEqual(0);
+      });
+    });
+
+    describe('return value', () => {
+      const stats = { testProperty: 'testValue' };
+
+      const config = {
+        deckCount: 4,
+        handCount: 2,
+        playerCount: 2,
+        deckPenetration: 0.75
+      };
+
+      let game;
+
+      beforeEach(() => {
+        spyOn(Stats, 'generate').and.returnValue(stats);
+        game = Game.create(config);
+      });
+
+      it('adds stats to return value', () => {
+        const result = Game.start(game);
+        expect(result.stats).toEqual(stats);
       });
     });
   });
