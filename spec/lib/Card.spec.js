@@ -74,23 +74,23 @@ describe('Card', () => {
 });
 
 describe('lib/Card', () => {
-  describe('generateShuffleMarker', () => {
-    const shuffleMarker = Card.generateShuffleMarker();
+  // describe('generateShuffleMarker', () => {
+  //   const shuffleMarker = Card.generateShuffleMarker();
 
-    it('returns an object', () => {
-      expect(typeof shuffleMarker).toBe('object');
-    });
+  //   it('returns an object', () => {
+  //     expect(typeof shuffleMarker).toBe('object');
+  //   });
 
-    it('has a displayName property', () => {
-      expect(shuffleMarker.hasOwnProperty('displayName')).toBe(true);
-      expect(shuffleMarker.displayName).toEqual('shuffle marker');
-    });
+  //   it('has a displayName property', () => {
+  //     expect(shuffleMarker.hasOwnProperty('displayName')).toBe(true);
+  //     expect(shuffleMarker.displayName).toEqual('shuffle marker');
+  //   });
 
-    it('has an isShuffleMarker property set to true', () => {
-      expect(shuffleMarker.hasOwnProperty('isShuffleMarker')).toBe(true);
-      expect(shuffleMarker.isShuffleMarker).toEqual(true);
-    });
-  });
+  //   it('has an isShuffleMarker property set to true', () => {
+  //     expect(shuffleMarker.hasOwnProperty('isShuffleMarker')).toBe(true);
+  //     expect(shuffleMarker.isShuffleMarker).toEqual(true);
+  //   });
+  // });
 
   describe('getAll()', () => {
     const cards = Card.getAll();
@@ -125,58 +125,58 @@ describe('lib/Card', () => {
     });
   });
 
-  describe('isAce()', () => {
-    it('identifies ace', () => {
-      expect(Card.isAce(ace)).toBe(true);
-    });
+  // describe('isAce()', () => {
+  //   it('identifies ace', () => {
+  //     expect(Card.isAce(ace)).toBe(true);
+  //   });
 
-    it('identifies non-ace', () => {
-      expect(Card.isAce(two)).toBe(false);
-    });
-  });
+  //   it('identifies non-ace', () => {
+  //     expect(Card.isAce(two)).toBe(false);
+  //   });
+  // });
 
-  describe('isShuffleMarker', () => {
-    const shuffleMarker = Card.generateShuffleMarker();
-    const otherCard = {};
+  // describe('isShuffleMarker', () => {
+  //   const shuffleMarker = Card.generateShuffleMarker();
+  //   const otherCard = {};
 
-    it('returns true when passed a shuffle marker', () => {
-      expect(Card.isShuffleMarker(shuffleMarker)).toEqual(true);
-    });
+  //   it('returns true when passed a shuffle marker', () => {
+  //     expect(Card.isShuffleMarker(shuffleMarker)).toEqual(true);
+  //   });
 
-    it('returns false when not passed a shuffle marker', () => {
-      expect(Card.isShuffleMarker(otherCard)).toEqual(false);
-    });
-  });
+  //   it('returns false when not passed a shuffle marker', () => {
+  //     expect(Card.isShuffleMarker(otherCard)).toEqual(false);
+  //   });
+  // });
 
-  describe('isTen()', () => {
-    it('identifies ten as ten', () => {
-      expect(Card.isTen(ten)).toBe(true);
-    });
+  // describe('isTen()', () => {
+  //   it('identifies ten as ten', () => {
+  //     expect(Card.isTen(ten)).toBe(true);
+  //   });
 
-    it('identifies jack as ten', () => {
-      expect(Card.isTen(jack)).toBe(true);
-    });
+  //   it('identifies jack as ten', () => {
+  //     expect(Card.isTen(jack)).toBe(true);
+  //   });
 
-    it('identifies queen as ten', () => {
-      expect(Card.isTen(queen)).toBe(true);
-    });
+  //   it('identifies queen as ten', () => {
+  //     expect(Card.isTen(queen)).toBe(true);
+  //   });
 
-    it('identifies king as ten', () => {
-      expect(Card.isTen(king)).toBe(true);
-    });
+  //   it('identifies king as ten', () => {
+  //     expect(Card.isTen(king)).toBe(true);
+  //   });
 
-    it('identifies non-ten', () => {
-      expect(Card.isTen(two)).toBe(false);
-    });
-  });
+  //   it('identifies non-ten', () => {
+  //     expect(Card.isTen(two)).toBe(false);
+  //   });
+  // });
 
-  describe('lowValue()', () => {
-    it('identifies low value for ace', () => {
-      expect(Card.lowValue(ace)).toBe(1);
-    });
+  // describe('lowValue()', () => {
+  //   it('identifies low value for ace', () => {
+  //     expect(Card.lowValue(ace)).toBe(1);
+  //   });
 
-    it('identifies low value for non-ace', () => {
-      expect(Card.lowValue(two)).toBe(2);
-    });
-  });
+  //   it('identifies low value for non-ace', () => {
+  //     expect(Card.lowValue(two)).toBe(2);
+  //   });
+  // });
 });
