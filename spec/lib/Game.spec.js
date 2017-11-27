@@ -5,12 +5,11 @@ const Players = require('../../lib/Players');
 const actions = require('../../lib/Strategy').actions;
 const Stats = require('../../lib/Stats');
 
-const [ace, two, three, four, five, six, nine, ten] =
-  [
-    Card.values[0], Card.values[1], Card.values[2],
-    Card.values[3], Card.values[4], Card.values[5],
-    Card.values[8], Card.values[9]
-  ];
+const [
+  ace, two, three, four, five, six, seven, eight, nine, ten
+] = Card.values.map(
+  card => Card.generateCard(card.name, card.values, 'spades')
+);
 
 describe('Game', () => {
   describe('create()', () => {
@@ -114,14 +113,14 @@ describe('Game', () => {
           const game = Game.create(config);
 
           game.shoe.cards = [
-            'foo',
-            'bar',
+            two,
             Card.generateShuffleMarker(),
-            'baz',
-            'qux',
-            'quux',
-            'corge',
-            'uier'
+            three,
+            ace,
+            four,
+            five,
+            six,
+            seven
           ];
 
           game.handStarted = false;
@@ -155,18 +154,15 @@ describe('Game', () => {
           const dealer = result.players[2];
 
           expect(player1.hands[0].cards).toEqual([
-            'foo',
-            'qux'
+            two, four
           ]);
 
           expect(player2.hands[0].cards).toEqual([
-            'bar',
-            'quux'
+            three, five
           ]);
 
           expect(dealer.hands[0].cards).toEqual([
-            'baz',
-            'corge'
+            ace, six
           ]);
         });
       });

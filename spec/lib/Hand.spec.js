@@ -1,11 +1,11 @@
 const Hand = require('../../lib/Hand');
 const Card = require('../../lib/Card');
 
-const ace = Card.values[0];
-const two = Card.values[1];
-const five = Card.values[4];
-const six = Card.values[5];
-const ten = Card.values[9];
+const [
+  ace, two, three, four, five, six, seven, eight, nine, ten
+] = Card.values.map(
+  card => Card.generateCard(card.name, card.values, 'spades')
+);
 
 describe('lib/Hand', () => {
   describe('containsAce()', () => {

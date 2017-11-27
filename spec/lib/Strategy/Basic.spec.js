@@ -4,7 +4,11 @@ const dealerStrategy = require('../../../lib/Strategy/Dealer');
 const Card = require('../../../lib/Card');
 const Hand = require('../../../lib/Hand');
 
-const [ace, two, three, four, five, six, seven, eight, nine, ten] = Card.values;
+const [
+  ace, two, three, four, five, six, seven, eight, nine, ten
+] = Card.values.map(
+  card => Card.generateCard(card.name, card.values, 'spades')
+);
 
 describe('basic()', () => {
   function getResponses (playerCards, dealerCards, doubleDownIsAllowed, surrenderIsAllowed) {
