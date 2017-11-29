@@ -74,6 +74,14 @@ describe('Card', () => {
 });
 
 describe('lib/Card', () => {
+  describe('create()', () => {
+    it('creates a Card instance with the correct display name', () => {
+      const card = Card.create(Card.cards.Two, Card.suits.Spades);
+      expect(card).toEqual(jasmine.any(Card.Card));
+      expect(card.getDisplayName()).toEqual('Two of spades');
+    });
+  });
+
   describe('getAll()', () => {
     const cards = Card.getAll();
 
