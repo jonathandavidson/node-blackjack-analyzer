@@ -7,8 +7,8 @@ const Stats = require('../../lib/Stats');
 
 const [
   ace, two, three, four, five, six, seven, eight, nine, ten
-] = Card.values.map(
-  card => Card.generateCard(card.name, card.values, 'spades')
+] = Object.keys(Card.cards).map(
+  card => Card.create(Card.cards[card], 'spades')
 );
 
 describe('Game', () => {
