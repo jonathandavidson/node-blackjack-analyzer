@@ -20,7 +20,7 @@ describe('lib/Deck', () => {
     });
 
     it('inserts a shuffle marker in the correct location', () => {
-      expect(Card.isShuffleMarker(cards[78])).toBe(true);
+      expect(cards[78]).toBe(null);
     });
   });
 

@@ -41,18 +41,6 @@ describe('Card', () => {
     });
   });
 
-  describe('isShuffleMarker', () => {
-    it('returns true when the card is a shuffle marker', () => {
-      const card = new Card.Card('shuffleMarker', null, null, true);
-      expect(card.isShuffleMarker()).toEqual(true);
-    });
-
-    it('returns false when not a shuffle marker', () => {
-      const card = new Card.Card('ace', 'clubs', [1, 11]);
-      expect(card.isShuffleMarker()).toEqual(false);
-    });
-  });
-
   describe('isTen', () => {
     it('returns true when the value is 10', () => {
       const card = new Card.Card('ten', 'clubs', [10]);

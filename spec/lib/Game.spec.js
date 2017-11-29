@@ -114,7 +114,7 @@ describe('Game', () => {
 
           game.shoe.cards = [
             two,
-            Card.generateShuffleMarker(),
+            null,
             three,
             ace,
             four,
