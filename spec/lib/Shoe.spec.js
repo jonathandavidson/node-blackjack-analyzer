@@ -7,7 +7,7 @@ describe('lib/Shoe', () => {
 
     beforeAll(() => {
       spyOn(Shoe, 'shuffle').and.callThrough();
-      shoe = new Shoe.Shoe(2, 0.75);
+      shoe = Shoe.create(2, 0.75);
     });
 
     it('card property is an array with the correct number of cards', () => {
