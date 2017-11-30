@@ -1,12 +1,12 @@
 const config = require('../config/settings');
 const Game = require('../lib/Game');
-const Deck = require('../lib/Deck');
+const Shoe = require('../lib/Shoe');
 
 describe('game stats are correct', () => {
   config.handCount = 10000;
 
   beforeEach(() => {
-    spyOn(Deck, 'shuffle').and.callFake(array => array);
+    spyOn(Shoe, 'shuffle').and.callFake(array => array);
   });
 
   it('matches expected results', () => {

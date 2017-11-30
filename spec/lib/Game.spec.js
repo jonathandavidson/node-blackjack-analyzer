@@ -1,5 +1,5 @@
 const Card = require('../../lib/Card');
-const Deck = require('../../lib/Deck');
+const Deck = require('../../lib/Shoe');
 const Game = require('../../lib/Game');
 const Players = require('../../lib/Players');
 const actions = require('../../lib/Strategy').actions;
