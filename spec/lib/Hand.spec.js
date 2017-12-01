@@ -7,18 +7,22 @@ const [
   card => Card.create(Card.cards[card], 'spades')
 );
 
+function createHandWithCards(...cards) {
+  const hand = Hand.create();
+  cards.forEach(card => hand.receiveCard(card));
+  return hand;
+}
+
 describe('lib/Hand', () => {
   describe('containsAce()', () => {
-    const hand = Hand.create();
-
     it('returns true when the hand contains an ace', () => {
-      hand.cards = [ace, two];
-      expect(Hand.containsAce(hand)).toBe(true);
+      const hand = createHandWithCards(ace, two);
+      expect(hand.containsAce()).toBe(true);
     });
 
     it('returns false when the hand contains no aces', () => {
-      hand.cards = [two, two];
-      expect(Hand.containsAce(hand)).toBe(false);
+      const hand = createHandWithCards(two, two);
+      expect(hand.containsAce()).toBe(false);
     });
   });
 
@@ -55,31 +59,34 @@ describe('lib/Hand', () => {
 
   describe('receiveCard()', () => {
     it('pushes the card to the card array', () => {
-      const hand = Hand.create();
-      hand.receiveCard('foo');
-      expect(hand.cards).toEqual(['foo']);
+      const hand = createHandWithCards(ace);
+      expect(hand.cards).toEqual([ace]);
+    });
+  });
+
+  describe('getLowValue()', () => {
+    it('returns the lowest possible value', () => {
+      const hand = createHandWithCards(ace, two);
+      expect(hand.getLowValue()).toEqual(3);
     });
   });
 
   describe('getValue()', () => {
-    const hand = Hand.create();
-
     describe('when no aces are present', () => {
-      hand.cards = [ten, two];
-
       it('sums the values of the cards', () => {
-        expect(Hand.getValue(hand)).toEqual(12);
+        const hand = createHandWithCards(ten, two);
+        expect(hand.getValue()).toEqual(12);
       });
     });
 
     describe('when aces are present', () => {
       it('counts one ace as 11 if not busted', () => {
-        hand.cards = [ace, ace, two];
+        const hand = createHandWithCards(ace, ace, two);
         expect(Hand.getValue(hand)).toEqual(14);
       });
 
       it('counts all aces as 1 if counting one as 11 busts', () => {
-        hand.cards = [ace, ace, ten];
+        const hand = createHandWithCards(ace, ace, ten);
         expect(Hand.getValue(hand)).toEqual(12);
       });
     });
