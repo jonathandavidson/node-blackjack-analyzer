@@ -82,12 +82,12 @@ describe('lib/Hand', () => {
     describe('when aces are present', () => {
       it('counts one ace as 11 if not busted', () => {
         const hand = createHandWithCards(ace, ace, two);
-        expect(Hand.getValue(hand)).toEqual(14);
+        expect(hand.getValue()).toEqual(14);
       });
 
       it('counts all aces as 1 if counting one as 11 busts', () => {
         const hand = createHandWithCards(ace, ace, ten);
-        expect(Hand.getValue(hand)).toEqual(12);
+        expect(hand.getValue()).toEqual(12);
       });
     });
   });
