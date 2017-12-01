@@ -1,5 +1,5 @@
 const Card = require('../../lib/Card');
-const Deck = require('../../lib/Shoe');
+const Shoe = require('../../lib/Shoe');
 const Game = require('../../lib/Game');
 const Players = require('../../lib/Players');
 const actions = require('../../lib/Strategy').actions;
@@ -29,7 +29,7 @@ describe('Game', () => {
 
     beforeEach(() => {
       spyOn(Players, 'generate').and.returnValue(playersMock);
-      spyOn(Deck, 'generateShoe').and.returnValue(shoeMock);
+      spyOn(Shoe, 'create').and.returnValue(shoeMock);
       game = Game.create(config);
     });
 
@@ -76,7 +76,7 @@ describe('Game', () => {
     describe('when bets have not been placed', () => {
       describe('and the shoe needs shuffled', () => {
         beforeEach(() => {
-          spyOn(Deck, 'generateShoe').and.callThrough();
+          spyOn(Shoe, 'create').and.callThrough();
         });
 
         const config = {
@@ -94,7 +94,7 @@ describe('Game', () => {
 
         it('shuffles the shoe', () => {
           const result = Game.start(game);
-          expect(Deck.generateShoe.calls.count()).toEqual(1);
+          expect(Shoe.create.calls.count()).toEqual(1);
           expect(result.shoe.cards.length).toEqual(49);
         });
       });
