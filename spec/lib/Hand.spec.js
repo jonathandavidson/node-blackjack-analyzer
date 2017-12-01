@@ -25,7 +25,7 @@ describe('lib/Hand', () => {
   describe('create()', () => {
     const hand = Hand.create();
 
-    it('returns and object', () => {
+    it('returns an object', () => {
       expect(typeof hand).toBe('object');
     });
 
