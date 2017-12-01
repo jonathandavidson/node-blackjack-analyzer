@@ -41,6 +41,26 @@ describe('lib/Hand', () => {
     });
   });
 
+  describe('placeBet()', () => {
+    it('add to the bet value when placeBet() is called', () => {
+      const hand = Hand.create();
+
+      hand.placeBet(1);
+      expect(hand.bet).toEqual(1);
+
+      hand.placeBet(2);
+      expect(hand.bet).toEqual(3);
+    });
+  });
+
+  describe('receiveCard()', () => {
+    it('pushes the card to the card array', () => {
+      const hand = Hand.create();
+      hand.receiveCard('foo');
+      expect(hand.cards).toEqual(['foo']);
+    });
+  });
+
   describe('getValue()', () => {
     const hand = Hand.create();
 
