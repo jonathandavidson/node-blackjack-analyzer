@@ -76,7 +76,7 @@ describe('Game', () => {
     describe('when bets have not been placed', () => {
       describe('and the shoe needs shuffled', () => {
         beforeEach(() => {
-          spyOn(Shoe, 'create').and.callThrough();
+          spyOn(Shoe, 'shuffle').and.callThrough();
         });
 
         const config = {
@@ -94,7 +94,7 @@ describe('Game', () => {
 
         it('shuffles the shoe', () => {
           const result = Game.start(game);
-          expect(Shoe.create.calls.count()).toEqual(1);
+          expect(Shoe.shuffle.calls.count()).toEqual(1);
           expect(result.shoe.cards.length).toEqual(49);
         });
       });
