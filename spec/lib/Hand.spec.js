@@ -132,17 +132,17 @@ describe('lib/Hand', () => {
   describe('isBusted()', () => {
     it('identifies bust with no ace', () => {
       const hand = createHandWithCards(ten, ten, two);
-      expect(Hand.isBusted(hand)).toBe(true);
+      expect(hand.isBusted()).toBe(true);
     });
 
     it('identifies non-bust without an ace', () => {
       const hand = createHandWithCards(ten, two);
-      expect(Hand.isBusted(hand)).toBe(false);
+      expect(hand.isBusted()).toBe(false);
     });
 
     it('identifies non-bust with an ace', () => {
       const hand = createHandWithCards(ace, ten, two);
-      expect(Hand.isBusted(hand)).toBe(false);
+      expect(hand.isBusted()).toBe(false);
     });
   });
 
