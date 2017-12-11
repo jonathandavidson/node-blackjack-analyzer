@@ -94,104 +94,72 @@ describe('lib/Hand', () => {
 
   describe('isBlackjack()', () => {
     it('identifies blackjack with ace and ten', () => {
-      const hand = {
-        cards: [ace, ten]
-      };
-
+      const hand = createHandWithCards(ace, ten);
       expect(Hand.isBlackjack(hand)).toBe(true);
     });
 
     it('identifies blackjack with ten and ace', () => {
-      const hand = {
-        cards: [ten, ace]
-      };
-
+      const hand = createHandWithCards(ten, ace);
       expect(Hand.isBlackjack(hand)).toBe(true);
     });
 
     it('identifies non-blackjack with ace and off-card', () => {
-      const hand = {
-        cards: [ace, two]
-      };
-
+      const hand = createHandWithCards(ace, two);
       expect(Hand.isBlackjack(hand)).toBe(false);
     });
 
     it('identifies non-blackjack with off-card and ace', () => {
-      const hand = {
-        cards: [two, ace]
-      };
-
+      const hand = createHandWithCards(two, ace);
       expect(Hand.isBlackjack(hand)).toBe(false);
     });
 
     it('identifies non-blackjack with ten and off-card', () => {
-      const hand = {
-        cards: [ten, two]
-      };
-
+      const hand = createHandWithCards(ten, two);
       expect(Hand.isBlackjack(hand)).toBe(false);
     });
 
     it('identifies non-blackjack with off-card and ten', () => {
-      const hand = {
-        cards: [two, ten]
-      };
-
+      const hand = createHandWithCards(two, ten);
       expect(Hand.isBlackjack(hand)).toBe(false);
     });
 
     it('identifies non-blackjack with two off-cards', () => {
-      const hand = {
-        cards: [two, two]
-      };
-
+      const hand = createHandWithCards(two, two);
       expect(Hand.isBlackjack(hand)).toBe(false);
     });
   });
 
   describe('isBusted()', () => {
     it('identifies bust with no ace', () => {
-      const hand = {
-        cards: [ten, ten, two]
-      };
-
+      const hand = createHandWithCards(ten, ten, two);
       expect(Hand.isBusted(hand)).toBe(true);
     });
 
     it('identifies non-bust without an ace', () => {
-      const hand = {
-        cards: [ten, two]
-      };
-
+      const hand = createHandWithCards(ten, two);
       expect(Hand.isBusted(hand)).toBe(false);
     });
 
     it('identifies non-bust with an ace', () => {
-      const hand = {
-        cards: [ace, ten, two]
-      };
-
+      const hand = createHandWithCards(ace, ten, two);
       expect(Hand.isBusted(hand)).toBe(false);
     });
   });
 
   describe('isSoft()', () => {
-    const hand = Hand.create();
-
     it('returns false when there are no aces', () => {
-      hand.cards = [five, six];
-      expect(Hand.isSoft(hand)).toBe(false);
+      hand = createHandWithCards(five, six);
+      expect(hand.isSoft()).toBe(false);
     });
 
     it('returns false when all aces are hard', () => {
-      hand.cards = [ten, two, ace];
-      expect(Hand.isSoft(hand)).toBe(false);
+      hand = createHandWithCards(ten, two, ace);
+      expect(hand.isSoft()).toBe(false);
     });
 
     it('returns true when there is a soft ace', () => {
-      hand.cards = [two, ace];
-      expect(Hand.isSoft(hand)).toBe(true);
+      hand = createHandWithCards(two, ace);
+      expect(hand.isSoft()).toBe(true);
     });
   });
 });
