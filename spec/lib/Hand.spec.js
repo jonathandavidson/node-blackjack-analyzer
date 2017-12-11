@@ -95,37 +95,37 @@ describe('lib/Hand', () => {
   describe('isBlackjack()', () => {
     it('identifies blackjack with ace and ten', () => {
       const hand = createHandWithCards(ace, ten);
-      expect(Hand.isBlackjack(hand)).toBe(true);
+      expect(hand.isBlackjack()).toBe(true);
     });
 
     it('identifies blackjack with ten and ace', () => {
       const hand = createHandWithCards(ten, ace);
-      expect(Hand.isBlackjack(hand)).toBe(true);
+      expect(hand.isBlackjack()).toBe(true);
     });
 
     it('identifies non-blackjack with ace and off-card', () => {
       const hand = createHandWithCards(ace, two);
-      expect(Hand.isBlackjack(hand)).toBe(false);
+      expect(hand.isBlackjack()).toBe(false);
     });
 
     it('identifies non-blackjack with off-card and ace', () => {
       const hand = createHandWithCards(two, ace);
-      expect(Hand.isBlackjack(hand)).toBe(false);
+      expect(hand.isBlackjack()).toBe(false);
     });
 
     it('identifies non-blackjack with ten and off-card', () => {
       const hand = createHandWithCards(ten, two);
-      expect(Hand.isBlackjack(hand)).toBe(false);
+      expect(hand.isBlackjack()).toBe(false);
     });
 
     it('identifies non-blackjack with off-card and ten', () => {
       const hand = createHandWithCards(two, ten);
-      expect(Hand.isBlackjack(hand)).toBe(false);
+      expect(hand.isBlackjack()).toBe(false);
     });
 
     it('identifies non-blackjack with two off-cards', () => {
       const hand = createHandWithCards(two, two);
-      expect(Hand.isBlackjack(hand)).toBe(false);
+      expect(hand.isBlackjack()).toBe(false);
     });
   });
 
