@@ -1,7 +1,7 @@
 const Card = require('../../lib/Card');
 const Shoe = require('../../lib/Shoe');
 const Game = require('../../lib/Game');
-const Players = require('../../lib/Players');
+const Player = require('../../lib/Player');
 const actions = require('../../lib/Strategy').actions;
 const Stats = require('../../lib/Stats');
 
@@ -28,7 +28,7 @@ describe('Game', () => {
     let game;
 
     beforeEach(() => {
-      spyOn(Players, 'generate').and.returnValue(playersMock);
+      spyOn(Player, 'generate').and.returnValue(playersMock);
       spyOn(Shoe, 'create').and.returnValue(shoeMock);
       game = Game.create(config);
     });
