@@ -28,7 +28,7 @@ describe('Game', () => {
     let game;
 
     beforeEach(() => {
-      spyOn(Player, 'generate').and.returnValue(playersMock);
+      spyOn(Player, 'createList').and.returnValue(playersMock);
       spyOn(Shoe, 'create').and.returnValue(shoeMock);
       game = Game.create(config);
     });

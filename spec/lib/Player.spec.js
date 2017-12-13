@@ -9,7 +9,7 @@ describe('lib/Player', () => {
 
     beforeEach(() => {
       spyOn(Player, 'create').and.callThrough();
-      players = Player.generate(2);
+      players = Player.createList(2);
     });
 
     it('returns an array', () => {
