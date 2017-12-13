@@ -8,7 +8,7 @@ describe('lib/Players', () => {
     let players;
 
     beforeEach(() => {
-      spyOn(Players, 'generatePlayer').and.callThrough();
+      spyOn(Players, 'create').and.callThrough();
       players = Players.generate(2);
     });
 
@@ -20,8 +20,8 @@ describe('lib/Players', () => {
       expect(players.length).toBe(3);
     });
 
-    it('calls the generatePlayer() method once for each player plush the dealer', () => {
-      expect(Players.generatePlayer).toHaveBeenCalledTimes(3);
+    it('calls the create() method once for each player plus the dealer', () => {
+      expect(Players.create).toHaveBeenCalledTimes(3);
     });
 
     it('sets the strategy for each player to basic stragegy', () => {
@@ -41,7 +41,7 @@ describe('lib/Players', () => {
     let dealer;
 
     beforeEach(() => {
-      spyOn(Players, 'generatePlayer').and.callThrough();
+      spyOn(Players, 'create').and.callThrough();
       dealer = Players.generateDealer();
     });
 
@@ -49,8 +49,8 @@ describe('lib/Players', () => {
       expect(typeof dealer).toBe('object');
     });
 
-    it('calls the generatePlayer() method', () => {
-      expect(Players.generatePlayer).toHaveBeenCalledTimes(1);
+    it('calls the create() method', () => {
+      expect(Players.create).toHaveBeenCalledTimes(1);
     });
 
     it('sets the strategy property to dealer strategy', () => {
@@ -58,7 +58,7 @@ describe('lib/Players', () => {
     });
   });
 
-  describe('generatePlayer()', () => {
+  describe('create()', () => {
     const testName = 'test name';
     const testStrategy = {};
     const hand = { test: 'hand' };
@@ -67,7 +67,7 @@ describe('lib/Players', () => {
 
     beforeEach(() => {
       spyOn(Hand, 'create').and.returnValue(hand);
-      player = Players.generatePlayer(testName, testStrategy);
+      player = Players.create(testName, testStrategy);
     });
 
     it('returns an object', () => {
@@ -107,7 +107,7 @@ describe('lib/Players', () => {
     });
 
     describe('when player is not the dealer', () => {
-      const isDealer = Players.isDealer(Players.generatePlayer());
+      const isDealer = Players.isDealer(Players.create());
 
       it('returns false', () => {
         expect(isDealer).toBe(false);
