@@ -7,7 +7,7 @@ describe('Stats', () => {
       const game = Game.create({
         playerCount: 2,
         deckCount: 6,
-        deckPenetration: .75
+        deckPenetration: 0.75
       });
       game.players[0].bankroll = 10;
 
@@ -20,7 +20,7 @@ describe('Stats', () => {
       const game = Game.create({
         playerCount: 2,
         deckCount: 6,
-        deckPenetration: .75
+        deckPenetration: 0.75
       });
       game.players[0].bankroll = -1;
       game.players[0].totalBets = 12;

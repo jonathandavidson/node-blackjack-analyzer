@@ -28,7 +28,7 @@ describe('basic()', () => {
 
   describe('when the hand is a pair of 2s', () => {
     const playerCards = [two, two];
-    
+
     describe('when dealer holds 2, 3, 4, 5, 6 or 7', () => {
       const dealerCards = [two, three, four, five, six, seven];
       const responses = getResponses(playerCards, dealerCards);
@@ -50,7 +50,7 @@ describe('basic()', () => {
 
   describe('when the hand is a pair of 3s', () => {
     const playerCards = [three, three];
-    
+
     describe('when dealer holds 2, 3, 4, 5, 6 or 7', () => {
       const dealerCards = [two, three, four, five, six, seven];
       const responses = getResponses(playerCards, dealerCards);
@@ -72,7 +72,7 @@ describe('basic()', () => {
 
   describe('when the hand is a pair of 4s', () => {
     const playerCards = [four, four];
-    
+
     describe('when dealer holds 5 or 6', () => {
       const dealerCards = [five, six];
       const responses = getResponses(playerCards, dealerCards);
@@ -127,7 +127,7 @@ describe('basic()', () => {
 
   describe('when the hand is a pair of 6s', () => {
     const playerCards = [six, six];
-    
+
     describe('when dealer holds 2, 3, 4, 5, or 6', () => {
       const dealerCards = [two, three, four, five, six];
       const responses = getResponses(playerCards, dealerCards);
@@ -149,7 +149,7 @@ describe('basic()', () => {
 
   describe('when the hand is a pair of 7s', () => {
     const playerCards = [seven, seven];
-    
+
     describe('when dealer holds 2, 3, 4, 5, 6 or 7', () => {
       const dealerCards = [two, three, four, five, six, seven];
       const responses = getResponses(playerCards, dealerCards);
@@ -194,7 +194,7 @@ describe('basic()', () => {
 
       describe('when surrender is not allowed', () => {
         const responses = getResponses(playerCards, dealerCards, true, false);
-        
+
         it('returns split', () => {
           expect(allResponsesMatch(responses, split)).toBe(true);
         });
@@ -542,7 +542,7 @@ describe('basic()', () => {
 
         describe('when surrender is not allowed', () => {
           const responses = getResponses(playerCards, dealerCards, true, false);
-          
+
           it('returns hit', () => {
             expect(allResponsesMatch(responses, hit)).toBe(true);
           });
@@ -619,7 +619,7 @@ describe('basic()', () => {
 
         describe('when surrender is not allowed', () => {
           const responses = getResponses(playerCards, dealerCards, true, false);
-          
+
           it('returns hit', () => {
             expect(allResponsesMatch(responses, hit)).toBe(true);
           });
@@ -688,7 +688,7 @@ describe('basic()', () => {
 
         describe('when surrender is not allowed', () => {
           const responses = getResponses(playerCards, dealerCards, true, false);
-          
+
           it('returns stannd', () => {
             expect(allResponsesMatch(responses, stand)).toBe(true);
           });

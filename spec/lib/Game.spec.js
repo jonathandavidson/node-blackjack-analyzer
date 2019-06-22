@@ -428,7 +428,7 @@ describe('Game', () => {
           it('throws an error', () => {
             game.shoe.cards = [two, ten, two, ten, two];
             game.players[0].strategy = jasmine.createSpy().and.returnValues(
-                actions.hit, actions.surrender);
+              actions.hit, actions.surrender);
 
             expect(() => Game.start(game)).toThrow(new Error('Surrender is not allowed after hitting'));
           });
@@ -438,7 +438,7 @@ describe('Game', () => {
           it('throws an error', () => {
             game.shoe.cards = [two, ten, two, ten, two, two];
             game.players[0].strategy = jasmine.createSpy().and.returnValues(
-                actions.split, actions.surrender);
+              actions.split, actions.surrender);
 
             expect(() => Game.start(game)).toThrow(new Error('Surrender is not allowed after splitting'));
           });

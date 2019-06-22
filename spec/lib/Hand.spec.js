@@ -7,7 +7,7 @@ const [
   card => Card.create(Card.cards[card], 'spades')
 );
 
-function createHandWithCards(...cards) {
+function createHandWithCards (...cards) {
   const hand = Hand.create();
   cards.forEach(card => hand.receiveCard(card));
   return hand;
