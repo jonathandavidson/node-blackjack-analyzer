@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node app.js",
-    "test": "jasmine",
+    "test": "jest",
     "lint": "eslint . --fix"
   },
   "author": "",
@@ -17,6 +17,6 @@
     "eslint-plugin-node": "^5.0.0",
     "eslint-plugin-promise": "^3.5.0",
     "eslint-plugin-standard": "^3.0.1",
-    "jasmine": "^2.6.0"
+    "jest": "^24.8.0"
   }
 }
