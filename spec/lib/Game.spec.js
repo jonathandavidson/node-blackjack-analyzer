@@ -1,9 +1,9 @@
-import * as Game from '../../lib/Game';
-import { actions } from '../../lib/Strategy';
-import * as Card from '../../lib/Card';
-import * as Shoe from '../../lib/Shoe';
-import * as Player from '../../lib/Player';
-import * as Stats from '../../lib/Stats';
+import * as Game from '../../src/Game';
+import { actions } from '../../src/Strategy';
+import * as Card from '../../src/Card';
+import * as Shoe from '../../src/Shoe';
+import * as Player from '../../src/Player';
+import * as Stats from '../../src/Stats';
 
 const [
   ace, two, three, four, five, six, seven, eight, nine, ten

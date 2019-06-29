@@ -1,7 +1,7 @@
-import basicStrategy from '../../../lib/Strategy/Basic';
-import { actions } from '../../../lib/Strategy';
-import * as Card from '../../../lib/Card';
-import * as Hand from '../../../lib/Hand';
+import basicStrategy from '../../../src/Strategy/Basic';
+import { actions } from '../../../src/Strategy';
+import * as Card from '../../../src/Card';
+import * as Hand from '../../../src/Hand';
 
 const [
   ace, two, three, four, five, six, seven, eight, nine, ten

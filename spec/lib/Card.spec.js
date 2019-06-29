@@ -1,4 +1,4 @@
-import * as Card from '../../lib/Card';
+import * as Card from '../../src/Card';
 
 describe('Card', () => {
   describe('Initializes properly', () => {
@@ -54,7 +54,7 @@ describe('Card', () => {
   });
 });
 
-describe('lib/Card', () => {
+describe('src/Card', () => {
   describe('create()', () => {
     it('creates a Card instance with the correct display name', () => {
       const card = Card.create(Card.cards.Two, Card.suits.Spades);

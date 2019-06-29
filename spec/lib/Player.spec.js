@@ -1,9 +1,9 @@
-import basicStrategy from '../../lib/Strategy/Basic';
-import dealerStrategy from '../../lib/Strategy/Dealer';
-import * as Hand from '../../lib/Hand';
-import * as Player from '../../lib/Player';
+import basicStrategy from '../../src/Strategy/Basic';
+import dealerStrategy from '../../src/Strategy/Dealer';
+import * as Hand from '../../src/Hand';
+import * as Player from '../../src/Player';
 
-describe('lib/Player', () => {
+describe('src/Player', () => {
   describe('generate()', () => {
     let players;
 

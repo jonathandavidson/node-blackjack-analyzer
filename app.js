@@ -1,5 +1,5 @@
 import config from './config/settings';
-import * as Game from './lib/Game';
+import * as Game from './src/Game';
 
 const game = Game.create(config);
 const stats = Game.start(game).stats;

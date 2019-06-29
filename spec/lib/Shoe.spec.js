@@ -1,6 +1,6 @@
-import * as Shoe from '../../lib/Shoe.js';
+import * as Shoe from '../../src/Shoe.js';
 
-describe('lib/Shoe', () => {
+describe('src/Shoe', () => {
   describe('Shoe class initializes properly', () => {
     let shoe;
 

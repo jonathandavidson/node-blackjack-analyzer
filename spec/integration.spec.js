@@ -1,6 +1,6 @@
 import config from '../config/settings';
-import * as Game from '../lib/Game';
-import * as Shoe from '../lib/Shoe';
+import * as Game from '../src/Game';
+import * as Shoe from '../src/Shoe';
 
 describe('game stats are correct', () => {
   config.handCount = 10000;

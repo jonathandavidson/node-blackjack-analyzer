@@ -1,5 +1,5 @@
-import * as Card from '../../lib/Card';
-import * as Hand from '../../lib/Hand';
+import * as Card from '../../src/Card';
+import * as Hand from '../../src/Hand';
 
 const [
   ace, two, three, four, five, six, seven, eight, nine, ten
@@ -13,7 +13,7 @@ function createHandWithCards (...cards) {
   return hand;
 }
 
-describe('lib/Hand', () => {
+describe('src/Hand', () => {
   describe('containsAce()', () => {
     it('returns true when the hand contains an ace', () => {
       const hand = createHandWithCards(ace, two);
