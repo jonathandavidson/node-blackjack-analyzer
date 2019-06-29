@@ -1,7 +1,7 @@
 import dealerStrategy from '../../../lib/Strategy/Dealer';
-const Strategy = require('../../../lib/Strategy');
-const Card = require('../../../lib/Card');
-const Hand = require('../../../lib/Hand');
+import { actions } from '../../../lib/Strategy';
+import * as Card from '../../../lib/Card';
+import * as Hand from '../../../lib/Hand';
 
 const [
   ace, two, three, four, five, six, seven, eight, nine, ten
@@ -10,7 +10,7 @@ const [
 );
 
 describe('Dealer', () => {
-  const { hit, stand } = Strategy.actions;
+  const { hit, stand } = actions;
   const hand = Hand.create();
 
   describe('when hand value is less than 17', () => {

@@ -1,7 +1,7 @@
 import basicStrategy from '../../../lib/Strategy/Basic';
-const Strategy = require('../../../lib/Strategy');
-const Card = require('../../../lib/Card');
-const Hand = require('../../../lib/Hand');
+import { actions } from '../../../lib/Strategy';
+import * as Card from '../../../lib/Card';
+import * as Hand from '../../../lib/Hand';
 
 const [
   ace, two, three, four, five, six, seven, eight, nine, ten
@@ -23,7 +23,7 @@ describe('basic()', () => {
     return responses.every(response => response === action);
   }
 
-  const { doubleDown, hit, split, stand, surrender } = Strategy.actions;
+  const { doubleDown, hit, split, stand, surrender } = actions;
 
   describe('when the hand is a pair of 2s', () => {
     const playerCards = [two, two];

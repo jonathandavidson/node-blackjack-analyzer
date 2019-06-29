@@ -1,4 +1,4 @@
-const Shoe = require('../../lib/Shoe.js');
+import * as Shoe from '../../lib/Shoe.js';
 
 describe('lib/Shoe', () => {
   describe('Shoe class initializes properly', () => {

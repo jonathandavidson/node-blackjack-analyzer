@@ -1,4 +1,4 @@
-const Card = require('../../lib/Card.js');
+import * as Card from '../../lib/Card';
 
 describe('Card', () => {
   describe('Initializes properly', () => {

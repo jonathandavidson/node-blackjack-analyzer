@@ -1,5 +1,5 @@
 import * as Card from '../../lib/Card';
-const Hand = require('../../lib/Hand');
+import * as Hand from '../../lib/Hand';
 
 const [
   ace, two, three, four, five, six, seven, eight, nine, ten

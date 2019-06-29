@@ -1,9 +1,9 @@
 import * as Game from '../../lib/Game';
 import { actions } from '../../lib/Strategy';
-const Card = require('../../lib/Card');
-const Shoe = require('../../lib/Shoe');
-const Player = require('../../lib/Player');
-const Stats = require('../../lib/Stats');
+import * as Card from '../../lib/Card';
+import * as Shoe from '../../lib/Shoe';
+import * as Player from '../../lib/Player';
+import * as Stats from '../../lib/Stats';
 
 const [
   ace, two, three, four, five, six, seven, eight, nine, ten

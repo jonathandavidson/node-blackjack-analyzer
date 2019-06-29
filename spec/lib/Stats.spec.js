@@ -1,5 +1,5 @@
-const Stats = require('../../lib/Stats.js');
-const Game = require('../../lib/Game.js');
+import * as Stats from '../../lib/Stats';
+import * as Game from '../../lib/Game';
 
 describe('Stats', () => {
   describe('netGainOrLoss()', () => {

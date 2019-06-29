@@ -1,6 +1,6 @@
 import config from '../config/settings';
-const Game = require('../lib/Game');
-const Shoe = require('../lib/Shoe');
+import * as Game from '../lib/Game';
+import * as Shoe from '../lib/Shoe';
 
 describe('game stats are correct', () => {
   config.handCount = 10000;
