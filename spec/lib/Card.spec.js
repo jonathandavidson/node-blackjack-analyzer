@@ -1,12 +1,5 @@
 const Card = require('../../lib/Card.js');
 
-const ace = Card.cards.Ace.values;
-const two = Card.cards.Two.values;
-const ten = Card.cards.Ten.values;
-const jack = Card.cards.Jack.values;
-const queen = Card.cards.Queen.values;
-const king = Card.cards.King.values;
-
 describe('Card', () => {
   describe('Initializes properly', () => {
     const name = 'name';

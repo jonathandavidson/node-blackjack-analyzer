@@ -1,6 +1,5 @@
+import basicStrategy from '../../../lib/Strategy/Basic';
 const Strategy = require('../../../lib/Strategy');
-const basicStrategy = require('../../../lib/Strategy/Basic');
-const dealerStrategy = require('../../../lib/Strategy/Dealer');
 const Card = require('../../../lib/Card');
 const Hand = require('../../../lib/Hand');
 

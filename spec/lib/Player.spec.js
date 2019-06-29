@@ -1,7 +1,7 @@
+import basicStrategy from '../../lib/Strategy/Basic';
+import dealerStrategy from '../../lib/Strategy/Dealer';
 const Hand = require('../../lib/Hand');
 const Player = require('../../lib/Player');
-const basicStrategy = require('../../lib/Strategy/Basic');
-const dealerStrategy = require('../../lib/Strategy/Dealer');
 
 describe('lib/Player', () => {
   describe('generate()', () => {

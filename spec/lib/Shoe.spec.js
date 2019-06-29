@@ -1,5 +1,4 @@
 const Shoe = require('../../lib/Shoe.js');
-const Card = require('../../lib/Card.js');
 
 describe('lib/Shoe', () => {
   describe('Shoe class initializes properly', () => {

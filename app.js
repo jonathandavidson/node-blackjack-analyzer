@@ -1,5 +1,5 @@
 import config from './config/settings';
-const Game = require('./lib/Game');
+import * as Game from './lib/Game';
 
 const game = Game.create(config);
 const result = Game.start(game);

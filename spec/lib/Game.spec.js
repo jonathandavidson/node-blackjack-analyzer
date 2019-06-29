@@ -1,8 +1,8 @@
+import * as Game from '../../lib/Game';
+import { actions } from '../../lib/Strategy';
 const Card = require('../../lib/Card');
 const Shoe = require('../../lib/Shoe');
-const Game = require('../../lib/Game');
 const Player = require('../../lib/Player');
-const actions = require('../../lib/Strategy').actions;
 const Stats = require('../../lib/Stats');
 
 const [
