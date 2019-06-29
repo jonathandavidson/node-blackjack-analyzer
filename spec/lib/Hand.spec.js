@@ -1,5 +1,5 @@
+import * as Card from '../../lib/Card';
 const Hand = require('../../lib/Hand');
-const Card = require('../../lib/Card');
 
 const [
   ace, two, three, four, five, six, seven, eight, nine, ten
@@ -148,17 +148,17 @@ describe('lib/Hand', () => {
 
   describe('isSoft()', () => {
     it('returns false when there are no aces', () => {
-      hand = createHandWithCards(five, six);
+      const hand = createHandWithCards(five, six);
       expect(hand.isSoft()).toBe(false);
     });
 
     it('returns false when all aces are hard', () => {
-      hand = createHandWithCards(ten, two, ace);
+      const hand = createHandWithCards(ten, two, ace);
       expect(hand.isSoft()).toBe(false);
     });
 
     it('returns true when there is a soft ace', () => {
-      hand = createHandWithCards(two, ace);
+      const hand = createHandWithCards(two, ace);
       expect(hand.isSoft()).toBe(true);
     });
   });

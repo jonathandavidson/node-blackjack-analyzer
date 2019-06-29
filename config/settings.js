@@ -13,4 +13,4 @@ const config = {
   playerCount: 3
 };
 
-module.exports = config;
+export default config;

@@ -1,4 +1,4 @@
-const config = require('./config/settings');
+import config from './config/settings';
 const Game = require('./lib/Game');
 
 const game = Game.create(config);
