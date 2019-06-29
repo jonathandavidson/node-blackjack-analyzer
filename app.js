@@ -2,8 +2,8 @@ import config from './config/settings';
 import * as Game from './lib/Game';
 
 const game = Game.create(config);
-const result = Game.start(game);
+const stats = Game.start(game).stats;
 
-Object.keys(result.stats).forEach(name => {
-  console.log(result.stats[name].description + ': ' + result.stats[name].value);
-});
+for (const name in stats) {
+  console.log(`${stats[name].description}: ${stats[name].value}`);
+}
