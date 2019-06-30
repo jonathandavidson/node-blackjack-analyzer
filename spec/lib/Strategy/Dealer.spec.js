@@ -1,5 +1,5 @@
-import dealerStrategy from '../../../src/Strategy/Dealer';
-import { actions } from '../../../src/Strategy';
+import dealerStrategy from '../../../src/strategy/Dealer';
+import { actions } from '../../../src/strategy';
 import * as Card from '../../../src/card';
 import * as Hand from '../../../src/hand';
 
