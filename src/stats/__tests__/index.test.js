@@ -1,5 +1,5 @@
-import * as Stats from '../../src/Stats';
-import * as Game from '../../src/Game';
+import * as Stats from '../index';
+import * as Game from '../../game';
 
 describe('Stats', () => {
   describe('netGainOrLoss()', () => {

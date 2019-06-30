@@ -1,8 +1,3 @@
-export const actions = {
-  doubleDown: 'double down',
-  hit: 'hit',
-  stand: 'stand',
-  surrender: 'surrender'
-}
-
-Object.freeze(actions);
+export { default as actions } from './actions';
+export { default as dealer } from './Dealer';
+export { default as basic } from './Basic';

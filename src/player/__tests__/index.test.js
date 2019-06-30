@@ -1,7 +1,7 @@
-import basicStrategy from '../../src/Strategy/Basic';
-import dealerStrategy from '../../src/Strategy/Dealer';
-import * as Hand from '../../src/Hand';
-import * as Player from '../../src/Player';
+import basicStrategy from '../../Strategy/Basic';
+import dealerStrategy from '../../Strategy/Dealer';
+import * as Hand from '../../hand';
+import * as Player from '../../player';
 
 describe('src/Player', () => {
   describe('generate()', () => {

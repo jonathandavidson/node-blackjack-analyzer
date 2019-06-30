@@ -1,6 +1,6 @@
-import * as Hand from './Hand';
-import basicStrategy from './Strategy/Basic';
-import dealerStrategy from './Strategy/Dealer';
+import * as Hand from '../hand';
+import basicStrategy from '../Strategy/Basic';
+import dealerStrategy from '../Strategy/Dealer';
 
 export function createList (numberOfPlayers) {
   let players = [];

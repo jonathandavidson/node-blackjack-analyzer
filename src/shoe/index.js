@@ -1,4 +1,4 @@
-import * as Card from './Card';
+import * as Card from '../card';
 
 export function shuffle (array) {
   const newArray = array.slice(0);

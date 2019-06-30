@@ -1,5 +1,5 @@
-import * as Card from '../../src/Card';
-import * as Hand from '../../src/Hand';
+import * as Card from '../../card';
+import * as Hand from '../index';
 
 const [
   ace, two, three, four, five, six, seven, eight, nine, ten

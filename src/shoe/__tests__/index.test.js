@@ -1,4 +1,4 @@
-import * as Shoe from '../../src/Shoe.js';
+import * as Shoe from '../index';
 
 describe('src/Shoe', () => {
   describe('Shoe class initializes properly', () => {

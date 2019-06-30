@@ -1,4 +1,4 @@
-import * as Card from '../../src/Card';
+import * as Card from '../index';
 
 describe('Card', () => {
   describe('Initializes properly', () => {

@@ -1,7 +1,7 @@
 import dealerStrategy from '../../../src/Strategy/Dealer';
 import { actions } from '../../../src/Strategy';
-import * as Card from '../../../src/Card';
-import * as Hand from '../../../src/Hand';
+import * as Card from '../../../src/card';
+import * as Hand from '../../../src/hand';
 
 const [
   ace, two, three, four, five, six, seven, eight, nine, ten

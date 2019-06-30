@@ -1,9 +1,9 @@
-import { actions } from './Strategy/index';
-import * as Card from './Card';
-import * as Shoe from './Shoe';
-import * as Hand from './Hand';
-import * as Player from './Player';
-import * as Stats from './Stats';
+import { actions } from '../Strategy';
+import * as Card from '../card';
+import * as Shoe from '../shoe';
+import * as Hand from '../hand';
+import * as Player from '../player';
+import * as Stats from '../stats';
 
 export function create (config) {
   return {
