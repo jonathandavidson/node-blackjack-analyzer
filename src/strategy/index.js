@@ -1,3 +1,3 @@
 export { default as actions } from './actions';
-export { default as dealer } from './Dealer';
-export { default as basic } from './Basic';
+export { default as dealer } from './dealer';
+export { default as basic } from './basic';

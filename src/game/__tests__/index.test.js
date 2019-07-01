@@ -1,5 +1,5 @@
 import * as Game from '../index';
-import { actions } from '../../Strategy';
+import { actions } from '../../strategy';
 import * as Card from '../../card';
 import * as Shoe from '../../shoe';
 import * as Player from '../../player';

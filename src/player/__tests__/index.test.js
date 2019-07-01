@@ -1,5 +1,7 @@
-import basicStrategy from '../../strategy/Basic';
-import dealerStrategy from '../../strategy/Dealer';
+import {
+  basic as basicStrategy,
+  dealer as dealerStrategy
+} from '../../strategy';
 import * as Hand from '../../hand';
 import * as Player from '../../player';
 

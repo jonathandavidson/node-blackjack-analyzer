@@ -1,4 +1,4 @@
-import { actions } from '../Strategy';
+import { actions } from '../strategy';
 import * as Card from '../card';
 import * as Shoe from '../shoe';
 import * as Hand from '../hand';

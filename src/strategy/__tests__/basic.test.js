@@ -1,5 +1,4 @@
-import basicStrategy from '../../../src/strategy/Basic';
-import { actions } from '../../../src/strategy';
+import { actions, basic as basicStrategy } from '../index';
 import * as Card from '../../../src/card';
 import * as Hand from '../../../src/hand';
 
